@@ -1,0 +1,371 @@
+[
+  {
+    "id": "V01",
+    "category": "VALID",
+    "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 500081, 9876543210",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "V02",
+    "category": "VALID",
+    "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Bengaluru, Karnataka, 560038, 9012345678",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "V03",
+    "category": "VALID",
+    "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Karnataka, 560034, 9988776655",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "V04",
+    "category": "VALID",
+    "input": "Priya Reddy, H.No 8-2-293, Road No. 5, Banjara Hills, Hyderabad, Telangana, 500034, 9876501234",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "V05",
+    "category": "VALID",
+    "input": "Arun Das, Flat 302, Green Heights Apartments, 12th Lane, Kondapur, Hyderabad, Telangana, 500084, 9988776655",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "T01",
+    "category": "TYPO",
+    "input": "Rahul Sharma, H.No 2-4-15, Road Nummber 3, Madhapur, Hydrabad, Telengana, 500081, 9876543210",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "street",
+        "original": "Road Nummber 3",
+        "suggested": "Road Number 3"
+      },
+      {
+        "field": "city",
+        "original": "Hydrabad",
+        "suggested": "Hyderabad"
+      },
+      {
+        "field": "state",
+        "original": "Telengana",
+        "suggested": "Telangana"
+      }
+    ],
+    "expected_status_after_correction": "VERIFIED"
+  },
+  {
+    "id": "T02",
+    "category": "TYPO",
+    "input": "Arjun Kumar, Flat 302, Green Hights Apartments, 12th Lane, Kondapur, Hydrabad, Telengana, 500084, 9988776655",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "building",
+        "original": "Green Hights Apartments",
+        "suggested": "Green Heights Apartments"
+      },
+      {
+        "field": "city",
+        "original": "Hydrabad",
+        "suggested": "Hyderabad"
+      },
+      {
+        "field": "state",
+        "original": "Telengana",
+        "suggested": "Telangana"
+      }
+    ],
+    "expected_status_after_correction": "VERIFIED"
+  },
+  {
+    "id": "T03",
+    "category": "TYPO",
+    "input": "Meera Rao, H.No 7-4-20, Madhpur, Hyderabad, Telangana, 500081, 9876543211",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "locality",
+        "original": "Madhpur",
+        "suggested": "Madhapur"
+      }
+    ],
+    "expected_status_after_correction": "NEEDS CUSTOMER CONFIRMATION"
+  },
+  {
+    "id": "T04",
+    "category": "TYPO",
+    "input": "Suresh Rao, H.No 3-4-8, Opposit Metro Staton, Madhapur, Hyderabad, Telangana, 500081, 9876543212",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "landmark",
+        "original": "Opposit Metro Staton",
+        "suggested": "Opposite Metro Station"
+      }
+    ],
+    "expected_status_after_correction": "NEEDS CUSTOMER CONFIRMATION"
+  },
+  {
+    "id": "T05",
+    "category": "TYPO",
+    "input": "Neha Singh, Flat 21, Maple Hights Towers, Indiranagar, Bangaluru, Karnatak, 560038, 9012345678",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "building",
+        "original": "Maple Hights Towers",
+        "suggested": "Maple Heights Towers"
+      },
+      {
+        "field": "city",
+        "original": "Bangaluru",
+        "suggested": "Bengaluru"
+      },
+      {
+        "field": "state",
+        "original": "Karnatak",
+        "suggested": "Karnataka"
+      }
+    ],
+    "expected_status_after_correction": "NEEDS CUSTOMER CONFIRMATION"
+  },
+  {
+    "id": "M01",
+    "category": "MISSING_HOUSE_NUMBER",
+    "input": "Priya Reddy, Road No. 5, Madhapur, Hyderabad, Telangana, 500081, 9876543210",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "M02",
+    "category": "MISSING_STREET",
+    "input": "Rahul Sharma, H.No 2-4-15, Madhapur, Hyderabad, Telangana, 500081, 9876543210",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "M03",
+    "category": "MISSING_LOCALITY",
+    "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Bengaluru, Karnataka, 560038, 9012345678",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "M04",
+    "category": "MISSING_PIN",
+    "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Karnataka, 9988776655",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "P01",
+    "category": "WRONG_PIN",
+    "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "P02",
+    "category": "PIN_CITY_MISMATCH",
+    "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "P03",
+    "category": "PIN_STATE_MISMATCH",
+    "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "P04",
+    "category": "CITY_STATE_MISMATCH",
+    "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "PH01",
+    "category": "INVALID_PHONE",
+    "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 500081, 12345",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "PH02",
+    "category": "INVALID_PHONE",
+    "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Bengaluru, Karnataka, 560038, 99999",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": []
+  },
+  {
+    "id": "R01",
+    "category": "RANDOM_TEXT",
+    "input": "asdfgh qwerty random address xyz",
+    "expected_status": "FAKE ADDRESS",
+    "expected_corrections": []
+  },
+  {
+    "id": "R02",
+    "category": "RANDOM_TEXT",
+    "input": "hello hello hello 000000 nonsense text",
+    "expected_status": "FAKE ADDRESS",
+    "expected_corrections": []
+  },
+  {
+    "id": "R03",
+    "category": "REPEATED_MEANINGLESS",
+    "input": "abc abc abc abc abc",
+    "expected_status": "FAKE ADDRESS",
+    "expected_corrections": []
+  },
+  {
+    "id": "S01",
+    "category": "SUSPICIOUS",
+    "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "S02",
+    "category": "SUSPICIOUS",
+    "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
+    "expected_status": "SUSPICIOUS",
+    "expected_corrections": []
+  },
+  {
+    "id": "C01",
+    "category": "CORRECTABLE",
+    "input": "Arjun Kumar, Flat 302, Green Hights Apartments, 12th Lane, Kormangla, Bangaluru, Karnatak, 560034, 9988776655",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "building",
+        "original": "Green Hights Apartments",
+        "suggested": "Green Heights Apartments"
+      },
+      {
+        "field": "locality",
+        "original": "Kormangla",
+        "suggested": "Koramangala"
+      },
+      {
+        "field": "city",
+        "original": "Bangaluru",
+        "suggested": "Bengaluru"
+      },
+      {
+        "field": "state",
+        "original": "Karnatak",
+        "suggested": "Karnataka"
+      }
+    ],
+    "expected_status_after_correction": "VERIFIED"
+  },
+  {
+    "id": "C02",
+    "category": "CORRECTABLE",
+    "input": "Sana Ali, H.No 4-1-12, 3rd Main Rod, Indranagar, Banglore, Karnatka, 560038, 9012345678",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "street",
+        "original": "3rd Main Rod",
+        "suggested": "3rd Main Road"
+      },
+      {
+        "field": "locality",
+        "original": "Indranagar",
+        "suggested": "Indiranagar"
+      },
+      {
+        "field": "city",
+        "original": "Banglore",
+        "suggested": "Bengaluru"
+      },
+      {
+        "field": "state",
+        "original": "Karnatka",
+        "suggested": "Karnataka"
+      }
+    ],
+    "expected_status_after_correction": "VERIFIED"
+  },
+  {
+    "id": "C03",
+    "category": "CORRECTABLE",
+    "input": "Nikhil Varma, H.No 9-8-7, Besid Metor Staton, Jublee Hils, Hydrabad, Telengana, 500033, 9876543210",
+    "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+    "expected_corrections": [
+      {
+        "field": "landmark",
+        "original": "Besid Metor Staton",
+        "suggested": "Beside Metro Station"
+      },
+      {
+        "field": "locality",
+        "original": "Jublee Hils",
+        "suggested": "Jubilee Hills"
+      },
+      {
+        "field": "city",
+        "original": "Hydrabad",
+        "suggested": "Hyderabad"
+      },
+      {
+        "field": "state",
+        "original": "Telengana",
+        "suggested": "Telangana"
+      }
+    ],
+    "expected_status_after_correction": "NEEDS CUSTOMER CONFIRMATION"
+  },
+  {
+    "id": "F01",
+    "category": "FIELD_ORDER_VARIATION",
+    "input": "9876543210 | Telangana | Hyderabad | Madhapur | Road No 3 | H.No 2-4-15 | Rahul Sharma | 500081",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "F02",
+    "category": "COMMA_SEPARATED",
+    "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Bengaluru, Karnataka, 560038, 9012345678",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "F03",
+    "category": "MULTILINE",
+    "input": "Ravi Kumar\nHouse 12\n5th Cross Road\nKoramangala\nBengaluru Karnataka 560034\n9988776655",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "F04",
+    "category": "WHATSAPP_STYLE",
+    "input": "Name: Priya Reddy\nH.No: 8-2-293\nRoad No 5, Banjara Hills\nHyderabad, Telangana\nPIN: 500034\nPhone: 9876501234",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "F05",
+    "category": "COURIER_STYLE",
+    "input": "Kavya Nair, Flat 806 Maple Crest Towers, 4th Main Road, Indiranagar, Bengaluru, Karnataka - 560038. Mobile 9012345678",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  },
+  {
+    "id": "F06",
+    "category": "INVOICE_STYLE",
+    "input": "Customer: Rahul Sharma | Address: H.No 2-4-15, Road No 3, Madhapur, Hyderabad, Telangana, 500081 | Contact: 9876543210",
+    "expected_status": "VERIFIED",
+    "expected_corrections": []
+  }
+]

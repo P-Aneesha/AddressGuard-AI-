@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AddressGuard AI — Login</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-brand-panel">
+      <div class="brand-lockup">
+        <div class="brand-logo">✓</div>
+        <div><strong>AddressGuard <span>AI</span></strong><small>Intelligent Address Verification</small></div>
+      </div>
+      <div class="hero-copy">
+        <span class="eyebrow">AI-POWERED ADDRESS INTELLIGENCE</span>
+        <h1>Verify every address<br><span>before it becomes a<br>delivery problem.</span></h1>
+        <p>Validate, correct and verify customer addresses with intelligent parsing, geographic consistency checks and explainable risk assessment.</p>
+        <div class="feature-list">
+          <div class="feature"><span>✓</span><div><b>Smart Address Validation</b><small>Detect incomplete, invalid and inconsistent delivery details.</small></div></div>
+          <div class="feature"><span>↗</span><div><b>Intelligent Corrections</b><small>Identify spelling mistakes and suggest corrected address values.</small></div></div>
+          <div class="feature"><span>◆</span><div><b>Explainable Risk Assessment</b><small>Understand confidence, risk and validation reasons before shipping.</small></div></div>
+        </div>
+      </div>
+      <div class="brand-footer">AddressGuard AI&nbsp;&nbsp;•&nbsp;&nbsp;Secure Seller Verification</div>
+    </section>
+
+    <section class="auth-form-panel">
+      <div class="auth-card">
+        <span class="eyebrow">SELLER PORTAL</span>
+        <h2>Welcome back</h2>
+        <p class="auth-subtitle">Sign in to continue managing your address validations.</p>
+        <div class="auth-tabs">
+          <button type="button" id="tabLogin" class="auth-tab active">Sign In</button>
+          <button type="button" id="tabReg" class="auth-tab">Create Account</button>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <label>Email address<input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required></label>
+          <label>Password<input type="password" id="loginPw" placeholder="Enter your password" autocomplete="current-password" required></label>
+          <button class="primary-btn" type="submit">Sign in <span>→</span></button>
+        </form>
+
+        <form id="regForm" class="auth-form hidden">
+          <label>Full name<input type="text" id="regName" placeholder="Your name" autocomplete="name" required></label>
+          <label>Email address<input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" required></label>
+          <label>Password<input type="password" id="regPw" placeholder="Create a password" autocomplete="new-password" required></label>
+          <button class="primary-btn" type="submit">Create account <span>→</span></button>
+        </form>
+
+        <div id="authMsg" class="auth-message"></div>
+        <div class="secure-note"><span>✓</span> Your account is protected with secure authentication.</div>
+      </div>
+    </section>
+  </main>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

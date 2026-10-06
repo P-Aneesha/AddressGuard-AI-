@@ -1,0 +1,1230 @@
+{
+  "status": "MEASURED",
+  "dataset_size": 34,
+  "successful_runs": 34,
+  "failed_runs": 0,
+  "experimental_setup": {
+    "ai_enabled": false,
+    "model": "disabled",
+    "geocoding_enabled": false,
+    "dataset": "evaluation_dataset.json"
+  },
+  "metrics": {
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "recall_macro": 1.0,
+    "f1_macro": 1.0,
+    "confusion_matrix": {
+      "VERIFIED": {
+        "VERIFIED": 11,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 0
+      },
+      "NEEDS CUSTOMER CONFIRMATION": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 14,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 0
+      },
+      "SUSPICIOUS": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 6,
+        "FAKE ADDRESS": 0
+      },
+      "FAKE ADDRESS": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 3
+      }
+    }
+  },
+  "per_category": {
+    "CITY_STATE_MISMATCH": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "COMMA_SEPARATED": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "CORRECTABLE": {
+      "count": 3,
+      "correct": 3,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "COURIER_STYLE": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "FIELD_ORDER_VARIATION": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "INVALID_PHONE": {
+      "count": 2,
+      "correct": 2,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "INVOICE_STYLE": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "MISSING_HOUSE_NUMBER": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "MISSING_LOCALITY": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "MISSING_PIN": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "MISSING_STREET": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "MULTILINE": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "PIN_CITY_MISMATCH": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "PIN_STATE_MISMATCH": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "RANDOM_TEXT": {
+      "count": 2,
+      "correct": 2,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "REPEATED_MEANINGLESS": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "SUSPICIOUS": {
+      "count": 2,
+      "correct": 2,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "TYPO": {
+      "count": 5,
+      "correct": 5,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "VALID": {
+      "count": 5,
+      "correct": 5,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "WHATSAPP_STYLE": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "WRONG_PIN": {
+      "count": 1,
+      "correct": 1,
+      "incorrect": 0,
+      "accuracy": 1.0
+    }
+  },
+  "correction_metrics": {
+    "suggestions": 23,
+    "expected_corrections": 23,
+    "correct_suggestions": 23,
+    "incorrect_suggestions": 0,
+    "correction_accuracy": 1.0,
+    "correction_recall": 1.0,
+    "correction_f1": 1.0,
+    "acceptance_rate": null,
+    "acceptance_rate_status": "NOT_MEASURED — requires recorded human review decisions",
+    "per_case": [
+      {
+        "id": "V01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "V02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "V03",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "V04",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "V05",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "T01",
+        "expected": 3,
+        "generated": 3,
+        "correct": 3,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "T02",
+        "expected": 3,
+        "generated": 3,
+        "correct": 3,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "T03",
+        "expected": 1,
+        "generated": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "T04",
+        "expected": 1,
+        "generated": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "T05",
+        "expected": 3,
+        "generated": 3,
+        "correct": 3,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "M01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "M02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "M03",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "M04",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "P01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "P02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "P03",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "P04",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "PH01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "PH02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "R01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "R02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "R03",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "S01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "S02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "C01",
+        "expected": 4,
+        "generated": 4,
+        "correct": 4,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "C02",
+        "expected": 4,
+        "generated": 4,
+        "correct": 4,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "C03",
+        "expected": 4,
+        "generated": 4,
+        "correct": 4,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F01",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F02",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F03",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F04",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F05",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      },
+      {
+        "id": "F06",
+        "expected": 0,
+        "generated": 0,
+        "correct": 0,
+        "incorrect": 0,
+        "missing": 0
+      }
+    ]
+  },
+  "before_correction_accuracy": 1.0,
+  "after_expected_correction_accuracy": 1.0,
+  "after_expected_correction_note": "Controlled experiment: labelled expected corrections were applied before re-validation and compared with the labelled expected post-correction status. This is not a human acceptance-rate measurement.",
+  "after_expected_correction_cases": 8,
+  "after_expected_correction_average_time_ms": 479.8228,
+  "baseline": {
+    "description": "Basic format + PIN/phone presence rules",
+    "accuracy": 0.4118,
+    "same_dataset": true,
+    "cases_evaluated": 34
+  },
+  "average_validation_time_ms": 591.237,
+  "median_validation_time_ms": 476.8245,
+  "false_positives": [],
+  "false_negatives": [],
+  "classification_errors": [],
+  "records": [
+    {
+      "id": "V01",
+      "category": "VALID",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 476.754,
+      "error": null
+    },
+    {
+      "id": "V02",
+      "category": "VALID",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 471.543,
+      "error": null
+    },
+    {
+      "id": "V03",
+      "category": "VALID",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 462.676,
+      "error": null
+    },
+    {
+      "id": "V04",
+      "category": "VALID",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 476.895,
+      "error": null
+    },
+    {
+      "id": "V05",
+      "category": "VALID",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 486.729,
+      "error": null
+    },
+    {
+      "id": "T01",
+      "category": "TYPO",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 92,
+      "risk": "MEDIUM",
+      "corrections": 3,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "hydrabad",
+          "suggested": "Hyderabad",
+          "reason": "City matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "state",
+          "original": "telengana",
+          "suggested": "Telangana",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 99,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "street",
+          "original": "Road Nummber 3",
+          "suggested": "Road Number 3",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 92
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "street",
+          "original": "Road Nummber 3",
+          "suggested": "Road Number 3"
+        },
+        {
+          "field": "city",
+          "original": "Hydrabad",
+          "suggested": "Hyderabad"
+        },
+        {
+          "field": "state",
+          "original": "Telengana",
+          "suggested": "Telangana"
+        }
+      ],
+      "validation_time_ms": 477.892,
+      "error": null
+    },
+    {
+      "id": "T02",
+      "category": "TYPO",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 92,
+      "risk": "MEDIUM",
+      "corrections": 3,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "hydrabad",
+          "suggested": "Hyderabad",
+          "reason": "City matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "state",
+          "original": "telengana",
+          "suggested": "Telangana",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 99,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "building",
+          "original": "Green Hights Apartments",
+          "suggested": "Green Heights Apartments",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 92
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "building",
+          "original": "Green Hights Apartments",
+          "suggested": "Green Heights Apartments"
+        },
+        {
+          "field": "city",
+          "original": "Hydrabad",
+          "suggested": "Hyderabad"
+        },
+        {
+          "field": "state",
+          "original": "Telengana",
+          "suggested": "Telangana"
+        }
+      ],
+      "validation_time_ms": 511.401,
+      "error": null
+    },
+    {
+      "id": "T03",
+      "category": "TYPO",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "LOW",
+      "corrections": 1,
+      "predicted_corrections": [
+        {
+          "field": "locality",
+          "original": "Madhpur",
+          "suggested": "Madhapur",
+          "reason": "Locality name — fuzzy similarity (reference data)",
+          "confidence": 100
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "locality",
+          "original": "Madhpur",
+          "suggested": "Madhapur"
+        }
+      ],
+      "validation_time_ms": 501.319,
+      "error": null
+    },
+    {
+      "id": "T04",
+      "category": "TYPO",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "LOW",
+      "corrections": 1,
+      "predicted_corrections": [
+        {
+          "field": "landmark",
+          "original": "Opposit Metro Staton",
+          "suggested": "Opposite Metro Station",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 93
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "landmark",
+          "original": "Opposit Metro Staton",
+          "suggested": "Opposite Metro Station"
+        }
+      ],
+      "validation_time_ms": 472.894,
+      "error": null
+    },
+    {
+      "id": "T05",
+      "category": "TYPO",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "MEDIUM",
+      "corrections": 3,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "bangaluru",
+          "suggested": "Bengaluru",
+          "reason": "City name — known alias (reference data)",
+          "confidence": 100
+        },
+        {
+          "field": "state",
+          "original": "karnatak",
+          "suggested": "Karnataka",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "building",
+          "original": "Maple Hights Towers",
+          "suggested": "Maple Heights Towers",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 92
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "building",
+          "original": "Maple Hights Towers",
+          "suggested": "Maple Heights Towers"
+        },
+        {
+          "field": "city",
+          "original": "Bangaluru",
+          "suggested": "Bengaluru"
+        },
+        {
+          "field": "state",
+          "original": "Karnatak",
+          "suggested": "Karnataka"
+        }
+      ],
+      "validation_time_ms": 473.668,
+      "error": null
+    },
+    {
+      "id": "M01",
+      "category": "MISSING_HOUSE_NUMBER",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 468.727,
+      "error": null
+    },
+    {
+      "id": "M02",
+      "category": "MISSING_STREET",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 468.366,
+      "error": null
+    },
+    {
+      "id": "M03",
+      "category": "MISSING_LOCALITY",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 79,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 468.544,
+      "error": null
+    },
+    {
+      "id": "M04",
+      "category": "MISSING_PIN",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 75,
+      "risk": "MEDIUM",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 527.178,
+      "error": null
+    },
+    {
+      "id": "P01",
+      "category": "WRONG_PIN",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 83,
+      "risk": "MEDIUM",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 469.721,
+      "error": null
+    },
+    {
+      "id": "P02",
+      "category": "PIN_CITY_MISMATCH",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 83,
+      "risk": "HIGH",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 468.308,
+      "error": null
+    },
+    {
+      "id": "P03",
+      "category": "PIN_STATE_MISMATCH",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 83,
+      "risk": "HIGH",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 465.819,
+      "error": null
+    },
+    {
+      "id": "P04",
+      "category": "CITY_STATE_MISMATCH",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 83,
+      "risk": "MEDIUM",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 471.162,
+      "error": null
+    },
+    {
+      "id": "PH01",
+      "category": "INVALID_PHONE",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "MEDIUM",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 485.956,
+      "error": null
+    },
+    {
+      "id": "PH02",
+      "category": "INVALID_PHONE",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 92,
+      "risk": "MEDIUM",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 477.419,
+      "error": null
+    },
+    {
+      "id": "R01",
+      "category": "RANDOM_TEXT",
+      "expected_status": "FAKE ADDRESS",
+      "predicted_status": "FAKE ADDRESS",
+      "confidence": 4,
+      "risk": "CRITICAL",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 14.231,
+      "error": null
+    },
+    {
+      "id": "R02",
+      "category": "RANDOM_TEXT",
+      "expected_status": "FAKE ADDRESS",
+      "predicted_status": "FAKE ADDRESS",
+      "confidence": 0,
+      "risk": "CRITICAL",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 31.682,
+      "error": null
+    },
+    {
+      "id": "R03",
+      "category": "REPEATED_MEANINGLESS",
+      "expected_status": "FAKE ADDRESS",
+      "predicted_status": "FAKE ADDRESS",
+      "confidence": 0,
+      "risk": "CRITICAL",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 19.137,
+      "error": null
+    },
+    {
+      "id": "S01",
+      "category": "SUSPICIOUS",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 54,
+      "risk": "CRITICAL",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 5499.872,
+      "error": null
+    },
+    {
+      "id": "S02",
+      "category": "SUSPICIOUS",
+      "expected_status": "SUSPICIOUS",
+      "predicted_status": "SUSPICIOUS",
+      "confidence": 71,
+      "risk": "HIGH",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 543.733,
+      "error": null
+    },
+    {
+      "id": "C01",
+      "category": "CORRECTABLE",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 92,
+      "risk": "MEDIUM",
+      "corrections": 4,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "bangaluru",
+          "suggested": "Bengaluru",
+          "reason": "City name — known alias (reference data)",
+          "confidence": 100
+        },
+        {
+          "field": "locality",
+          "original": "kormangla",
+          "suggested": "Koramangala",
+          "reason": "Matched against India Post dataset with geographic context",
+          "confidence": 100,
+          "source": "India Post dataset"
+        },
+        {
+          "field": "state",
+          "original": "karnatak",
+          "suggested": "Karnataka",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "building",
+          "original": "Green Hights Apartments",
+          "suggested": "Green Heights Apartments",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 92
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "building",
+          "original": "Green Hights Apartments",
+          "suggested": "Green Heights Apartments"
+        },
+        {
+          "field": "locality",
+          "original": "Kormangla",
+          "suggested": "Koramangala"
+        },
+        {
+          "field": "city",
+          "original": "Bangaluru",
+          "suggested": "Bengaluru"
+        },
+        {
+          "field": "state",
+          "original": "Karnatak",
+          "suggested": "Karnataka"
+        }
+      ],
+      "validation_time_ms": 555.719,
+      "error": null
+    },
+    {
+      "id": "C02",
+      "category": "CORRECTABLE",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 92,
+      "risk": "MEDIUM",
+      "corrections": 4,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "banglore",
+          "suggested": "Bengaluru",
+          "reason": "City name — known alias (reference data)",
+          "confidence": 100
+        },
+        {
+          "field": "locality",
+          "original": "indranagar",
+          "suggested": "Indiranagar",
+          "reason": "Locality name — known alias (reference data)",
+          "confidence": 100
+        },
+        {
+          "field": "state",
+          "original": "karnatka",
+          "suggested": "Karnataka",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "street",
+          "original": "3rd Main Rod",
+          "suggested": "3rd Main Road",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 86
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "street",
+          "original": "3rd Main Rod",
+          "suggested": "3rd Main Road"
+        },
+        {
+          "field": "locality",
+          "original": "Indranagar",
+          "suggested": "Indiranagar"
+        },
+        {
+          "field": "city",
+          "original": "Banglore",
+          "suggested": "Bengaluru"
+        },
+        {
+          "field": "state",
+          "original": "Karnatka",
+          "suggested": "Karnataka"
+        }
+      ],
+      "validation_time_ms": 478.07,
+      "error": null
+    },
+    {
+      "id": "C03",
+      "category": "CORRECTABLE",
+      "expected_status": "NEEDS CUSTOMER CONFIRMATION",
+      "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
+      "confidence": 83,
+      "risk": "MEDIUM",
+      "corrections": 4,
+      "predicted_corrections": [
+        {
+          "field": "city",
+          "original": "hydrabad",
+          "suggested": "Hyderabad",
+          "reason": "City matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 100,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "locality",
+          "original": "Jublee Hils",
+          "suggested": "Jubilee Hills",
+          "reason": "Matched against India Post dataset with geographic context",
+          "confidence": 100,
+          "source": "India Post dataset"
+        },
+        {
+          "field": "state",
+          "original": "telengana",
+          "suggested": "Telangana",
+          "reason": "State matched against whole-India reference index with contextual geographic evidence",
+          "confidence": 99,
+          "reference_source": "India Post + LGD + postal-LGD SQLite index"
+        },
+        {
+          "field": "landmark",
+          "original": "Besid Metor Staton",
+          "suggested": "Beside Metro Station",
+          "reason": "Possible spelling correction using generic word similarity",
+          "confidence": 94
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "landmark",
+          "original": "Besid Metor Staton",
+          "suggested": "Beside Metro Station"
+        },
+        {
+          "field": "locality",
+          "original": "Jublee Hils",
+          "suggested": "Jubilee Hills"
+        },
+        {
+          "field": "city",
+          "original": "Hydrabad",
+          "suggested": "Hyderabad"
+        },
+        {
+          "field": "state",
+          "original": "Telengana",
+          "suggested": "Telangana"
+        }
+      ],
+      "validation_time_ms": 501.995,
+      "error": null
+    },
+    {
+      "id": "F01",
+      "category": "FIELD_ORDER_VARIATION",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 480.607,
+      "error": null
+    },
+    {
+      "id": "F02",
+      "category": "COMMA_SEPARATED",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 477.443,
+      "error": null
+    },
+    {
+      "id": "F03",
+      "category": "MULTILINE",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 468.357,
+      "error": null
+    },
+    {
+      "id": "F04",
+      "category": "WHATSAPP_STYLE",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 493.53,
+      "error": null
+    },
+    {
+      "id": "F05",
+      "category": "COURIER_STYLE",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 479.613,
+      "error": null
+    },
+    {
+      "id": "F06",
+      "category": "INVOICE_STYLE",
+      "expected_status": "VERIFIED",
+      "predicted_status": "VERIFIED",
+      "confidence": 92,
+      "risk": "LOW",
+      "corrections": 0,
+      "predicted_corrections": [],
+      "expected_corrections": [],
+      "validation_time_ms": 475.098,
+      "error": null
+    }
+  ],
+  "failed_records": [],
+  "limitations": [
+    "The labelled dataset is a research test set, not a census of Indian addresses.",
+    "Reference geographic data is representative and not exhaustive.",
+    "AI-enabled results depend on the configured model and prompt version.",
+    "External geocoding is optional and may be unavailable.",
+    "Confidence is an evidence score and is not statistical accuracy.",
+    "Human correction acceptance rate is not measured without recorded human review decisions.",
+    "After-correction accuracy is an oracle-style controlled experiment using labelled expected corrections."
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "status": "MEASURED",
+  "dataset_size": 1000,
+  "experimental_setup": {
+    "ai_enabled": false,
+    "geocoding_enabled": false,
+    "live_postal_fallback_enabled": false,
+    "seed_dataset_size": 34,
+    "description": "Deterministic stress variants derived from the 34 labelled seed cases; not 1,000 independent real-world addresses."
+  },
+  "metrics": {
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "recall_macro": 1.0,
+    "f1_macro": 1.0,
+    "confusion_matrix": {
+      "VERIFIED": {
+        "VERIFIED": 324,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 0
+      },
+      "NEEDS CUSTOMER CONFIRMATION": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 415,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 0
+      },
+      "SUSPICIOUS": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 174,
+        "FAKE ADDRESS": 0
+      },
+      "FAKE ADDRESS": {
+        "VERIFIED": 0,
+        "NEEDS CUSTOMER CONFIRMATION": 0,
+        "SUSPICIOUS": 0,
+        "FAKE ADDRESS": 87
+      }
+    }
+  },
+  "correction_metrics": {
+    "labelled_cases": 1000,
+    "exact_case_match": 1.0,
+    "field_precision": 1.0,
+    "field_recall": 1.0
+  },
+  "timing_ms": {
+    "average": 11.617,
+    "median": 9.845,
+    "min": 5.056,
+    "max": 234.579
+  },
+  "by_category": {
+    "CITY_STATE_MISMATCH": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "COMMA_SEPARATED": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "CORRECTABLE": {
+      "count": 87,
+      "correct": 87,
+      "accuracy": 1.0
+    },
+    "COURIER_STYLE": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "FIELD_ORDER_VARIATION": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "INVALID_PHONE": {
+      "count": 58,
+      "correct": 58,
+      "accuracy": 1.0
+    },
+    "INVOICE_STYLE": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "MISSING_HOUSE_NUMBER": {
+      "count": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "MISSING_LOCALITY": {
+      "count": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "MISSING_PIN": {
+      "count": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "MISSING_STREET": {
+      "count": 30,
+      "correct": 30,
+      "accuracy": 1.0
+    },
+    "MULTILINE": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "PIN_CITY_MISMATCH": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "PIN_STATE_MISMATCH": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "RANDOM_TEXT": {
+      "count": 58,
+      "correct": 58,
+      "accuracy": 1.0
+    },
+    "REPEATED_MEANINGLESS": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "SUSPICIOUS": {
+      "count": 58,
+      "correct": 58,
+      "accuracy": 1.0
+    },
+    "TYPO": {
+      "count": 150,
+      "correct": 150,
+      "accuracy": 1.0
+    },
+    "VALID": {
+      "count": 150,
+      "correct": 150,
+      "accuracy": 1.0
+    },
+    "WHATSAPP_STYLE": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "WRONG_PIN": {
+      "count": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    }
+  },
+  "failed_cases": []
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AddressGuard AI — Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="dashboard-page">
+<header class="topbar">
+  <a class="brand-lockup brand-link" href="/dashboard">
+    <div class="brand-logo small">✓</div>
+    <div><strong>AddressGuard <span>AI</span></strong><small>Intelligent Address Verification</small></div>
+  </a>
+  <nav class="topnav">
+    <div class="profile-wrap">
+      <button id="profileBtn" class="profile-btn" aria-expanded="false">
+        <span id="userAvatar" class="user-avatar">P</span>
+        <span class="profile-copy"><small>Signed in as</small><strong id="userNameTop">User</strong></span>
+        <span class="profile-chevron">⌄</span>
+      </button>
+      <div id="profileMenu" class="profile-menu hidden">
+        <div class="profile-menu-head"><span id="profileAvatar" class="user-avatar large">P</span><div><strong id="profileName">User</strong><small id="profileEmail">—</small></div></div>
+        <div class="profile-stat"><span>Account</span><b>Active</b></div>
+        <button id="profileLogoutBtn" class="profile-logout">Sign out</button>
+      </div>
+    </div>
+    <button id="navDashboard" class="navlink active">Dashboard</button>
+    <button id="navHistory" class="navlink">History</button>
+    <button id="logoutBtn" class="navlink danger-link">Logout</button>
+  </nav>
+</header>
+
+<main class="dash-main">
+  <section class="dashboard-head">
+    <div>
+      <span class="eyebrow">ADDRESS VALIDATION PLATFORM</span>
+      <h1>Welcome back, <span id="welcomeName">User</span></h1>
+      <p>Validate, correct and verify delivery addresses before dispatch.</p>
+    </div>
+    <div class="online-pill"><span></span> System online</div>
+  </section>
+
+  <section id="statsSection" class="stats-grid"></section>
+
+  <section class="card input-card">
+    <div class="card-title-row">
+      <div class="section-icon">⌖</div>
+      <div><h2>Validate an address</h2><p>Paste a WhatsApp message, courier label, invoice address or any raw delivery text.</p></div>
+    </div>
+    <textarea id="addressInput" class="address-input" placeholder="Example:
+Rahul Sharma
+Flat 405, Sunrise Heights Apartmnts
+5th Main Raod
+Indiranagr
+Bengaluru
+Karnatka 560038
+9876543210
+Opposit Indiranagr Metro Staton"></textarea>
+    <div class="input-actions">
+      <button id="runBtn" class="primary-btn">▶ Run validation</button>
+      <button id="sampleBtn" class="secondary-btn">✦ Load sample</button>
+      <span class="input-hint">Your address is processed through the validation pipeline.</span>
+    </div>
+  </section>
+
+  <section id="resultSection" class="hidden">
+    <div class="section-heading"><div><span class="eyebrow">VALIDATION RESULT</span><h2>Address analysis</h2></div><span id="resultId" class="result-id"></span></div>
+
+    <section class="score-grid">
+      <div class="score-card"><span class="score-icon blue">◉</span><div><small>Confidence</small><strong id="confVal">—</strong></div></div>
+      <div class="score-card"><span class="score-icon yellow">!</span><div><small>Risk level</small><strong id="riskVal" class="badge">—</strong></div></div>
+      <div class="score-card"><span class="score-icon green">✓</span><div><small>Decision</small><strong id="decisionVal" class="badge">—</strong></div></div>
+    </section>
+
+    <div id="quickChecks" class="quick-grid"></div>
+
+    <div class="two-col">
+      <section class="card">
+        <div class="card-title-row"><div class="section-icon">⌂</div><div><h2>Parsed address</h2><p>Fields extracted from the submitted address.</p></div></div>
+        <div id="parsedAddressGrid" class="parsed-grid"></div>
+      </section>
+      <section class="card">
+        <div class="card-title-row"><div class="section-icon">✓</div><div><h2>Validation checks</h2><p>Consistency checks performed by AddressGuard.</p></div></div>
+        <div id="validationDetails" class="details-list"></div>
+        <div id="geocodingContainer"></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="card-title-row"><div class="section-icon">⚙</div><div><h2>Validation pipeline</h2><p>Every stage used to reach the result.</p></div></div>
+      <div id="pipelineContainer" class="pipeline-grid"></div>
+    </section>
+
+    <section id="correctionsCard" class="card hidden">
+      <div class="card-title-row"><div class="section-icon purple">✎</div><div><h2>Suggested corrections</h2><p>Review each change before re-validation.</p></div></div>
+      <div id="correctionSummary" class="summary-row"></div>
+      <div id="correctionsContainer" class="corrections-list"></div>
+      <div class="decision-toolbar">
+        <button id="acceptAllBtn" class="secondary-btn">✓ Accept all</button>
+        <button id="rejectAllBtn" class="secondary-btn">× Reject all</button>
+        <button id="applyBtn" class="primary-btn">↻ Apply decisions &amp; re-validate</button>
+      </div>
+    </section>
+
+    <div class="two-col">
+      <section class="card">
+        <div class="card-title-row"><div class="section-icon gold">◆</div><div><h2>Explainability</h2><p>Why the system reached this result.</p></div></div>
+        <div id="explainabilityContainer" class="explain-grid"></div>
+      </section>
+      <section class="card">
+        <div class="card-title-row"><div class="section-icon">▣</div><div><h2>Reports</h2><p>Export this validation result.</p></div></div>
+        <div id="reportLinks" class="report-grid"></div>
+      </section>
+    </div>
+
+    <section id="finalAddressCard" class="final-card hidden">
+      <div class="final-ribbon">✓ READY FOR DELIVERY</div>
+      <div class="final-title"><div class="final-icon">✓</div><div><span class="eyebrow">FINAL RESULT</span><h2 id="finalAddressTitle">Final verified address</h2><p>Approved corrections have been applied and the address has been re-validated.</p></div></div>
+      <div class="final-address-grid">
+        <div><label>Original address</label><div id="originalAddressValue" class="final-address-value"></div></div>
+        <div><label>Corrected / verified address</label><div id="correctedAddressValue" class="final-address-value verified"></div></div>
+      </div>
+      <div id="finalAddressStatus" class="final-status"></div>
+      <div id="deliveryLocationCard" class="delivery-location-card hidden">
+        <div class="delivery-copy">
+          <span class="eyebrow">DELIVERY PARTNER</span>
+          <h3>Verified location &amp; navigation</h3>
+          <p>Scan the QR code or open Google Maps to navigate to this final verified address.</p>
+          <div id="deliveryLocationStatus" class="delivery-status"></div>
+          <a id="googleMapsBtn" class="primary-btn delivery-map-btn hidden" href="#" target="_blank" rel="noopener">📍 Open in Google Maps</a>
+        </div>
+        <div class="delivery-qr-wrap">
+          <img id="deliveryQr" class="delivery-qr hidden" alt="QR code for Google Maps navigation">
+          <span id="deliveryQrPlaceholder" class="qr-placeholder">Preparing navigation QR…</span>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section id="historySection" class="card hidden history-card">
+    <div class="card-title-row"><div class="section-icon">◷</div><div><h2>Validation history</h2><p>Your recent address validations.</p></div></div>
+    <div id="historyList"></div>
+  </section>
+
+  <section class="card evaluation-card">
+    <div class="card-title-row"><div class="section-icon green">◎</div><div><h2>Evaluation dashboard</h2><p>Measured results from the project's evaluation dataset.</p></div></div>
+    <div id="evaluationBox"><div class="loading-state">Loading evaluation results…</div></div>
+  </section>
+</main>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

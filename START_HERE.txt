@@ -1,0 +1,35 @@
+ADDRESSGUARD AI — WHOLE-INDIA DATASET VERSION
+
+1. Extract this ZIP.
+2. Open the folder in VS Code.
+3. Create .env from .env.example and fill only your own credentials.
+4. The whole-India CSV datasets are already included in data/.
+5. The application builds a local SQLite reference index automatically on first validation.
+   You can also build it explicitly with:
+
+   python scripts\build_reference_index.py
+
+6. Check the dataset/index status with:
+
+   python scripts\check_reference_data.py
+
+7. Install and run:
+
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
+   python app.py
+
+8. Open:
+   http://127.0.0.1:5000/
+
+REFERENCE DATA
+--------------
+- data/india_post_pincode.csv: whole-India India Post pincode directory snapshot.
+- data/lgd_villages.csv: whole-India LGD village directory.
+- data/postal_lgd_mapping.csv: PIN→LGD state/district mapping.
+
+The local CSV index is the primary lookup. Optional live postal lookup is only used
+when a requested PIN/place is absent from the local snapshot.
+
+Never commit .env or any real API/database credentials.
