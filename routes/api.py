@@ -1,16 +1,114 @@
+import logging
+import re
+from datetime import datetime, timedelta
 from types import SimpleNamespace
 from flask import Blueprint, request, jsonify, session, send_file, current_app
 from sqlalchemy import func
+from sqlalchemy.exc import SQLAlchemyError
 from models import db
 from models.validation import Validation
 from services.pipeline_orchestrator import run_pipeline
 from services.correction_engine import apply_corrections
+from services.decision_labels import DECISIONS, DECISION_DESCRIPTIONS, VERIFIED, normalize_decision
 from services.report_service import generate_pdf, generate_csv, generate_qr, generate_barcode, generate_delivery_qr, build_google_maps_url
 from services.official_reference_service import get_reference_status
 from services.geocoding_service import verify_geocoding
 from utils.timestamps import now_iso
+from utils.rate_limit import rate_limit
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
+logger = logging.getLogger("addressguard.api")
+
+MAX_ADDRESS_LENGTH = 1000
+MAX_CORRECTION_VALUE_LENGTH = 200
+MAX_CORRECTION_ITEMS = 50
+DUPLICATE_WINDOW_SECONDS = 10
+CORRECTABLE_FIELDS = {
+    "name", "phone", "house_number", "flat_unit", "building", "street", "landmark",
+    "locality", "city", "district", "state", "pin_code", "unrecognized_text",
+}
+_CONTROL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+
+TECHNICAL_FAILURE_MESSAGE = (
+    "Validation could not be completed because of a temporary technical problem. "
+    "The address was not judged; please try again."
+)
+DATABASE_FAILURE_MESSAGE = (
+    "The validation ran, but the result could not be saved because the database is "
+    "temporarily unavailable. Please try again."
+)
+
+
+def _json_body():
+    """Return the request body as a dict, or None when it is not a JSON object."""
+    data = request.get_json(silent=True)
+    return data if isinstance(data, dict) else None
+
+
+def _clean_address_input(value):
+    """Validate a submitted address. Returns (clean_text, error_message)."""
+    if value is None:
+        return None, "Please enter an address before running validation."
+    if not isinstance(value, str):
+        return None, "The address must be submitted as text."
+    text = _CONTROL_CHARS.sub("", value).replace("\r\n", "\n").strip()
+    if not text:
+        return None, "Please enter an address before running validation."
+    if len(text) > MAX_ADDRESS_LENGTH:
+        return None, (
+            f"The address is too long ({len(text)} characters). "
+            f"Please keep it under {MAX_ADDRESS_LENGTH} characters."
+        )
+    if not re.search(r"\w", text):
+        return None, "The address must contain letters or numbers."
+    return text, None
+
+
+def _clean_correction_items(items, require_suggestion):
+    """Validate accepted/rejected correction payloads. Returns (items, error)."""
+    if not isinstance(items, list):
+        return None, "accepted and rejected must be lists"
+    if len(items) > MAX_CORRECTION_ITEMS:
+        return None, "Too many corrections were submitted at once."
+    cleaned = []
+    for item in items:
+        if not isinstance(item, dict):
+            return None, "Each correction must be an object with field, original and suggested values."
+        field = str(item.get("field") or "").strip()
+        if field not in CORRECTABLE_FIELDS:
+            return None, f"Corrections cannot change the field '{field[:40]}'."
+        values = {}
+        for key in ("original", "suggested"):
+            raw = item.get(key, "")
+            if raw is None:
+                raw = ""
+            if not isinstance(raw, (str, int, float)):
+                return None, "Correction values must be text."
+            value = _CONTROL_CHARS.sub("", str(raw)).strip()
+            if len(value) > MAX_CORRECTION_VALUE_LENGTH:
+                return None, f"Correction values must be under {MAX_CORRECTION_VALUE_LENGTH} characters."
+            values[key] = value
+        if require_suggestion and not values["suggested"]:
+            return None, f"The accepted correction for {field} has an empty value."
+        cleaned.append({"field": field, **values})
+    return cleaned, None
+
+
+def _result_payload(v):
+    """Serialize a stored validation with the review fields the UI needs."""
+    payload = v.to_dict()
+    explain = v.explainability if isinstance(v.explainability, dict) else {}
+    geo_issues = explain.get("geo_issues", []) or []
+    payload["original_address"] = v.raw_address
+    payload["geo_issues"] = geo_issues
+    payload["decision_description"] = DECISION_DESCRIPTIONS.get(payload["decision"], "")
+    payload["final_address_ready"] = (
+        payload["decision"] == VERIFIED and not v.corrections and not geo_issues
+    )
+    payload["corrected_address"] = (
+        _format_verified_address(v.parsed_data or {}) if payload["final_address_ready"] else None
+    )
+    return payload
 
 SAMPLE_ADDRESSES = [
     "Rahul Sharma, H.No. 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 500081, 9876543210",
@@ -50,39 +148,64 @@ def reference_status():
 
 
 @api_bp.post("/validate")
+@rate_limit("validate", "validate_daily")
 def validate():
     uid = _require_login()
     if not uid:
         return jsonify({"error": "login required"}), 401
-    data = request.get_json(force=True)
-    raw = (data.get("raw_address") or "").strip()
-    if not raw:
-        return jsonify({"error": "raw_address is required"}), 400
+    data = _json_body()
+    if data is None:
+        return jsonify({"error": "The request body must be a JSON object containing raw_address."}), 400
+    raw, error = _clean_address_input(data.get("raw_address"))
+    if error:
+        return jsonify({"error": error, "error_type": "INPUT_ERROR"}), 400
 
-    result = run_pipeline(raw, _cfg(), accepted=[])
+    # A double-click or resubmission of the same address within a few seconds
+    # returns the existing record instead of storing a duplicate.
+    try:
+        recent = (
+            Validation.query.filter_by(user_id=uid, raw_address=raw)
+            .filter(Validation.created_at >= datetime.utcnow() - timedelta(seconds=DUPLICATE_WINDOW_SECONDS))
+            .order_by(Validation.created_at.desc())
+            .first()
+        )
+    except SQLAlchemyError:
+        db.session.rollback()
+        logger.exception("Duplicate check failed")
+        return jsonify({"error": DATABASE_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
+    if recent:
+        payload = _result_payload(recent)
+        payload["revalidated"] = False
+        payload["duplicate"] = True
+        return jsonify(payload), 200
+
+    try:
+        result = run_pipeline(raw, _cfg(), accepted=[])
+    except Exception:
+        logger.exception("Validation pipeline failed")
+        return jsonify({"error": TECHNICAL_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
+
     v = Validation(
         user_id=uid, raw_address=raw, parsed_data=result["parsed_data"],
         corrections=result["corrections"], confidence=result["confidence"],
         risk_level=result["risk_level"], decision=result["decision"],
         pipeline=result["pipeline"], explainability=result["explainability"],
     )
-    db.session.add(v)
-    db.session.commit()
+    try:
+        db.session.add(v)
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        logger.exception("Saving validation failed")
+        return jsonify({"error": DATABASE_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
 
-    payload = v.to_dict()
-    geo_issues = (v.explainability or {}).get("geo_issues", []) if isinstance(v.explainability, dict) else []
-    payload["original_address"] = v.raw_address
-    payload["final_address_ready"] = (
-        v.decision == "VERIFIED"
-        and not v.corrections
-        and not geo_issues
-    )
-    payload["corrected_address"] = _format_verified_address(v.parsed_data) if payload["final_address_ready"] else None
+    payload = _result_payload(v)
     payload["revalidated"] = False
     return jsonify(payload), 201
 
 
 @api_bp.post("/revalidate/<validation_id>")
+@rate_limit("validate", "validate_daily")
 def revalidate(validation_id):
     uid = _require_login()
     if not uid:
@@ -91,12 +214,15 @@ def revalidate(validation_id):
     if not v:
         return jsonify({"error": "not found"}), 404
 
-    data = request.get_json(force=True)
-    accepted = data.get("accepted", [])
-    rejected = data.get("rejected", [])
-
-    if not isinstance(accepted, list) or not isinstance(rejected, list):
-        return jsonify({"error": "accepted and rejected must be lists"}), 400
+    data = _json_body()
+    if data is None:
+        return jsonify({"error": "The request body must be a JSON object with accepted and rejected lists."}), 400
+    accepted, error = _clean_correction_items(data.get("accepted", []), require_suggestion=True)
+    if error:
+        return jsonify({"error": error, "error_type": "INPUT_ERROR"}), 400
+    rejected, error = _clean_correction_items(data.get("rejected", []), require_suggestion=False)
+    if error:
+        return jsonify({"error": error, "error_type": "INPUT_ERROR"}), 400
 
     # Keep correction decisions scoped to this validation record. Accepted and
     # rejected decisions from earlier review rounds remain resolved, while a new
@@ -115,12 +241,16 @@ def revalidate(validation_id):
     corrected_parsed = apply_corrections(current_parsed, accepted)
     revalidation_raw = _format_revalidation_address(corrected_parsed)
 
-    result = run_pipeline(
-        revalidation_raw,
-        _cfg(),
-        accepted=[],
-        resolved=resolved,
-    )
+    try:
+        result = run_pipeline(
+            revalidation_raw,
+            _cfg(),
+            accepted=[],
+            resolved=resolved,
+        )
+    except Exception:
+        logger.exception("Re-validation pipeline failed")
+        return jsonify({"error": TECHNICAL_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
 
     # Safety net for compatibility with older correction payloads.
     original_keys = {
@@ -156,24 +286,17 @@ def revalidate(validation_id):
     if not isinstance(v.explainability, dict):
         v.explainability = {}
     v.explainability["_session_resolved_corrections"] = resolved
-    db.session.commit()
+    try:
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        logger.exception("Saving re-validation failed")
+        return jsonify({"error": DATABASE_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
 
-    payload = v.to_dict()
+    payload = _result_payload(v)
     payload["corrections_applied"] = accepted
     payload["corrections_rejected"] = rejected
     payload["corrections_pending"] = remaining_corrections
-    payload["original_address"] = v.raw_address
-    payload["geo_issues"] = (v.explainability or {}).get("geo_issues", []) if isinstance(v.explainability, dict) else []
-    payload["final_address_ready"] = (
-        v.decision == "VERIFIED"
-        and not remaining_corrections
-        and not payload["geo_issues"]
-    )
-    payload["corrected_address"] = (
-        _format_verified_address(result["parsed_data"])
-        if payload["final_address_ready"]
-        else None
-    )
     payload["revalidated"] = True
     return jsonify(payload)
 
@@ -195,7 +318,7 @@ def get_validation(validation_id):
     v = Validation.query.filter_by(validation_id=validation_id, user_id=uid).first()
     if not v:
         return jsonify({"error": "not found"}), 404
-    return jsonify(v.to_dict())
+    return jsonify(_result_payload(v))
 
 
 @api_bp.get("/dashboard-stats")
@@ -206,8 +329,16 @@ def dashboard_stats():
     q = Validation.query.filter_by(user_id=uid)
     total = q.count()
     avg_conf = db.session.query(func.avg(Validation.confidence)).filter_by(user_id=uid).scalar() or 0
-    decisions = {d: q.filter_by(decision=d).count() for d in
-                 ["VERIFIED", "NEEDS CUSTOMER CONFIRMATION", "SUSPICIOUS", "FAKE ADDRESS"]}
+    # Count with a GROUP BY and map any legacy label, so the totals always add
+    # up to the number of stored records.
+    decisions = {d: 0 for d in DECISIONS}
+    grouped = (
+        db.session.query(Validation.decision, func.count(Validation.id))
+        .filter_by(user_id=uid).group_by(Validation.decision).all()
+    )
+    for label, count in grouped:
+        key = normalize_decision(label)
+        decisions[key] = decisions.get(key, 0) + count
     risks = {r: q.filter_by(risk_level=r).count() for r in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]}
     recent = q.order_by(Validation.created_at.desc()).limit(8).all()
     return jsonify({
@@ -266,6 +397,22 @@ def evaluation_latest():
         return jsonify(json.loads(path.read_text(encoding="utf-8")))
     except Exception as exc:
         return jsonify({"status": "ERROR", "message": f"Could not read evaluation results: {type(exc).__name__}"}), 500
+
+
+def _safe_report(generator, v):
+    """Run a report generator; return None (and log) instead of raising."""
+    try:
+        return generator(_result_payload(v))
+    except Exception:
+        logger.exception("Report generation failed with %s", generator.__name__)
+        return None
+
+
+def _report_error():
+    return jsonify({
+        "error": "The export could not be generated right now. Please try again.",
+        "error_type": "TECHNICAL_FAILURE",
+    }), 500
 
 
 def _get_owned(validation_id, uid):
@@ -340,7 +487,9 @@ def report_pdf(validation_id):
     v = _get_owned(validation_id, uid)
     if not v:
         return jsonify({"error": "not found"}), 404
-    buf = generate_pdf(v.to_dict())
+    buf = _safe_report(generate_pdf, v)
+    if buf is None:
+        return _report_error()
     return send_file(buf, mimetype="application/pdf", as_attachment=True,
                       download_name=f"AddressGuard_{validation_id}.pdf")
 
@@ -353,7 +502,9 @@ def report_csv(validation_id):
     v = _get_owned(validation_id, uid)
     if not v:
         return jsonify({"error": "not found"}), 404
-    buf = generate_csv(v.to_dict())
+    buf = _safe_report(generate_csv, v)
+    if buf is None:
+        return _report_error()
     return send_file(buf, mimetype="text/csv", as_attachment=True,
                       download_name=f"AddressGuard_{validation_id}.csv")
 
@@ -366,7 +517,9 @@ def report_qr(validation_id):
     v = _get_owned(validation_id, uid)
     if not v:
         return jsonify({"error": "not found"}), 404
-    buf = generate_qr(v.to_dict())
+    buf = _safe_report(generate_qr, v)
+    if buf is None:
+        return _report_error()
     return send_file(buf, mimetype="image/png", as_attachment=True,
                       download_name=f"AddressGuard_{validation_id}_qr.png")
 
@@ -382,7 +535,11 @@ def report_delivery_qr(validation_id):
     payload, error = _delivery_location_payload(v)
     if error:
         return jsonify({"error": error[0]}), error[1]
-    buf = generate_delivery_qr(payload["maps_url"])
+    try:
+        buf = generate_delivery_qr(payload["maps_url"])
+    except Exception:
+        logger.exception("Delivery QR generation failed")
+        return _report_error()
     return send_file(buf, mimetype="image/png", as_attachment=False,
                      download_name=f"AddressGuard_{validation_id}_delivery_qr.png")
 
@@ -395,6 +552,8 @@ def report_barcode(validation_id):
     v = _get_owned(validation_id, uid)
     if not v:
         return jsonify({"error": "not found"}), 404
-    buf = generate_barcode(v.to_dict())
+    buf = _safe_report(generate_barcode, v)
+    if buf is None:
+        return _report_error()
     return send_file(buf, mimetype="image/png", as_attachment=True,
                       download_name=f"AddressGuard_{validation_id}_barcode.png")

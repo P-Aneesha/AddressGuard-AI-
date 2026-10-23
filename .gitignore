@@ -18,3 +18,10 @@ __pycache__/
 
 data/lgd_villages.csv
 data/addressguard_reference_index.sqlite3
+
+# Large downloaded reference data (re-create with scripts/fetch_reference_data.py)
+data/lgd_pincode_villages.csv
+data/osm_localities.csv
+
+# Unused legacy export (43.6 MB); not read by the app
+data/addressguard_reference_search_index.csv

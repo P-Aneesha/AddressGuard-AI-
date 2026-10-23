@@ -8,5 +8,5 @@ def test_evaluation_dataset_is_labelled_and_nonempty():
     assert len(data) >= 20
     assert all(item.get("id") and item.get("category") and item.get("expected_status") for item in data)
     assert all(item["expected_status"] in {
-        "VERIFIED", "NEEDS CUSTOMER CONFIRMATION", "SUSPICIOUS", "FAKE ADDRESS"
+        "VERIFIED", "NEEDS CUSTOMER CONFIRMATION", "VALIDATION WARNING", "VALIDATION FAILED"
     } for item in data)

@@ -49,8 +49,8 @@ from services.pipeline_orchestrator import run_pipeline
 STATUSES = [
     "VERIFIED",
     "NEEDS CUSTOMER CONFIRMATION",
-    "SUSPICIOUS",
-    "FAKE ADDRESS",
+    "VALIDATION WARNING",
+    "VALIDATION FAILED",
 ]
 
 
@@ -391,7 +391,7 @@ def _baseline_status(raw):
     )
 
     if len(text.split()) < 4 and not structure:
-        return "FAKE ADDRESS"
+        return "VALIDATION FAILED"
 
     if not pin or not phone:
         return "NEEDS CUSTOMER CONFIRMATION"

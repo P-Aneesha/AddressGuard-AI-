@@ -1,3 +1,5 @@
+import difflib
+
 from services.ai_address_service import extract_with_ai
 from services.address_parser import parse_address
 from services.normalizer import normalize_address
@@ -12,9 +14,11 @@ from services.correction_engine import (
     _same_text,
     _is_structurally_canonical_text,
 )
-from utils.indian_data import INDIAN_STATES, CITY_STATE_MAP, KNOWN_LOCALITIES
+from utils.indian_data import (
+    INDIAN_STATES, CITY_STATE_MAP, KNOWN_LOCALITIES, CITY_ALIASES, STATE_ALIASES, LOCALITY_ALIASES,
+)
 from services.address_resolution_service import resolve_and_rank
-from services.official_reference_service import generate_official_correction, generate_reference_correction, get_reference_status, is_state_known, locality_matches
+from services.official_reference_service import generate_official_correction, generate_reference_correction, get_reference_status, is_state_known, locality_matches, reference_place_name, suggest_pin_code
 from services.ai_correction_service import generate_ai_corrections
 from services.confidence_engine import score_confidence
 from services.risk_engine import assess_risk
@@ -63,6 +67,59 @@ def _is_ai_correction_safe(correction, normalized):
     return True
 
 
+_ALIAS_MAPS = {"city": CITY_ALIASES, "state": STATE_ALIASES, "locality": LOCALITY_ALIASES}
+_HARMONIZE_FIELDS = (
+    "state", "city", "district", "locality", "street", "building", "landmark",
+    "house_number", "flat_unit", "name",
+)
+
+
+def _state_name(value):
+    """Return the canonical state when value is a state name or known alias."""
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if any(_same_text(text, s) for s in INDIAN_STATES):
+        return text
+    return STATE_ALIASES.get(text.lower(), "")
+
+
+def _harmonize_ai_correction(correction, normalized, raw_text):
+    """Make an LLM suggestion consistent with the project's reference data.
+
+    - The suggestion is attached to the field that actually holds the original
+      text (an LLM sometimes files a state misspelling under "district").
+    - Geographic suggestions are mapped to the reference spelling through the
+      alias tables (e.g. "Bangalore" -> "Bengaluru").
+    - A suggestion whose original text appears nowhere in the address is
+      dropped as unsupported.
+    Returns the adjusted correction, or None to drop it.
+    """
+    correction = dict(correction)
+    original = str(correction.get("original", "")).strip()
+    field = str(correction.get("field", "")).strip().lower()
+    if not original:
+        return None
+    if not _same_text(normalized.get(field, ""), original):
+        owner = next((f for f in _HARMONIZE_FIELDS if _same_text(normalized.get(f, ""), original)), None)
+        if owner:
+            correction["field"] = field = owner
+        elif original.lower() not in str(raw_text or "").lower():
+            return None
+    if field == "district" and _state_name(correction.get("suggested", "")):
+        correction["field"] = field = "state"
+    aliases = _ALIAS_MAPS.get(field)
+    if aliases:
+        suggested = str(correction.get("suggested", "")).strip()
+        canonical = aliases.get(suggested.lower())
+        if canonical and not _same_text(canonical, suggested):
+            correction["suggested"] = canonical
+            correction["reason"] = f"{correction.get('reason', '')} (mapped to reference spelling {canonical})".strip()
+    if _same_text(correction.get("suggested", ""), original):
+        return None
+    return correction
+
+
 def _apply_unrecognized_to_raw(raw_text, accepted):
     effective = raw_text
     for correction in accepted or []:
@@ -94,6 +151,34 @@ def _extract_landmark_line(raw_text):
         ):
             return line
     return ""
+
+_REVIEWABLE_FIELDS = ("state", "district", "city", "locality", "building", "street", "landmark")
+
+
+def _ai_rewritten_fields(ai_parsed, det_parsed, raw_text):
+    """Return {field: user's original text} for fields the AI extractor re-spelled."""
+    raw_lower = raw_text.lower()
+    det_normalized = normalize_address(det_parsed)
+    det_raw = det_parsed.get("_raw_correction_fields") or {}
+    rewritten = {}
+    for field in _REVIEWABLE_FIELDS:
+        ai_value = str(ai_parsed.get(field) or "").strip()
+        original = str(det_raw.get(field) or det_parsed.get(field) or "").strip()
+        if not ai_value or not original or ai_value.lower() in raw_lower:
+            continue
+        start = raw_lower.find(original.lower())
+        if start < 0:
+            continue
+        # Pure formatting (casing, abbreviations) is normalization, not a spelling fix.
+        if _same_text(ai_value, original) or (
+            field not in det_raw and _same_text(ai_value, det_normalized.get(field, ""))
+        ):
+            continue
+        if difflib.SequenceMatcher(None, ai_value.lower(), original.lower()).ratio() < 0.75:
+            continue
+        rewritten[field] = raw_text[start:start + len(original)]
+    return rewritten
+
 
 def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = None) -> dict:
     accepted = accepted if isinstance(accepted, list) else []
@@ -135,6 +220,11 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
             f"AI-extracted fields validated against deterministic parser ({filled_ai} fields found)",
         ))
         parsed.setdefault("unrecognized_text", det.get("unrecognized_text", []))
+        # The AI extractor returns fields with spelling already fixed. Record the
+        # user's own spelling so each fix is offered for review, never applied silently.
+        rewritten = _ai_rewritten_fields(parsed, det, effective_raw_text)
+        if rewritten:
+            parsed["_raw_correction_fields"] = {**rewritten, **(parsed.get("_raw_correction_fields") or {})}
 
     # 3. Data Normalization
     normalized = normalize_address(parsed)
@@ -152,6 +242,17 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
             or normalized_landmark.lower() not in raw_landmark.lower()
         ):
             normalized["landmark"] = raw_landmark
+
+    # An extractor sometimes copies the state into the district field as well.
+    # A district spelled exactly like the state adds no information and would
+    # produce a duplicate, misfiled correction, so it is cleared.
+    district_text = str(normalized.get("district") or "").strip()
+    if district_text and _same_text(district_text, normalized.get("state", "")):
+        normalized["district"] = ""
+    elif district_text and not normalized.get("state") and _state_name(district_text):
+        # A recognised state name (or known misspelling) in the district slot
+        # with no state supplied is the state.
+        normalized["state"], normalized["district"] = district_text, ""
 
     address_fields = (
         "state", "city", "locality", "building", "street", "landmark", "district"
@@ -179,11 +280,15 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
 
     # 5. PIN Validation
     pin_result = validate_pin(normalized.get("pin_code", ""))
-    stages.append(_stage(
-        "PIN Validation",
-        "Completed" if pin_result["valid"] else "Warning",
-        pin_result["reason"],
-    ))
+    if pin_result["valid"] and pin_result.get("reference_found"):
+        pin_stage_status = "Completed"
+    elif pin_result.get("error_type") == "format":
+        pin_stage_status = "Failed"
+    else:
+        # Missing PIN, or a well-formed PIN that the reference data cannot
+        # confirm: uncertainty rather than a validation failure.
+        pin_stage_status = "Warning"
+    stages.append(_stage("PIN Validation", pin_stage_status, pin_result["reason"]))
 
     # 6/7/9. Geography
     geo_result = verify_geography(
@@ -213,10 +318,11 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     has_unit = bool(normalized.get("house_number") or normalized.get("flat_unit"))
     has_street = bool(normalized.get("street"))
     pattern_ok = has_unit and has_street
+    missing_parts = [label for label, present in (("house/flat number", has_unit), ("street/road", has_street)) if not present]
     stages.append(_stage(
         "Address Pattern Validation",
         "Completed" if pattern_ok else "Warning",
-        "House/Flat + Street present" if pattern_ok else "Missing house/flat number or street reference",
+        "House/Flat + Street present" if pattern_ok else "Missing " + " and ".join(missing_parts),
     ))
 
     # 9. Geographic Consistency
@@ -228,6 +334,8 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     )
     if geo_result["issues"]:
         ref_detail += f"; issues={geo_result['issues']}"
+    if geo_result.get("warnings"):
+        ref_detail += f"; warnings={geo_result['warnings']}"
     stages.append(_stage(
         "Geographic Consistency",
         "Completed" if overall_geo == "VERIFIED" else ("Warning" if overall_geo == "LIKELY_MATCH" else "Failed"),
@@ -242,9 +350,17 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         url=getattr(cfg, "GEOCODING_URL", "https://nominatim.openstreetmap.org/search"),
         timeout=int(getattr(cfg, "GEOCODING_TIMEOUT_SECONDS", 8)),
     )
+    if geocoding_result.get("external_status") == "UNAVAILABLE":
+        geocoding_stage_status = "Fallback"
+    elif geocoding_result["status"] in ("CONFIRMED", "PARTIAL MATCH"):
+        geocoding_stage_status = "Completed"
+    elif geocoding_result["status"] == "NOT FOUND":
+        geocoding_stage_status = "Warning"
+    else:
+        geocoding_stage_status = "Fallback"
     stages.append(_stage(
         "External Geocoding Verification",
-        "Completed" if geocoding_result["status"] in ("CONFIRMED", "PARTIAL MATCH") else "Warning" if geocoding_result["status"] == "NOT FOUND" else "Fallback",
+        geocoding_stage_status,
         f"{geocoding_result['status']} — {geocoding_result['source']}" + (f"; {geocoding_result['reason']}" if geocoding_result.get("reason") else ""),
     ))
 
@@ -270,9 +386,13 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         cfg.GROQ_TIMEOUT_SECONDS,
     )
     ai_corrections = [
-        correction
-        for correction in ai_corrections
-        if _is_ai_correction_safe(correction, normalized)
+        harmonized
+        for harmonized in (
+            _harmonize_ai_correction(correction, normalized, effective_raw_text)
+            for correction in ai_corrections
+            if isinstance(correction, dict)
+        )
+        if harmonized and _is_ai_correction_safe(harmonized, normalized)
     ]
 
     # Correction generation must see the user's original field text. The
@@ -322,6 +442,29 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         )
         if reference_correction:
             official_corrections.append(reference_correction)
+    # A PIN that contradicts the locality/city/state gets a reference-backed
+    # PIN suggestion when the reference data identifies one unambiguously.
+    geo_checks = geo_result["checks"]
+    if reference_context["pin"] and (
+        "INCONSISTENT" in (geo_checks.get("pin_state"), geo_checks.get("pin_city"))
+        or geo_checks.get("pin_locality") == "DISTANT"
+    ):
+        pin_suggestion = suggest_pin_code(
+            str(normalized.get("locality", "") or "").strip(),
+            city=reference_context["city"],
+            district=reference_context["district"],
+            state=reference_context["state"],
+        )
+        # "Indiranagar, Hyderabad, 560038": Indiranagar also exists in the PIN's own
+        # state (Bengaluru), so the city may be the mistake rather than the PIN.
+        pin_states = {str(r.get("state", "")) for r in geo_result.get("official_pin_rows") or [] if r.get("state")}
+        locality_text = str(normalized.get("locality", "") or "").strip()
+        city_may_be_wrong = any(
+            s and not _same_text(s, reference_context["state"]) and reference_place_name(locality_text, s)
+            for s in pin_states
+        )
+        if pin_suggestion and pin_suggestion["suggested"] != reference_context["pin"] and not city_may_be_wrong:
+            official_corrections.append({**pin_suggestion, "original": reference_context["pin"]})
 
     stages.append(_stage(
         "AI Spelling Correction",
@@ -417,7 +560,7 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     if accepted:
         correction_bonus = min(5, len(accepted))
         confidence_result["score"] = min(
-            100,
+            confidence_result.get("cap", 100),
             confidence_result["score"] + correction_bonus
         )
         confidence_result["breakdown"].append({

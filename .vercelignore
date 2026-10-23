@@ -1,0 +1,24 @@
+# Secrets are set as Vercel environment variables, never uploaded.
+.env
+.env.*
+!.env.example
+
+# Local tooling and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+instance/
+*.db
+tests/
+
+# Raw reference data (about 200 MB) and the uncompressed index (226 MB).
+# The app runs from data/reference_index.sqlite3.gz on Vercel.
+data/*.csv
+data/*.sqlite3
+data/*.partial
+
+# Large evaluation artefacts not needed at runtime
+evaluation/messy_250_*.json
+evaluation/*.md

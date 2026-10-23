@@ -30,7 +30,7 @@ def detect_anomalies(parsed: dict, raw_text: str) -> dict:
 
     pin = parsed.get("pin_code", "")
     if pin and len(set(pin)) == 1:
-        reasons.append(f"PIN code {pin} is a repeated-digit pattern, likely fake")
+        reasons.append(f"PIN code {pin} is a repeated-digit placeholder pattern, not a real PIN")
         severity = "HIGH" if severity in ("NONE", "MEDIUM") else severity
 
     if re.search(r"(.)\1{5,}", raw_text.lower()):

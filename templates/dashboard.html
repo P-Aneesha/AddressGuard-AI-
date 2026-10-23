@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AddressGuard AI — Dashboard</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("ag-theme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body class="dashboard-page">
@@ -13,6 +14,7 @@
     <div><strong>AddressGuard <span>AI</span></strong><small>Intelligent Address Verification</small></div>
   </a>
   <nav class="topnav">
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme">☀</button>
     <div class="profile-wrap">
       <button id="profileBtn" class="profile-btn" aria-expanded="false">
         <span id="userAvatar" class="user-avatar">P</span>
@@ -25,8 +27,8 @@
         <button id="profileLogoutBtn" class="profile-logout">Sign out</button>
       </div>
     </div>
-    <button id="navDashboard" class="navlink active">Dashboard</button>
-    <button id="navHistory" class="navlink">History</button>
+    <a href="/dashboard" class="navlink active">Dashboard</a>
+    <a href="/history" class="navlink">History</a>
     <button id="logoutBtn" class="navlink danger-link">Logout</button>
   </nav>
 </header>
@@ -62,6 +64,7 @@ Opposit Indiranagr Metro Staton"></textarea>
       <button id="sampleBtn" class="secondary-btn">✦ Load sample</button>
       <span class="input-hint">Your address is processed through the validation pipeline.</span>
     </div>
+    <div id="inputMessage" class="input-message hidden" role="status" aria-live="polite"></div>
   </section>
 
   <section id="resultSection" class="hidden">
@@ -72,6 +75,11 @@ Opposit Indiranagr Metro Staton"></textarea>
       <div class="score-card"><span class="score-icon yellow">!</span><div><small>Risk level</small><strong id="riskVal" class="badge">—</strong></div></div>
       <div class="score-card"><span class="score-icon green">✓</span><div><small>Decision</small><strong id="decisionVal" class="badge">—</strong></div></div>
     </section>
+
+    <div class="submitted-card">
+      <div><label>Submitted address (original, never overwritten)</label><div id="submittedAddress" class="submitted-address"></div></div>
+      <div><label>What this decision means</label><div id="decisionMeaning" class="decision-meaning"></div></div>
+    </div>
 
     <div id="quickChecks" class="quick-grid"></div>
 
@@ -116,7 +124,7 @@ Opposit Indiranagr Metro Staton"></textarea>
 
     <section id="finalAddressCard" class="final-card hidden">
       <div class="final-ribbon">✓ READY FOR DELIVERY</div>
-      <div class="final-title"><div class="final-icon">✓</div><div><span class="eyebrow">FINAL RESULT</span><h2 id="finalAddressTitle">Final verified address</h2><p>Approved corrections have been applied and the address has been re-validated.</p></div></div>
+      <div class="final-title"><div class="final-icon">✓</div><div><span class="eyebrow">FINAL RESULT</span><h2 id="finalAddressTitle">Final verified address</h2><p id="finalAddressNote">Approved corrections have been applied and the address has been re-validated.</p></div></div>
       <div class="final-address-grid">
         <div><label>Original address</label><div id="originalAddressValue" class="final-address-value"></div></div>
         <div><label>Corrected / verified address</label><div id="correctedAddressValue" class="final-address-value verified"></div></div>
@@ -136,11 +144,6 @@ Opposit Indiranagr Metro Staton"></textarea>
         </div>
       </div>
     </section>
-  </section>
-
-  <section id="historySection" class="card hidden history-card">
-    <div class="card-title-row"><div class="section-icon">◷</div><div><h2>Validation history</h2><p>Your recent address validations.</p></div></div>
-    <div id="historyList"></div>
   </section>
 
   <section class="card evaluation-card">

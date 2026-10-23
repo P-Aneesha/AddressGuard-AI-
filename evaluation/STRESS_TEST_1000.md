@@ -2,7 +2,7 @@
 
 ## Scope
 
-The project contains 34 labelled seed cases and a deterministic 1,000-case synthetic stress dataset derived from them. The dataset exercises valid, typo, correctable, missing-field, mismatch, suspicious, random-text and formatting scenarios.
+The project contains 34 labelled seed cases and a deterministic 1,000-case synthetic stress dataset derived from them. The dataset exercises valid, typo, correctable, missing-field, mismatch, conflicting-data, random-text and formatting scenarios.
 
 This is a **stress test**, not 1,000 independent real-world addresses.
 

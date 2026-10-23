@@ -23,3 +23,9 @@ def dashboard():
     if not _logged_in():
         return redirect(url_for("views.login_page"))
     return render_template("dashboard.html")
+
+@views_bp.get("/history")
+def history_page():
+    if not _logged_in():
+        return redirect(url_for("views.login_page"))
+    return render_template("history.html")

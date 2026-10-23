@@ -1,6 +1,8 @@
 import difflib
 import re
 
+from services.official_reference_service import reference_place_name
+
 from utils.indian_data import (
     INDIAN_STATES,
     STATE_ALIASES,
@@ -449,7 +451,11 @@ def _resolve_field(raw, alias_map, canonical_values):
         FUZZY_THRESHOLD,
     )
 
-    if canonical and not _same_text(raw, canonical):
+    if (
+        canonical
+        and not _same_text(raw, canonical)
+        and _direction_words(raw) == _direction_words(canonical)
+    ):
         return (
             canonical,
             round(ratio * 100),
@@ -457,6 +463,21 @@ def _resolve_field(raw, alias_map, canonical_values):
         )
 
     return None, 0, None
+
+
+_DIRECTION_WORDS = {"east", "west", "north", "south", "e", "w", "n", "s"}
+
+
+def _direction_words(value):
+    """
+    Direction suffixes name different places (Andheri East vs Andheri West),
+    so a fuzzy match must never swap one for another.
+    """
+    return {
+        word
+        for word in re.findall(r"[a-z]+", _clean(value).lower())
+        if word in _DIRECTION_WORDS
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -715,7 +736,9 @@ def generate_corrections(parsed: dict) -> list:
         (
             "city",
             CITY_ALIASES,
-            list(CITY_STATE_MAP.keys()),
+            # A misspelt city is matched against cities of the stated state
+            # first, so "Knapur, Uttar Pradesh" suggests Kanpur, not Nagpur.
+            [c for c, s in CITY_STATE_MAP.items() if s == parsed.get("state")] or list(CITY_STATE_MAP.keys()),
             "City",
         ),
         (
@@ -733,6 +756,13 @@ def generate_corrections(parsed: dict) -> list:
         raw = _clean(parsed.get(field, ""))
 
         if not raw:
+            continue
+
+        # A locality that exactly names a real place in the stated state is not
+        # a misspelling, even if it resembles a better-known one (Raipur/Jaipur).
+        if field == "locality" and not LOCALITY_ALIASES.get(raw.lower()) and \
+                reference_place_name(raw, parsed.get("state", "")):
+            canonical_protected_fields.add(field)
             continue
 
         canonical, confidence, method = _resolve_field(

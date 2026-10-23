@@ -13,12 +13,27 @@ def _clean(v: str) -> str:
     return v.strip()
 
 
+def _database_url(v: str) -> str:
+    """PostgreSQL is the only supported database. Some hosts hand out the
+    legacy "postgres://" scheme, which SQLAlchemy expects as "postgresql://"."""
+    v = _clean(v)
+    if v.startswith("postgres://"):
+        v = "postgresql://" + v[len("postgres://"):]
+    return v
+
+
 class Config:
     SECRET_KEY = _clean(os.getenv("SECRET_KEY", "change-this"))
-    SQLALCHEMY_DATABASE_URI = _clean(os.getenv("DATABASE_URL", "sqlite:///addressguard.db"))
+    # Required: a PostgreSQL connection string. There is deliberately no
+    # SQLite fallback; create_app() refuses to start without PostgreSQL.
+    SQLALCHEMY_DATABASE_URI = _database_url(os.getenv("DATABASE_URL", ""))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # The .env.example placeholder is not a key; treat it as unset so the
+    # pipeline uses the deterministic fallback instead of failing with HTTP 401.
     GROQ_API_KEY = _clean(os.getenv("GROQ_API_KEY", ""))
+    if GROQ_API_KEY.lower().startswith("your_"):
+        GROQ_API_KEY = ""
     GROQ_BASE_URL = _clean(os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1"))
     GROQ_MODEL = _clean(os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"))
     GROQ_TIMEOUT_SECONDS = int(_clean(os.getenv("GROQ_TIMEOUT_SECONDS") or os.getenv("OPENAI_TIMEOUT_SECONDS") or "15"))

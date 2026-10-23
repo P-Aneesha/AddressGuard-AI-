@@ -1,0 +1,3605 @@
+{
+  "seed": 7,
+  "cases": [
+    {
+      "id": "M001",
+      "category": "Clean, complete",
+      "input": "Rohan Joshi, Flat 724, Green Park Apartments, Station Road, Chandinchowk, Cuttack, Odisha, 753002, 9409170818",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M002",
+      "category": "Messy formatting, all correct",
+      "input": "  naveen gupta  flat 451 lotus towers  church street chandinchowk cuttack odisha pin - 753 002   ph: +91 7912973887 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M003",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Meera Sharma\nMobile: 6920951719\nAddress: Flat 672, Royal Heights\n5th Main Road, Chandinchowk\nCuttack - 753002\nOdisha",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M004",
+      "category": "City misspelt",
+      "input": "Fatima Rao, Flat 917, Silver Oak Residency, Station Road, Chandinchowk, Ctutack, Odisha, 753002, 9722657734",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      },
+      "expect_correction": {
+        "city": "Cuttack"
+      }
+    },
+    {
+      "id": "M005",
+      "category": "State misspelt",
+      "input": "Pooja Joshi, Flat 849, Shanti Nivas, Nehru Street, Chandinchowk, Cuttack, Odisa, 753002, 6165143298",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      },
+      "expect_correction": {
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M006",
+      "category": "Phone missing",
+      "input": "Aditya Patel, Flat 456, Sai Residency, Church Street, Chandinchowk, Cuttack, Odisha, 753002",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M007",
+      "category": "House number and street missing",
+      "input": "Fatima Iyer, Chandinchowk, Cuttack, Odisha, 753002, 6630098818",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      }
+    },
+    {
+      "id": "M008",
+      "category": "PIN from another state",
+      "input": "Vikram Joshi, Flat 501, Silver Oak Residency, Station Road, Chandinchowk, Cuttack, Odisha, 679305, 7527239380",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      },
+      "wrong_pin": "679305"
+    },
+    {
+      "id": "M009",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Ananya Das, Flat 385, Lotus Towers, Gandhi Nagar Road, Chandinchowk, Cuttack, Odisha, 754113, 9689956612",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Chandinchowk",
+        "pin": "753002",
+        "city": "Cuttack",
+        "state": "Odisha"
+      },
+      "wrong_pin": "754113"
+    },
+    {
+      "id": "M010",
+      "category": "Clean, complete",
+      "input": "Kavya Patel, Flat 800, Krishna Complex, Main Road, Calicut, Kozhikode, Kerala, 673001, 9485227600",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M011",
+      "category": "Messy formatting, all correct",
+      "input": "  vikram reddy  flat 338 sunrise enclave  mg road calicut kozhikode kerala pin - 673 001   ph: +91 7262455407 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M012",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Pooja Rao\nMobile: 7382122033\nAddress: Flat 389, Sai Residency\n2nd Cross Road, Calicut\nKozhikode - 673001\nKerala",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M013",
+      "category": "City misspelt",
+      "input": "Meera Singh, Flat 680, Royal Heights, 2nd Cross Road, Calicut, Kozhikoode, Kerala, 673001, 8754781117",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      },
+      "expect_correction": {
+        "city": "Kozhikode"
+      }
+    },
+    {
+      "id": "M014",
+      "category": "State misspelt",
+      "input": "Ayesha Menon, Flat 992, Krishna Complex, Gandhi Nagar Road, Calicut, Kozhikode, Kerela, 673001, 6590317463",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      },
+      "expect_correction": {
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M015",
+      "category": "Phone missing",
+      "input": "Suresh Gupta, Flat 750, Krishna Complex, MG Road, Calicut, Kozhikode, Kerala, 673001",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M016",
+      "category": "House number and street missing",
+      "input": "Karthik Reddy, Calicut, Kozhikode, Kerala, 673001, 7573119500",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M017",
+      "category": "PIN from another state",
+      "input": "Ayesha Sharma, Flat 681, Lotus Towers, Market Road, Calicut, Kozhikode, Kerala, 123401, 6100250482",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      },
+      "wrong_pin": "123401"
+    },
+    {
+      "id": "M018",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Sneha Nair, Flat 996, Sunrise Enclave, Nehru Street, Calicut, Kozhikode, Kerala, 676109, 6175500775",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Calicut",
+        "pin": "673001",
+        "city": "Kozhikode",
+        "state": "Kerala"
+      },
+      "wrong_pin": "676109"
+    },
+    {
+      "id": "M019",
+      "category": "Clean, complete",
+      "input": "Suresh Iyer, Flat 717, Royal Heights, Church Street, Rampur Bushahr, Shimla, Himachal Pradesh, 172001, 8473006684",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M020",
+      "category": "Messy formatting, all correct",
+      "input": "  sneha reddy  flat 592 silver oak residency  temple street rampur bushahr shimla himachal pradesh pin - 172 001   ph: +91 9600352373 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M021",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Arjun Iyer\nMobile: 6904956245\nAddress: Flat 451, Shanti Nivas\nChurch Street, Rampur Bushahr\nShimla - 172001\nHimachal Pradesh",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M022",
+      "category": "City misspelt",
+      "input": "Ananya Singh, Flat 641, Royal Heights, 2nd Cross Road, Rampur Bushahr, Shhimla, Himachal Pradesh, 172001, 6320347933",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      },
+      "expect_correction": {
+        "city": "Shimla"
+      }
+    },
+    {
+      "id": "M023",
+      "category": "State misspelt",
+      "input": "Lakshmi Menon, Flat 966, Shanti Nivas, Market Road, Rampur Bushahr, Shimla, Himachal Prades, 172001, 6847535601",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      },
+      "expect_correction": {
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M024",
+      "category": "Phone missing",
+      "input": "Fatima Iyer, Flat 329, Royal Heights, Main Road, Rampur Bushahr, Shimla, Himachal Pradesh, 172001",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M025",
+      "category": "House number and street missing",
+      "input": "Ayesha Khan, Rampur Bushahr, Shimla, Himachal Pradesh, 172001, 7978678309",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      }
+    },
+    {
+      "id": "M026",
+      "category": "PIN from another state",
+      "input": "Naveen Das, Flat 130, Sai Residency, Temple Street, Rampur Bushahr, Shimla, Himachal Pradesh, 636204, 8884909565",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      },
+      "wrong_pin": "636204"
+    },
+    {
+      "id": "M027",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Pooja Patel, Flat 720, Royal Heights, Church Street, Rampur Bushahr, Shimla, Himachal Pradesh, 172027, 7843589769",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Rampur Bushahr",
+        "pin": "172001",
+        "city": "Shimla",
+        "state": "Himachal Pradesh"
+      },
+      "wrong_pin": "172027"
+    },
+    {
+      "id": "M028",
+      "category": "Clean, complete",
+      "input": "Fatima Nair, Flat 205, Sunrise Enclave, Church Street, Sarojini Nagar, Delhi, Delhi, 110023, 6336719616",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M029",
+      "category": "Messy formatting, all correct",
+      "input": "  karthik nair  flat 740 sai residency  church street sarojini nagar delhi delhi pin - 110 023   ph: +91 7618245037 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M030",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Fatima Menon\nMobile: 6996197331\nAddress: Flat 777, Green Park Apartments\nGandhi Nagar Road, Sarojini Nagar\nDelhi - 110023\nDelhi",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M031",
+      "category": "City misspelt",
+      "input": "Karthik Das, Flat 909, Royal Heights, Station Road, Sarojini Nagar, Delih, Delhi, 110023, 7565923499",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      },
+      "expect_correction": {
+        "city": "Delhi"
+      }
+    },
+    {
+      "id": "M032",
+      "category": "State misspelt",
+      "input": "Aditya Gupta, Flat 263, Lotus Towers, 2nd Cross Road, Sarojini Nagar, Delhi, Dehli, 110023, 6878246640",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      },
+      "expect_correction": {
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M033",
+      "category": "Phone missing",
+      "input": "Rahul Iyer, Flat 772, Lotus Towers, Nehru Street, Sarojini Nagar, Delhi, Delhi, 110023",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M034",
+      "category": "House number and street missing",
+      "input": "Ayesha Das, Sarojini Nagar, Delhi, Delhi, 110023, 8267409691",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M035",
+      "category": "PIN from another state",
+      "input": "Rahul Joshi, Flat 868, Lotus Towers, Gandhi Nagar Road, Sarojini Nagar, Delhi, Delhi, 412410, 6665412094",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      },
+      "wrong_pin": "412410"
+    },
+    {
+      "id": "M036",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Karthik Khan, Flat 318, Shanti Nivas, Market Road, Sarojini Nagar, Delhi, Delhi, 110082, 6370405570",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "Delhi",
+        "state": "Delhi"
+      },
+      "wrong_pin": "110082"
+    },
+    {
+      "id": "M037",
+      "category": "Clean, complete",
+      "input": "Divya Rao, Flat 658, Krishna Complex, 2nd Cross Road, Armoor, Nizamabad, Telangana, 503224, 8378490828",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M038",
+      "category": "Messy formatting, all correct",
+      "input": "  priya joshi  flat 779 krishna complex  market road armoor nizamabad telangana pin - 503 224   ph: +91 8591946611 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M039",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Vikram Singh\nMobile: 7662110918\nAddress: Flat 623, Sai Residency\nChurch Street, Armoor\nNizamabad - 503224\nTelangana",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M040",
+      "category": "City misspelt",
+      "input": "Ananya Rao, Flat 919, Lotus Towers, 2nd Cross Road, Armoor, Niazmabad, Telangana, 503224, 6933265493",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "city": "Nizamabad"
+      }
+    },
+    {
+      "id": "M041",
+      "category": "State misspelt",
+      "input": "Ayesha Joshi, Flat 164, Royal Heights, Market Road, Armoor, Nizamabad, Telengana, 503224, 6697511159",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M042",
+      "category": "Phone missing",
+      "input": "Naveen Singh, Flat 896, Green Park Apartments, Market Road, Armoor, Nizamabad, Telangana, 503224",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M043",
+      "category": "House number and street missing",
+      "input": "Priya Khan, Armoor, Nizamabad, Telangana, 503224, 7397337444",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M044",
+      "category": "PIN from another state",
+      "input": "Aditya Singh, Flat 165, Silver Oak Residency, 5th Main Road, Armoor, Nizamabad, Telangana, 444806, 6916036417",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      },
+      "wrong_pin": "444806"
+    },
+    {
+      "id": "M045",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Ayesha Singh, Flat 384, Silver Oak Residency, Market Road, Armoor, Nizamabad, Telangana, 503322, 7843814251",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Armoor",
+        "pin": "503224",
+        "city": "Nizamabad",
+        "state": "Telangana"
+      },
+      "wrong_pin": "503322"
+    },
+    {
+      "id": "M046",
+      "category": "Clean, complete",
+      "input": "Kavya Das, Flat 636, Shanti Nivas, Market Road, Shastri Nagar, Jaipur, Rajasthan, 302016, 7850779486",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M047",
+      "category": "Messy formatting, all correct",
+      "input": "  karthik das  flat 225 krishna complex  church street shastri nagar jaipur rajasthan pin - 302 016   ph: +91 7547360632 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M048",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Rohan Reddy\nMobile: 7559925153\nAddress: Flat 175, Sunrise Enclave\nTemple Street, Shastri Nagar\nJaipur - 302016\nRajasthan",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M049",
+      "category": "City misspelt",
+      "input": "Sneha Iyer, Flat 360, Lotus Towers, Church Street, Shastri Nagar, Jaiipur, Rajasthan, 302016, 8253522529",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      },
+      "expect_correction": {
+        "city": "Jaipur"
+      }
+    },
+    {
+      "id": "M050",
+      "category": "State misspelt",
+      "input": "Sneha Gupta, Flat 784, Sunrise Enclave, 2nd Cross Road, Shastri Nagar, Jaipur, Rajastan, 302016, 9274799977",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      },
+      "expect_correction": {
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M051",
+      "category": "Phone missing",
+      "input": "Meera Singh, Flat 532, Sunrise Enclave, 5th Main Road, Shastri Nagar, Jaipur, Rajasthan, 302016",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M052",
+      "category": "House number and street missing",
+      "input": "Rohan Reddy, Shastri Nagar, Jaipur, Rajasthan, 302016, 8120919637",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      }
+    },
+    {
+      "id": "M053",
+      "category": "PIN from another state",
+      "input": "Rahul Gupta, Flat 739, Shanti Nivas, Market Road, Shastri Nagar, Jaipur, Rajasthan, 402209, 8655590371",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      },
+      "wrong_pin": "402209"
+    },
+    {
+      "id": "M054",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Arjun Reddy, Flat 187, Shanti Nivas, Temple Street, Shastri Nagar, Jaipur, Rajasthan, 303704, 7212506236",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Shastri Nagar",
+        "pin": "302016",
+        "city": "Jaipur",
+        "state": "Rajasthan"
+      },
+      "wrong_pin": "303704"
+    },
+    {
+      "id": "M055",
+      "category": "Clean, complete",
+      "input": "Priya Iyer, Flat 233, Krishna Complex, Temple Street, Kottarakara, Kollam, Kerala, 691506, 8911508888",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M056",
+      "category": "Messy formatting, all correct",
+      "input": "  suresh iyer  flat 435 green park apartments  temple street kottarakara kollam kerala pin - 691 506   ph: +91 9852067507 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M057",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Priya Joshi\nMobile: 7556680688\nAddress: Flat 175, Shanti Nivas\nMG Road, Kottarakara\nKollam - 691506\nKerala",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M058",
+      "category": "City misspelt",
+      "input": "Arjun Patel, Flat 977, Sunrise Enclave, Station Road, Kottarakara, Kolam, Kerala, 691506, 6753025528",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      },
+      "expect_correction": {
+        "city": "Kollam"
+      }
+    },
+    {
+      "id": "M059",
+      "category": "State misspelt",
+      "input": "Aditya Sharma, Flat 528, Shanti Nivas, Nehru Street, Kottarakara, Kollam, Kerela, 691506, 8693848076",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      },
+      "expect_correction": {
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M060",
+      "category": "Phone missing",
+      "input": "Vikram Sharma, Flat 266, Shanti Nivas, MG Road, Kottarakara, Kollam, Kerala, 691506",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M061",
+      "category": "House number and street missing",
+      "input": "Ananya Khan, Kottarakara, Kollam, Kerala, 691506, 8775030454",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      }
+    },
+    {
+      "id": "M062",
+      "category": "PIN from another state",
+      "input": "Aditya Singh, Flat 456, Sai Residency, Temple Street, Kottarakara, Kollam, Kerala, 814142, 7390471177",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      },
+      "wrong_pin": "814142"
+    },
+    {
+      "id": "M063",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Priya Sharma, Flat 618, Sunrise Enclave, Market Road, Kottarakara, Kollam, Kerala, 690515, 6887139069",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Kottarakara",
+        "pin": "691506",
+        "city": "Kollam",
+        "state": "Kerala"
+      },
+      "wrong_pin": "690515"
+    },
+    {
+      "id": "M064",
+      "category": "Clean, complete",
+      "input": "Pooja Khan, Flat 775, Krishna Complex, Church Street, Gudur, Tirupati, Andhra Pradesh, 524101, 9214118726",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M065",
+      "category": "Messy formatting, all correct",
+      "input": "  kavya gupta  flat 321 sunrise enclave  5th main road gudur tirupati andhra pradesh pin - 524 101   ph: +91 8838457070 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M066",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Karthik Joshi\nMobile: 7534540855\nAddress: Flat 456, Sai Residency\n2nd Cross Road, Gudur\nTirupati - 524101\nAndhra Pradesh",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M067",
+      "category": "City misspelt",
+      "input": "Rahul Reddy, Flat 268, Sai Residency, Station Road, Gudur, Tirupait, Andhra Pradesh, 524101, 8562504317",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      },
+      "expect_correction": {
+        "city": "Tirupati"
+      }
+    },
+    {
+      "id": "M068",
+      "category": "State misspelt",
+      "input": "Naveen Menon, Flat 349, Shanti Nivas, MG Road, Gudur, Tirupati, Andhra Pradsh, 524101, 8742933425",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      },
+      "expect_correction": {
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M069",
+      "category": "Phone missing",
+      "input": "Aditya Iyer, Flat 557, Sai Residency, Temple Street, Gudur, Tirupati, Andhra Pradesh, 524101",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M070",
+      "category": "House number and street missing",
+      "input": "Fatima Nair, Gudur, Tirupati, Andhra Pradesh, 524101, 8362472429",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M071",
+      "category": "PIN from another state",
+      "input": "Fatima Iyer, Flat 491, Green Park Apartments, Church Street, Gudur, Tirupati, Andhra Pradesh, 341319, 6460060835",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      },
+      "wrong_pin": "341319"
+    },
+    {
+      "id": "M072",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Imran Singh, Flat 617, Sai Residency, Station Road, Gudur, Tirupati, Andhra Pradesh, 524303, 7366480598",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gudur",
+        "pin": "524101",
+        "city": "Tirupati",
+        "state": "Andhra Pradesh"
+      },
+      "wrong_pin": "524303"
+    },
+    {
+      "id": "M073",
+      "category": "Clean, complete",
+      "input": "Imran Reddy, Flat 701, Sai Residency, Gandhi Nagar Road, Huzurabad, Karimnagar, Telangana, 505468, 7528971850",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M074",
+      "category": "Messy formatting, all correct",
+      "input": "  rahul patel  flat 339 green park apartments  nehru street huzurabad karimnagar telangana pin - 505 468   ph: +91 8776102887 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M075",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Naveen Iyer\nMobile: 9920673058\nAddress: Flat 434, Silver Oak Residency\n2nd Cross Road, Huzurabad\nKarimnagar - 505468\nTelangana",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M076",
+      "category": "City misspelt",
+      "input": "Lakshmi Joshi, Flat 945, Krishna Complex, Market Road, Huzurabad, Kariimnagar, Telangana, 505468, 7147017079",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "city": "Karimnagar"
+      }
+    },
+    {
+      "id": "M077",
+      "category": "State misspelt",
+      "input": "Naveen Rao, Flat 803, Sunrise Enclave, Station Road, Huzurabad, Karimnagar, Telengana, 505468, 6987350033",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M078",
+      "category": "Phone missing",
+      "input": "Rahul Sharma, Flat 470, Green Park Apartments, Gandhi Nagar Road, Huzurabad, Karimnagar, Telangana, 505468",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M079",
+      "category": "House number and street missing",
+      "input": "Aditya Singh, Huzurabad, Karimnagar, Telangana, 505468, 6774059801",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M080",
+      "category": "PIN from another state",
+      "input": "Imran Sharma, Flat 172, Green Park Apartments, Market Road, Huzurabad, Karimnagar, Telangana, 814103, 9956521229",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      },
+      "wrong_pin": "814103"
+    },
+    {
+      "id": "M081",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Arjun Joshi, Flat 929, Green Park Apartments, Temple Street, Huzurabad, Karimnagar, Telangana, 506006, 9370790737",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Huzurabad",
+        "pin": "505468",
+        "city": "Karimnagar",
+        "state": "Telangana"
+      },
+      "wrong_pin": "506006"
+    },
+    {
+      "id": "M082",
+      "category": "Clean, complete",
+      "input": "Divya Joshi, Flat 858, Silver Oak Residency, Church Street, Gondal, Rajkot, Gujarat, 360311, 7347751030",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M083",
+      "category": "Messy formatting, all correct",
+      "input": "  suresh reddy  flat 395 sai residency  nehru street gondal rajkot gujarat pin - 360 311   ph: +91 9834113597 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M084",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Karthik Reddy\nMobile: 7456238486\nAddress: Flat 361, Shanti Nivas\nNehru Street, Gondal\nRajkot - 360311\nGujarat",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M085",
+      "category": "City misspelt",
+      "input": "Sanjay Iyer, Flat 163, Silver Oak Residency, Temple Street, Gondal, Raajkot, Gujarat, 360311, 6617995282",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "city": "Rajkot"
+      }
+    },
+    {
+      "id": "M086",
+      "category": "State misspelt",
+      "input": "Karthik Menon, Flat 826, Shanti Nivas, Church Street, Gondal, Rajkot, Gujrat, 360311, 9412304764",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M087",
+      "category": "Phone missing",
+      "input": "Aditya Das, Flat 305, Shanti Nivas, Station Road, Gondal, Rajkot, Gujarat, 360311",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M088",
+      "category": "House number and street missing",
+      "input": "Pooja Sharma, Gondal, Rajkot, Gujarat, 360311, 8592816174",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M089",
+      "category": "PIN from another state",
+      "input": "Suresh Khan, Flat 696, Green Park Apartments, 2nd Cross Road, Gondal, Rajkot, Gujarat, 125033, 7180114953",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "125033"
+    },
+    {
+      "id": "M090",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Naveen Patel, Flat 718, Shanti Nivas, Station Road, Gondal, Rajkot, Gujarat, 361013, 8242383608",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gondal",
+        "pin": "360311",
+        "city": "Rajkot",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "361013"
+    },
+    {
+      "id": "M091",
+      "category": "Clean, complete",
+      "input": "Fatima Khan, Flat 504, Sai Residency, 2nd Cross Road, Malegaon, Nashik, Maharashtra, 423203, 9621989554",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M092",
+      "category": "Messy formatting, all correct",
+      "input": "  rahul das  flat 410 lotus towers  gandhi nagar road malegaon nashik maharashtra pin - 423 203   ph: +91 9535315694 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M093",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Fatima Gupta\nMobile: 8229825425\nAddress: Flat 961, Royal Heights\nMG Road, Malegaon\nNashik - 423203\nMaharashtra",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M094",
+      "category": "City misspelt",
+      "input": "Rohan Nair, Flat 301, Sai Residency, Temple Street, Malegaon, Nasihk, Maharashtra, 423203, 9228893413",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      },
+      "expect_correction": {
+        "city": "Nashik"
+      }
+    },
+    {
+      "id": "M095",
+      "category": "State misspelt",
+      "input": "Arjun Gupta, Flat 179, Royal Heights, Gandhi Nagar Road, Malegaon, Nashik, Maharastra, 423203, 9732623619",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      },
+      "expect_correction": {
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M096",
+      "category": "Phone missing",
+      "input": "Imran Sharma, Flat 153, Shanti Nivas, 2nd Cross Road, Malegaon, Nashik, Maharashtra, 423203",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M097",
+      "category": "House number and street missing",
+      "input": "Divya Patel, Malegaon, Nashik, Maharashtra, 423203, 9648642331",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      }
+    },
+    {
+      "id": "M098",
+      "category": "PIN from another state",
+      "input": "Meera Sharma, Flat 663, Sunrise Enclave, Station Road, Malegaon, Nashik, Maharashtra, 758019, 9695017231",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      },
+      "wrong_pin": "758019"
+    },
+    {
+      "id": "M099",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Priya Joshi, Flat 730, Lotus Towers, Temple Street, Malegaon, Nashik, Maharashtra, 425305, 9584107688",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Malegaon",
+        "pin": "423203",
+        "city": "Nashik",
+        "state": "Maharashtra"
+      },
+      "wrong_pin": "425305"
+    },
+    {
+      "id": "M100",
+      "category": "Clean, complete",
+      "input": "Pooja Sharma, Flat 584, Krishna Complex, 5th Main Road, Fateganj, Vadodara, Gujarat, 390002, 7283355162",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M101",
+      "category": "Messy formatting, all correct",
+      "input": "  lakshmi patel  flat 857 shanti nivas  gandhi nagar road fateganj vadodara gujarat pin - 390 002   ph: +91 8893530107 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M102",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Divya Patel\nMobile: 9698419618\nAddress: Flat 785, Krishna Complex\nStation Road, Fateganj\nVadodara - 390002\nGujarat",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M103",
+      "category": "City misspelt",
+      "input": "Ananya Menon, Flat 313, Silver Oak Residency, Market Road, Fateganj, Vaoddara, Gujarat, 390002, 7180713812",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "city": "Vadodara"
+      }
+    },
+    {
+      "id": "M104",
+      "category": "State misspelt",
+      "input": "Rohan Das, Flat 661, Sunrise Enclave, Main Road, Fateganj, Vadodara, Gujrat, 390002, 9249890132",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M105",
+      "category": "Phone missing",
+      "input": "Arjun Iyer, Flat 194, Royal Heights, Main Road, Fateganj, Vadodara, Gujarat, 390002",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M106",
+      "category": "House number and street missing",
+      "input": "Fatima Patel, Fateganj, Vadodara, Gujarat, 390002, 7121562591",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M107",
+      "category": "PIN from another state",
+      "input": "Meera Joshi, Flat 377, Royal Heights, MG Road, Fateganj, Vadodara, Gujarat, 587330, 7504656588",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "587330"
+    },
+    {
+      "id": "M108",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Pooja Patel, Flat 804, Sunrise Enclave, Station Road, Fateganj, Vadodara, Gujarat, 388540, 8235155965",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Fateganj",
+        "pin": "390002",
+        "city": "Vadodara",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "388540"
+    },
+    {
+      "id": "M109",
+      "category": "Clean, complete",
+      "input": "Imran Khan, Flat 762, Silver Oak Residency, Gandhi Nagar Road, Jayanagar, Bengaluru, Karnataka, 560041, 9529235953",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M110",
+      "category": "Messy formatting, all correct",
+      "input": "  lakshmi sharma  flat 536 silver oak residency  nehru street jayanagar bengaluru karnataka pin - 560 041   ph: +91 7134621185 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M111",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Pooja Sharma\nMobile: 6520392568\nAddress: Flat 946, Silver Oak Residency\nChurch Street, Jayanagar\nBengaluru - 560041\nKarnataka",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M112",
+      "category": "City misspelt",
+      "input": "Divya Reddy, Flat 256, Green Park Apartments, Church Street, Jayanagar, Beengaluru, Karnataka, 560041, 7265762534",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      },
+      "expect_correction": {
+        "city": "Bengaluru"
+      }
+    },
+    {
+      "id": "M113",
+      "category": "State misspelt",
+      "input": "Priya Sharma, Flat 684, Sai Residency, Temple Street, Jayanagar, Bengaluru, Karnatka, 560041, 7349727470",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      },
+      "expect_correction": {
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M114",
+      "category": "Phone missing",
+      "input": "Vikram Menon, Flat 752, Krishna Complex, Station Road, Jayanagar, Bengaluru, Karnataka, 560041",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M115",
+      "category": "House number and street missing",
+      "input": "Sneha Reddy, Jayanagar, Bengaluru, Karnataka, 560041, 8663109592",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M116",
+      "category": "PIN from another state",
+      "input": "Imran Khan, Flat 651, Shanti Nivas, Church Street, Jayanagar, Bengaluru, Karnataka, 441910, 6111233098",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      },
+      "wrong_pin": "441910"
+    },
+    {
+      "id": "M117",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Imran Nair, Flat 639, Sunrise Enclave, Market Road, Jayanagar, Bengaluru, Karnataka, 562129, 7610354022",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Jayanagar",
+        "pin": "560041",
+        "city": "Bengaluru",
+        "state": "Karnataka"
+      },
+      "wrong_pin": "562129"
+    },
+    {
+      "id": "M118",
+      "category": "Clean, complete",
+      "input": "Divya Sharma, Flat 766, Shanti Nivas, MG Road, Sarojini Nagar, New Delhi, Delhi, 110023, 9856616105",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M119",
+      "category": "Messy formatting, all correct",
+      "input": "  rahul khan  flat 763 krishna complex  station road sarojini nagar new delhi delhi pin - 110 023   ph: +91 9824199412 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M120",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Imran Khan\nMobile: 9497518584\nAddress: Flat 333, Silver Oak Residency\nMG Road, Sarojini Nagar\nNew Delhi - 110023\nDelhi",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M121",
+      "category": "City misspelt",
+      "input": "Rohan Joshi, Flat 799, Krishna Complex, Main Road, Sarojini Nagar, Nwe Delhi, Delhi, 110023, 9489038017",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      },
+      "expect_correction": {
+        "city": "New Delhi"
+      }
+    },
+    {
+      "id": "M122",
+      "category": "State misspelt",
+      "input": "Naveen Reddy, Flat 306, Shanti Nivas, Main Road, Sarojini Nagar, New Delhi, Dehli, 110023, 7632249109",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      },
+      "expect_correction": {
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M123",
+      "category": "Phone missing",
+      "input": "Divya Das, Flat 879, Shanti Nivas, Station Road, Sarojini Nagar, New Delhi, Delhi, 110023",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M124",
+      "category": "House number and street missing",
+      "input": "Ayesha Das, Sarojini Nagar, New Delhi, Delhi, 110023, 7339792468",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      }
+    },
+    {
+      "id": "M125",
+      "category": "PIN from another state",
+      "input": "Ayesha Iyer, Flat 319, Sai Residency, Nehru Street, Sarojini Nagar, New Delhi, Delhi, 641605, 9158366867",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      },
+      "wrong_pin": "641605"
+    },
+    {
+      "id": "M126",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Vikram Gupta, Flat 162, Lotus Towers, Gandhi Nagar Road, Sarojini Nagar, New Delhi, Delhi, 110082, 6862204860",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Sarojini Nagar",
+        "pin": "110023",
+        "city": "New Delhi",
+        "state": "Delhi"
+      },
+      "wrong_pin": "110082"
+    },
+    {
+      "id": "M127",
+      "category": "Clean, complete",
+      "input": "Aditya Joshi, Flat 216, Green Park Apartments, 2nd Cross Road, Salkia, Howrah, West Bengal, 711106, 8886756154",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M128",
+      "category": "Messy formatting, all correct",
+      "input": "  rohan khan  flat 638 silver oak residency  mg road salkia howrah west bengal pin - 711 106   ph: +91 7800582441 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M129",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Lakshmi Menon\nMobile: 9501454473\nAddress: Flat 440, Silver Oak Residency\n2nd Cross Road, Salkia\nHowrah - 711106\nWest Bengal",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M130",
+      "category": "City misspelt",
+      "input": "Sneha Sharma, Flat 183, Royal Heights, Gandhi Nagar Road, Salkia, Hoowrah, West Bengal, 711106, 6400439865",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      },
+      "expect_correction": {
+        "city": "Howrah"
+      }
+    },
+    {
+      "id": "M131",
+      "category": "State misspelt",
+      "input": "Karthik Gupta, Flat 942, Shanti Nivas, Gandhi Nagar Road, Salkia, Howrah, West Bangal, 711106, 8925419790",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      },
+      "expect_correction": {
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M132",
+      "category": "Phone missing",
+      "input": "Arjun Sharma, Flat 482, Silver Oak Residency, Main Road, Salkia, Howrah, West Bengal, 711106",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M133",
+      "category": "House number and street missing",
+      "input": "Rohan Nair, Salkia, Howrah, West Bengal, 711106, 9132515111",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M134",
+      "category": "PIN from another state",
+      "input": "Suresh Sharma, Flat 576, Green Park Apartments, MG Road, Salkia, Howrah, West Bengal, 127046, 9137424614",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      },
+      "wrong_pin": "127046"
+    },
+    {
+      "id": "M135",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Imran Khan, Flat 448, Royal Heights, Temple Street, Salkia, Howrah, West Bengal, 721626, 6750275541",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Salkia",
+        "pin": "711106",
+        "city": "Howrah",
+        "state": "West Bengal"
+      },
+      "wrong_pin": "721626"
+    },
+    {
+      "id": "M136",
+      "category": "Clean, complete",
+      "input": "Rohan Rao, Flat 865, Royal Heights, Temple Street, Doranda, Ranchi, Jharkhand, 834002, 6381505551",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M137",
+      "category": "Messy formatting, all correct",
+      "input": "  lakshmi sharma  flat 946 sunrise enclave  station road doranda ranchi jharkhand pin - 834 002   ph: +91 6126045435 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M138",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Pooja Joshi\nMobile: 9933606632\nAddress: Flat 496, Shanti Nivas\nGandhi Nagar Road, Doranda\nRanchi - 834002\nJharkhand",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M139",
+      "category": "City misspelt",
+      "input": "Pooja Iyer, Flat 109, Shanti Nivas, 2nd Cross Road, Doranda, Racnhi, Jharkhand, 834002, 9296429508",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      },
+      "expect_correction": {
+        "city": "Ranchi"
+      }
+    },
+    {
+      "id": "M140",
+      "category": "State misspelt",
+      "input": "Rohan Das, Flat 902, Green Park Apartments, Market Road, Doranda, Ranchi, Jharkand, 834002, 8941634309",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      },
+      "expect_correction": {
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M141",
+      "category": "Phone missing",
+      "input": "Karthik Gupta, Flat 518, Green Park Apartments, MG Road, Doranda, Ranchi, Jharkhand, 834002",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M142",
+      "category": "House number and street missing",
+      "input": "Pooja Singh, Doranda, Ranchi, Jharkhand, 834002, 8272542132",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      }
+    },
+    {
+      "id": "M143",
+      "category": "PIN from another state",
+      "input": "Imran Rao, Flat 199, Krishna Complex, Church Street, Doranda, Ranchi, Jharkhand, 518380, 6323704491",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      },
+      "wrong_pin": "518380"
+    },
+    {
+      "id": "M144",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Aditya Iyer, Flat 527, Silver Oak Residency, Nehru Street, Doranda, Ranchi, Jharkhand, 829121, 7242733744",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Doranda",
+        "pin": "834002",
+        "city": "Ranchi",
+        "state": "Jharkhand"
+      },
+      "wrong_pin": "829121"
+    },
+    {
+      "id": "M145",
+      "category": "Clean, complete",
+      "input": "Divya Joshi, Flat 962, Shanti Nivas, Temple Street, Gurgaon, Gurugram, Haryana, 122001, 6937250820",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M146",
+      "category": "Messy formatting, all correct",
+      "input": "  imran rao  flat 361 shanti nivas  main road gurgaon gurugram haryana pin - 122 001   ph: +91 8500474606 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M147",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Aditya Khan\nMobile: 7363432139\nAddress: Flat 342, Lotus Towers\nTemple Street, Gurgaon\nGurugram - 122001\nHaryana",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M148",
+      "category": "City misspelt",
+      "input": "Sanjay Khan, Flat 506, Shanti Nivas, Main Road, Gurgaon, Gurugrram, Haryana, 122001, 8169582865",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      },
+      "expect_correction": {
+        "city": "Gurugram"
+      }
+    },
+    {
+      "id": "M149",
+      "category": "State misspelt",
+      "input": "Divya Menon, Flat 576, Sai Residency, Station Road, Gurgaon, Gurugram, Hariyana, 122001, 6801504044",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      },
+      "expect_correction": {
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M150",
+      "category": "Phone missing",
+      "input": "Rahul Das, Flat 483, Sai Residency, Temple Street, Gurgaon, Gurugram, Haryana, 122001",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M151",
+      "category": "House number and street missing",
+      "input": "Divya Reddy, Gurgaon, Gurugram, Haryana, 122001, 6303552653",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      }
+    },
+    {
+      "id": "M152",
+      "category": "PIN from another state",
+      "input": "Fatima Singh, Flat 718, Shanti Nivas, MG Road, Gurgaon, Gurugram, Haryana, 636004, 7582232329",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      },
+      "wrong_pin": "636004"
+    },
+    {
+      "id": "M153",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Sneha Menon, Flat 139, Royal Heights, 5th Main Road, Gurgaon, Gurugram, Haryana, 124106, 8333694994",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Gurgaon",
+        "pin": "122001",
+        "city": "Gurugram",
+        "state": "Haryana"
+      },
+      "wrong_pin": "124106"
+    },
+    {
+      "id": "M154",
+      "category": "Clean, complete",
+      "input": "Vikram Sharma, Flat 140, Sunrise Enclave, MG Road, Parkal, Warangal, Telangana, 506164, 7373711473",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M155",
+      "category": "Messy formatting, all correct",
+      "input": "  rohan gupta  flat 736 shanti nivas  station road parkal warangal telangana pin - 506 164   ph: +91 8298798035 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M156",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Karthik Sharma\nMobile: 9688458656\nAddress: Flat 596, Green Park Apartments\nGandhi Nagar Road, Parkal\nWarangal - 506164\nTelangana",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M157",
+      "category": "City misspelt",
+      "input": "Sneha Gupta, Flat 647, Green Park Apartments, 2nd Cross Road, Parkal, Waranngal, Telangana, 506164, 7786316388",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "city": "Warangal"
+      }
+    },
+    {
+      "id": "M158",
+      "category": "State misspelt",
+      "input": "Imran Gupta, Flat 415, Krishna Complex, MG Road, Parkal, Warangal, Telengana, 506164, 8817056539",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      },
+      "expect_correction": {
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M159",
+      "category": "Phone missing",
+      "input": "Lakshmi Joshi, Flat 527, Sai Residency, 5th Main Road, Parkal, Warangal, Telangana, 506164",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M160",
+      "category": "House number and street missing",
+      "input": "Karthik Gupta, Parkal, Warangal, Telangana, 506164, 9318685954",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      }
+    },
+    {
+      "id": "M161",
+      "category": "PIN from another state",
+      "input": "Meera Reddy, Flat 692, Royal Heights, Church Street, Parkal, Warangal, Telangana, 700129, 6536172912",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      },
+      "wrong_pin": "700129"
+    },
+    {
+      "id": "M162",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Ananya Iyer, Flat 665, Lotus Towers, Gandhi Nagar Road, Parkal, Warangal, Telangana, 506002, 6155507515",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Parkal",
+        "pin": "506164",
+        "city": "Warangal",
+        "state": "Telangana"
+      },
+      "wrong_pin": "506002"
+    },
+    {
+      "id": "M163",
+      "category": "Clean, complete",
+      "input": "Arjun Rao, Flat 617, Lotus Towers, 2nd Cross Road, Saraswathipuram, Mysuru, Karnataka, 570009, 8891615016",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M164",
+      "category": "Messy formatting, all correct",
+      "input": "  fatima patel  flat 276 green park apartments  station road saraswathipuram mysuru karnataka pin - 570 009   ph: +91 7659590087 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M165",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Suresh Das\nMobile: 7423856955\nAddress: Flat 230, Sai Residency\nChurch Street, Saraswathipuram\nMysuru - 570009\nKarnataka",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M166",
+      "category": "City misspelt",
+      "input": "Rohan Sharma, Flat 830, Lotus Towers, Main Road, Saraswathipuram, Mysurru, Karnataka, 570009, 9192657934",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      },
+      "expect_correction": {
+        "city": "Mysuru"
+      }
+    },
+    {
+      "id": "M167",
+      "category": "State misspelt",
+      "input": "Karthik Das, Flat 324, Sai Residency, Gandhi Nagar Road, Saraswathipuram, Mysuru, Karnatka, 570009, 7707122916",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      },
+      "expect_correction": {
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M168",
+      "category": "Phone missing",
+      "input": "Naveen Iyer, Flat 227, Lotus Towers, Main Road, Saraswathipuram, Mysuru, Karnataka, 570009",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M169",
+      "category": "House number and street missing",
+      "input": "Karthik Sharma, Saraswathipuram, Mysuru, Karnataka, 570009, 6817148325",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      }
+    },
+    {
+      "id": "M170",
+      "category": "PIN from another state",
+      "input": "Suresh Rao, Flat 970, Shanti Nivas, Gandhi Nagar Road, Saraswathipuram, Mysuru, Karnataka, 843313, 9690613656",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      },
+      "wrong_pin": "843313"
+    },
+    {
+      "id": "M171",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Lakshmi Rao, Flat 499, Royal Heights, Church Street, Saraswathipuram, Mysuru, Karnataka, 571415, 7557134672",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Saraswathipuram",
+        "pin": "570009",
+        "city": "Mysuru",
+        "state": "Karnataka"
+      },
+      "wrong_pin": "571415"
+    },
+    {
+      "id": "M172",
+      "category": "Clean, complete",
+      "input": "Naveen Das, Flat 104, Silver Oak Residency, Church Street, Barabazar H O, Kolkata, West Bengal, 700007, 7125099022",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M173",
+      "category": "Messy formatting, all correct",
+      "input": "  divya das  flat 284 silver oak residency  gandhi nagar road barabazar h o kolkata west bengal pin - 700 007   ph: +91 9998233518 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M174",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Sneha Reddy\nMobile: 7485017052\nAddress: Flat 541, Royal Heights\nStation Road, Barabazar H O\nKolkata - 700007\nWest Bengal",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M175",
+      "category": "City misspelt",
+      "input": "Aditya Singh, Flat 752, Lotus Towers, Station Road, Barabazar H O, Kolkkata, West Bengal, 700007, 6143649358",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      },
+      "expect_correction": {
+        "city": "Kolkata"
+      }
+    },
+    {
+      "id": "M176",
+      "category": "State misspelt",
+      "input": "Naveen Reddy, Flat 617, Krishna Complex, 2nd Cross Road, Barabazar H O, Kolkata, West Bangal, 700007, 6907517076",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      },
+      "expect_correction": {
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M177",
+      "category": "Phone missing",
+      "input": "Rahul Reddy, Flat 235, Silver Oak Residency, Temple Street, Barabazar H O, Kolkata, West Bengal, 700007",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M178",
+      "category": "House number and street missing",
+      "input": "Ananya Menon, Barabazar H O, Kolkata, West Bengal, 700007, 7170347488",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      }
+    },
+    {
+      "id": "M179",
+      "category": "PIN from another state",
+      "input": "Imran Iyer, Flat 382, Silver Oak Residency, 2nd Cross Road, Barabazar H O, Kolkata, West Bengal, 225126, 8758774669",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      },
+      "wrong_pin": "225126"
+    },
+    {
+      "id": "M180",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Imran Singh, Flat 707, Shanti Nivas, Nehru Street, Barabazar H O, Kolkata, West Bengal, 721628, 9323685482",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Barabazar H O",
+        "pin": "700007",
+        "city": "Kolkata",
+        "state": "West Bengal"
+      },
+      "wrong_pin": "721628"
+    },
+    {
+      "id": "M181",
+      "category": "Clean, complete",
+      "input": "Naveen Khan, Flat 138, Sunrise Enclave, 2nd Cross Road, Nanpura, Surat, Gujarat, 395001, 8499718592",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M182",
+      "category": "Messy formatting, all correct",
+      "input": "  suresh iyer  flat 436 krishna complex  2nd cross road nanpura surat gujarat pin - 395 001   ph: +91 8829800793 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M183",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Imran Reddy\nMobile: 6783241973\nAddress: Flat 979, Royal Heights\nChurch Street, Nanpura\nSurat - 395001\nGujarat",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M184",
+      "category": "City misspelt",
+      "input": "Kavya Singh, Flat 649, Krishna Complex, 5th Main Road, Nanpura, Suart, Gujarat, 395001, 6370616861",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "city": "Surat"
+      }
+    },
+    {
+      "id": "M185",
+      "category": "State misspelt",
+      "input": "Fatima Rao, Flat 439, Green Park Apartments, Church Street, Nanpura, Surat, Gujrat, 395001, 7486816983",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      },
+      "expect_correction": {
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M186",
+      "category": "Phone missing",
+      "input": "Divya Iyer, Flat 940, Shanti Nivas, Temple Street, Nanpura, Surat, Gujarat, 395001",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M187",
+      "category": "House number and street missing",
+      "input": "Sanjay Menon, Nanpura, Surat, Gujarat, 395001, 8887094397",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      }
+    },
+    {
+      "id": "M188",
+      "category": "PIN from another state",
+      "input": "Vikram Patel, Flat 625, Royal Heights, MG Road, Nanpura, Surat, Gujarat, 481556, 9548487964",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "481556"
+    },
+    {
+      "id": "M189",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Vikram Das, Flat 769, Sai Residency, MG Road, Nanpura, Surat, Gujarat, 394641, 7757687733",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Nanpura",
+        "pin": "395001",
+        "city": "Surat",
+        "state": "Gujarat"
+      },
+      "wrong_pin": "394641"
+    },
+    {
+      "id": "M190",
+      "category": "Clean, complete",
+      "input": "Priya Sharma, Flat 209, Royal Heights, Market Road, Lohia Nagar, Patna, Bihar, 800020, 8426137033",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M191",
+      "category": "Messy formatting, all correct",
+      "input": "  divya gupta  flat 237 sunrise enclave  5th main road lohia nagar patna bihar pin - 800 020   ph: +91 8732532297 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M192",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Ayesha Das\nMobile: 7244685314\nAddress: Flat 115, Sunrise Enclave\n2nd Cross Road, Lohia Nagar\nPatna - 800020\nBihar",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M193",
+      "category": "City misspelt",
+      "input": "Aditya Reddy, Flat 249, Shanti Nivas, Gandhi Nagar Road, Lohia Nagar, Pana, Bihar, 800020, 6785272872",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      },
+      "expect_correction": {
+        "city": "Patna"
+      }
+    },
+    {
+      "id": "M194",
+      "category": "State misspelt",
+      "input": "Priya Menon, Flat 762, Silver Oak Residency, Nehru Street, Lohia Nagar, Patna, Bihaar, 800020, 8738580316",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      },
+      "expect_correction": {
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M195",
+      "category": "Phone missing",
+      "input": "Naveen Joshi, Flat 270, Sai Residency, MG Road, Lohia Nagar, Patna, Bihar, 800020",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M196",
+      "category": "House number and street missing",
+      "input": "Priya Singh, Lohia Nagar, Patna, Bihar, 800020, 6535927078",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      }
+    },
+    {
+      "id": "M197",
+      "category": "PIN from another state",
+      "input": "Priya Reddy, Flat 665, Sunrise Enclave, 2nd Cross Road, Lohia Nagar, Patna, Bihar, 425428, 6757816750",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      },
+      "wrong_pin": "425428"
+    },
+    {
+      "id": "M198",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Meera Khan, Flat 728, Lotus Towers, Market Road, Lohia Nagar, Patna, Bihar, 841213, 9973360984",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Lohia Nagar",
+        "pin": "800020",
+        "city": "Patna",
+        "state": "Bihar"
+      },
+      "wrong_pin": "841213"
+    },
+    {
+      "id": "M199",
+      "category": "Clean, complete",
+      "input": "Lakshmi Reddy, Flat 150, Silver Oak Residency, Market Road, Mangalagiri, Guntur, Andhra Pradesh, 522503, 8772123530",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M200",
+      "category": "Messy formatting, all correct",
+      "input": "  rahul gupta  flat 577 green park apartments  church street mangalagiri guntur andhra pradesh pin - 522 503   ph: +91 9900138925 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M201",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Ananya Khan\nMobile: 6380704830\nAddress: Flat 338, Sai Residency\nStation Road, Mangalagiri\nGuntur - 522503\nAndhra Pradesh",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M202",
+      "category": "City misspelt",
+      "input": "Rohan Joshi, Flat 154, Shanti Nivas, Market Road, Mangalagiri, Guntuur, Andhra Pradesh, 522503, 8864165121",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      },
+      "expect_correction": {
+        "city": "Guntur"
+      }
+    },
+    {
+      "id": "M203",
+      "category": "State misspelt",
+      "input": "Naveen Patel, Flat 323, Green Park Apartments, Market Road, Mangalagiri, Guntur, Andhra Pradsh, 522503, 8789345666",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      },
+      "expect_correction": {
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M204",
+      "category": "Phone missing",
+      "input": "Rahul Iyer, Flat 962, Sunrise Enclave, 2nd Cross Road, Mangalagiri, Guntur, Andhra Pradesh, 522503",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M205",
+      "category": "House number and street missing",
+      "input": "Rohan Khan, Mangalagiri, Guntur, Andhra Pradesh, 522503, 9452781877",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      }
+    },
+    {
+      "id": "M206",
+      "category": "PIN from another state",
+      "input": "Kavya Das, Flat 815, Sai Residency, MG Road, Mangalagiri, Guntur, Andhra Pradesh, 632002, 9669747044",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      },
+      "wrong_pin": "632002"
+    },
+    {
+      "id": "M207",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Meera Joshi, Flat 416, Sunrise Enclave, Gandhi Nagar Road, Mangalagiri, Guntur, Andhra Pradesh, 522004, 7712398422",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Mangalagiri",
+        "pin": "522503",
+        "city": "Guntur",
+        "state": "Andhra Pradesh"
+      },
+      "wrong_pin": "522004"
+    },
+    {
+      "id": "M208",
+      "category": "Clean, complete",
+      "input": "Ayesha Rao, Flat 276, Lotus Towers, MG Road, Khanna, Ludhiana, Punjab, 141401, 6706883788",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M209",
+      "category": "Messy formatting, all correct",
+      "input": "  rahul reddy  flat 266 royal heights  2nd cross road khanna ludhiana punjab pin - 141 401   ph: +91 6767834300 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M210",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Rahul Sharma\nMobile: 6248608219\nAddress: Flat 810, Sai Residency\nStation Road, Khanna\nLudhiana - 141401\nPunjab",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M211",
+      "category": "City misspelt",
+      "input": "Priya Reddy, Flat 938, Green Park Apartments, Gandhi Nagar Road, Khanna, Ldhiana, Punjab, 141401, 8314009839",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      },
+      "expect_correction": {
+        "city": "Ludhiana"
+      }
+    },
+    {
+      "id": "M212",
+      "category": "State misspelt",
+      "input": "Karthik Khan, Flat 136, Green Park Apartments, Temple Street, Khanna, Ludhiana, Panjab, 141401, 6136357573",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      },
+      "expect_correction": {
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M213",
+      "category": "Phone missing",
+      "input": "Pooja Reddy, Flat 911, Sunrise Enclave, Temple Street, Khanna, Ludhiana, Punjab, 141401",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M214",
+      "category": "House number and street missing",
+      "input": "Rohan Nair, Khanna, Ludhiana, Punjab, 141401, 9380418002",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      }
+    },
+    {
+      "id": "M215",
+      "category": "PIN from another state",
+      "input": "Lakshmi Sharma, Flat 888, Silver Oak Residency, Temple Street, Khanna, Ludhiana, Punjab, 794114, 8444486646",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      },
+      "wrong_pin": "794114"
+    },
+    {
+      "id": "M216",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Ayesha Joshi, Flat 523, Sai Residency, Gandhi Nagar Road, Khanna, Ludhiana, Punjab, 141419, 6947242276",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "Khanna",
+        "pin": "141401",
+        "city": "Ludhiana",
+        "state": "Punjab"
+      },
+      "wrong_pin": "141419"
+    },
+    {
+      "id": "M217",
+      "category": "Clean, complete",
+      "input": "Naveen Reddy, Flat 822, Sai Residency, Market Road, C T T Nagar, Bhopal, Madhya Pradesh, 462003, 8603522284",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M218",
+      "category": "Messy formatting, all correct",
+      "input": "  sanjay khan  flat 940 shanti nivas  2nd cross road c t t nagar bhopal madhya pradesh pin - 462 003   ph: +91 6716908606 ",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M219",
+      "category": "WhatsApp multi-line, all correct",
+      "input": "Name: Meera Sharma\nMobile: 7409596985\nAddress: Flat 881, Sai Residency\nMG Road, C T T Nagar\nBhopal - 462003\nMadhya Pradesh",
+      "expect_decision_in": [
+        "VERIFIED"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M220",
+      "category": "City misspelt",
+      "input": "Fatima Das, Flat 812, Lotus Towers, Church Street, C T T Nagar, Bhoppal, Madhya Pradesh, 462003, 6627727025",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      },
+      "expect_correction": {
+        "city": "Bhopal"
+      }
+    },
+    {
+      "id": "M221",
+      "category": "State misspelt",
+      "input": "Imran Rao, Flat 935, Sunrise Enclave, Main Road, C T T Nagar, Bhopal, Madhya Pradsh, 462003, 7404652501",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      },
+      "expect_correction": {
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M222",
+      "category": "Phone missing",
+      "input": "Pooja Iyer, Flat 886, Green Park Apartments, Church Street, C T T Nagar, Bhopal, Madhya Pradesh, 462003",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M223",
+      "category": "House number and street missing",
+      "input": "Kavya Reddy, C T T Nagar, Bhopal, Madhya Pradesh, 462003, 8481840913",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      }
+    },
+    {
+      "id": "M224",
+      "category": "PIN from another state",
+      "input": "Arjun Gupta, Flat 312, Shanti Nivas, Temple Street, C T T Nagar, Bhopal, Madhya Pradesh, 412203, 6499378270",
+      "expect_decision_in": [
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      },
+      "wrong_pin": "412203"
+    },
+    {
+      "id": "M225",
+      "category": "Near-miss PIN (same state, 15-60 km away)",
+      "input": "Meera Singh, Flat 746, Sunrise Enclave, Church Street, C T T Nagar, Bhopal, Madhya Pradesh, 464665, 7507275799",
+      "expect_decision_in": [
+        "NEEDS CUSTOMER CONFIRMATION",
+        "VALIDATION WARNING"
+      ],
+      "source_place": {
+        "locality": "C T T Nagar",
+        "pin": "462003",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh"
+      },
+      "wrong_pin": "464665"
+    },
+    {
+      "id": "M226",
+      "category": "Not an address",
+      "input": "hello bro how are you",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M227",
+      "category": "Not an address",
+      "input": "asdf qwer zxcv",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M228",
+      "category": "Not an address",
+      "input": "test test 123",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M229",
+      "category": "Not an address",
+      "input": "ok",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M230",
+      "category": "Not an address",
+      "input": "please call me",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M231",
+      "category": "Not an address",
+      "input": "sdfgh jkl poiuy",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M232",
+      "category": "Not an address",
+      "input": "!!!!!!",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M233",
+      "category": "Not an address",
+      "input": "1234567890",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M234",
+      "category": "Not an address",
+      "input": "lorem ipsum dolor sit amet",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M235",
+      "category": "Not an address",
+      "input": "send the parcel fast",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M236",
+      "category": "Not an address",
+      "input": "aaaaaaaaaaaa",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M237",
+      "category": "Not an address",
+      "input": "xyz abc pqr",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M238",
+      "category": "Not an address",
+      "input": "my address is same as before",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M239",
+      "category": "Not an address",
+      "input": "where is my order",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M240",
+      "category": "Not an address",
+      "input": "qwerty",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M241",
+      "category": "Not an address",
+      "input": "na",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M242",
+      "category": "Not an address",
+      "input": "..........",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M243",
+      "category": "Not an address",
+      "input": "hi",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M244",
+      "category": "Not an address",
+      "input": "zzzz yyyy xxxx",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M245",
+      "category": "Not an address",
+      "input": "delivery tomorrow ok",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M246",
+      "category": "Not an address",
+      "input": "random text here nothing",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M247",
+      "category": "Not an address",
+      "input": "abc 000000",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M248",
+      "category": "Not an address",
+      "input": "mnbvcxz lkjhgf",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M249",
+      "category": "Not an address",
+      "input": "same",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    },
+    {
+      "id": "M250",
+      "category": "Not an address",
+      "input": "thank you",
+      "expect_decision_in": [
+        "VALIDATION FAILED"
+      ],
+      "source_place": null
+    }
+  ]
+}

@@ -27,6 +27,67 @@ async function jsonFetch(url, options = {}) {
   }
 }
 
+function badgeClass(type, value) {
+  const v = String(value || "").toUpperCase();
+  if (type === "risk") {
+    if (v === "LOW") return "good";
+    if (v === "MEDIUM") return "warning";
+    if (v === "HIGH" || v === "CRITICAL") return "danger";
+  }
+  if (type === "decision") {
+    if (v === "VERIFIED") return "good";
+    if (v.includes("CONFIRMATION")) return "warning";
+    if (v === "VALIDATION WARNING") return "alert";
+    if (v === "VALIDATION FAILED") return "danger";
+  }
+  return "neutral";
+}
+
+// Turn an API error into a message that says whether the problem is the
+// input (the user can fix it) or a temporary technical failure (retry later).
+function apiErrorMessage(response, data, fallback) {
+  if (data && data.error) return data.error;
+  if (!response || response.status === 0) return "Cannot reach the server. Check your connection and try again.";
+  if (response.status >= 500) return "A temporary technical problem occurred. Please try again shortly.";
+  return fallback;
+}
+
+// The server stores UTC timestamps without an offset; parse them as UTC and
+// display them in Indian Standard Time.
+const IST_DATE = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric"
+});
+const IST_TIME = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true
+});
+
+function parseUtc(value) {
+  if (!value) return null;
+  const text = String(value);
+  const date = new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(text) ? text : `${text}Z`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/* =========================
+   THEME (light / dark)
+========================= */
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const toggle = $("#themeToggle");
+  if (toggle) {
+    toggle.textContent = theme === "light" ? "☾" : "☀";
+    toggle.title = theme === "light" ? "Switch to dark theme" : "Switch to light theme";
+  }
+}
+
+applyTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
+
+$("#themeToggle")?.addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  applyTheme(next);
+  try { localStorage.setItem("ag-theme", next); } catch (_) {}
+});
+
 function setAuthMessage(message, ok = false) {
   const box = $("#authMsg");
   if (!box) return;
@@ -157,6 +218,12 @@ if ($("#profileBtn")) {
     location.href = "/login";
   });
 
+  $("#logoutBtn")?.addEventListener("click", async (event) => {
+    event.preventDefault();
+    await fetch("/api/auth/logout", { method: "POST" });
+    location.href = "/";
+  });
+
   loadCurrentUser();
 }
 
@@ -174,19 +241,15 @@ if ($("#runBtn")) {
     if (el) el.classList.add("hidden");
   }
 
-  function badgeClass(type, value) {
-    const v = String(value || "").toUpperCase();
-    if (type === "risk") {
-      if (v === "LOW") return "good";
-      if (v === "MEDIUM") return "warning";
-      if (v === "HIGH" || v === "CRITICAL") return "danger";
+  // Inline message under the address box. kind: input | technical | info.
+  function showInputMessage(message, kind = "input") {
+    const box = $("#inputMessage");
+    if (!box) {
+      if (message) alert(message);
+      return;
     }
-    if (type === "decision") {
-      if (v === "VERIFIED") return "good";
-      if (v.includes("CONFIRMATION")) return "warning";
-      if (v.includes("SUSPICIOUS") || v.includes("FAKE")) return "danger";
-    }
-    return "neutral";
+    box.textContent = message || "";
+    box.className = `input-message ${message ? kind : "hidden"}`;
   }
 
   function statusClass(value) {
@@ -205,7 +268,9 @@ if ($("#runBtn")) {
       ["Total validations", data.total_validations ?? 0, "▦", ""],
       ["Average confidence", `${data.average_confidence ?? 0}%`, "◉", "blue"],
       ["Verified", decisions["VERIFIED"] ?? 0, "✓", "green"],
-      ["Needs confirmation", decisions["NEEDS CUSTOMER CONFIRMATION"] ?? 0, "!", "yellow"]
+      ["Needs confirmation", decisions["NEEDS CUSTOMER CONFIRMATION"] ?? 0, "!", "yellow"],
+      ["Validation warnings", decisions["VALIDATION WARNING"] ?? 0, "⚠", "orange"],
+      ["Validation failed", decisions["VALIDATION FAILED"] ?? 0, "×", "red"]
     ];
 
     $("#statsSection").innerHTML = boxes.map(([label, value, icon, cls]) => `
@@ -252,7 +317,7 @@ if ($("#runBtn")) {
       ["Avg time", `${data.average_validation_time_ms ?? "—"} ms`]
     ];
 
-    const labels = ["VERIFIED", "NEEDS CUSTOMER CONFIRMATION", "SUSPICIOUS", "FAKE ADDRESS"];
+    const labels = ["VERIFIED", "NEEDS CUSTOMER CONFIRMATION", "VALIDATION WARNING", "VALIDATION FAILED"];
     const matrix = m.confusion_matrix || {};
 
     box.innerHTML = `
@@ -398,15 +463,25 @@ if ($("#runBtn")) {
       return `<span class="geo-pill ${cls}">${escapeHtml(key.replaceAll("_", " "))}: ${escapeHtml(value)}</span>`;
     }).join("");
 
+    const limitations = Array.isArray(ex.limitations) ? ex.limitations : [];
+    // Failed confidence checks (✗) are shown as negative evidence.
+    const evidence = confidence.length
+      ? `<div class="explain-list">${confidence.map(x => {
+          const cls = String(x).startsWith("✗") ? "bad" : String(x).startsWith("ℹ") ? "info" : "good";
+          return `<div class="explain-line ${cls}">${escapeHtml(clean(x))}</div>`;
+        }).join("")}</div>`
+      : `<span class="eval-note">None reported.</span>`;
+
     box.innerHTML = `
-      <div class="explain-card"><div class="explain-title"><span class="explain-icon">◉</span>Confidence evidence</div>${list(confidence, "good")}</div>
+      <div class="explain-card"><div class="explain-title"><span class="explain-icon">◉</span>Confidence evidence</div>${evidence}</div>
       <div class="explain-card"><div class="explain-title"><span class="explain-icon">◆</span>Risk signals</div>${list(risk, risk.length ? "bad" : "info")}</div>
       <div class="explain-card"><div class="explain-title"><span class="explain-icon">✓</span>Decision reasoning</div>${list(decision, decision.length ? "info" : "good")}</div>
       <div class="explain-card">
         <div class="explain-title"><span class="explain-icon">⌖</span>Geographic checks</div>
         <div class="geo-pill-row">${pills || `<span class="eval-note">No geographic checks available.</span>`}</div>
         ${issues.length ? `<div class="explain-list" style="margin-top:9px">${issues.map(x => `<div class="explain-line bad">${escapeHtml(x)}</div>`).join("")}</div>` : ""}
-      </div>`;
+      </div>
+      ${limitations.length ? `<div class="explain-card"><div class="explain-title"><span class="explain-icon">ℹ</span>Limitations of this result</div>${list(limitations, "info")}</div>` : ""}`;
   }
 
   function renderCorrections(corrections) {
@@ -432,29 +507,54 @@ if ($("#runBtn")) {
 
     list.innerHTML = corrections.map((c, index) => {
       const choice = correctionChoices[index] || "";
+      const status = choice === "accept" ? "Approved" : choice === "reject" ? "Rejected — original kept" : "Awaiting your decision";
+      const edited = c._edited ? `<span class="summary-chip">Edited by you</span>` : "";
       return `
         <div class="correction-card ${choice ? `selected-${choice}` : ""}" data-index="${index}">
           <div class="correction-top">
             <strong class="correction-field">${escapeHtml(c.field || "Address field")}</strong>
-            <span class="correction-confidence">${escapeHtml(c.confidence ?? "—")}% confidence</span>
+            <span class="correction-confidence">${escapeHtml(c.confidence ?? "—")}% confidence · ${escapeHtml(status)}</span>
           </div>
           <div class="correction-values">
-            <div class="correction-value"><span>Original</span><strong>${escapeHtml(c.original || "")}</strong></div>
+            <div class="correction-value"><span>Original (kept unless you approve)</span><strong>${escapeHtml(c.original || "")}</strong></div>
             <div class="arrow">→</div>
-            <div class="correction-value suggested"><span>Suggested</span><strong>${escapeHtml(c.suggested || "")}</strong></div>
+            <label class="correction-value suggested"><span>Suggested — you can edit before approving</span>
+              <input class="correction-input" data-role="suggested" maxlength="200" value="${escapeHtml(c.suggested || "")}">
+            </label>
           </div>
-          <div class="correction-reason">${escapeHtml(c.reason || "Context-aware address correction")}</div>
+          <div class="correction-reason">${escapeHtml(c.reason || "Context-aware address correction")} ${edited}</div>
           <div class="correction-actions">
-            <button class="secondary-btn" data-action="accept">✓ Accept</button>
+            <button class="secondary-btn" data-action="accept">✓ Approve</button>
             <button class="secondary-btn" data-action="reject">× Reject</button>
-            <button class="secondary-btn" data-action="edit">Edit</button>
+            <button class="secondary-btn" data-action="edit">✎ Edit</button>
           </div>
         </div>`;
     }).join("");
 
     $$(".correction-card", list).forEach(cardEl => {
       const index = Number(cardEl.dataset.index);
+      const input = $("[data-role=suggested]", cardEl);
+      // Editing changes the suggestion but never approves it implicitly.
+      input.addEventListener("change", () => {
+        const value = input.value.trim();
+        if (!value) {
+          input.value = corrections[index].suggested || "";
+          return;
+        }
+        if (value !== corrections[index].suggested) {
+          corrections[index].suggested = value;
+          corrections[index]._edited = true;
+          if (correctionChoices[index] === "accept") delete correctionChoices[index];
+          renderCorrections(corrections);
+        }
+      });
       $("[data-action=accept]", cardEl).onclick = () => {
+        const value = input.value.trim();
+        if (!value) {
+          alert("The approved value cannot be empty. Reject the suggestion to keep the original.");
+          return;
+        }
+        corrections[index].suggested = value;
         correctionChoices[index] = "accept";
         renderCorrections(corrections);
       };
@@ -463,11 +563,8 @@ if ($("#runBtn")) {
         renderCorrections(corrections);
       };
       $("[data-action=edit]", cardEl).onclick = () => {
-        const value = prompt(`Edit the suggested value for ${corrections[index].field}:`, corrections[index].suggested || "");
-        if (value == null || !value.trim()) return;
-        corrections[index].suggested = value.trim();
-        correctionChoices[index] = "accept";
-        renderCorrections(corrections);
+        input.focus();
+        input.select();
       };
     });
   }
@@ -543,6 +640,10 @@ if ($("#runBtn")) {
 
     const verified = String(v.decision || "").toUpperCase() === "VERIFIED";
     $("#finalAddressTitle").textContent = verified ? "Final verified address" : "Final re-validated address";
+    const applied = Array.isArray(v.corrections_applied) && v.corrections_applied.length > 0;
+    $("#finalAddressNote").textContent = applied
+      ? "Approved corrections have been applied and the address has been re-validated."
+      : "No corrections were needed; the address passed every completed check as submitted.";
     $("#finalAddressStatus").className = `final-status ${verified ? "" : "review"}`;
     $("#finalAddressStatus").textContent =
       `${v.decision || "RE-VALIDATED"} · ${v.confidence ?? "—"}% confidence · ${v.risk_level || "UNKNOWN"} risk`;
@@ -562,6 +663,8 @@ if ($("#runBtn")) {
     $("#decisionVal").textContent = v.decision || "UNKNOWN";
     $("#decisionVal").className = `badge ${badgeClass("decision", v.decision)}`;
     $("#resultId").textContent = v.validation_id ? `Validation ID: ${v.validation_id}` : "";
+    $("#submittedAddress") && ($("#submittedAddress").textContent = v.original_address || v.raw_address || "");
+    $("#decisionMeaning") && ($("#decisionMeaning").textContent = v.decision_description || "");
 
     renderQuickChecks(v);
     renderParsedAddress(v.parsed_data || {});
@@ -615,7 +718,7 @@ if ($("#runBtn")) {
       );
 
       if (!response.ok) {
-        alert(data.error || "Re-validation failed.");
+        alert(apiErrorMessage(response, data, "Re-validation failed."));
         return;
       }
 
@@ -658,8 +761,9 @@ if ($("#runBtn")) {
 
   $("#runBtn")?.addEventListener("click", async () => {
     const raw = $("#addressInput").value.trim();
+    showInputMessage("");
     if (!raw) {
-      alert("Please enter an address first.");
+      showInputMessage("Please enter an address before running validation.", "input");
       return;
     }
 
@@ -679,8 +783,12 @@ if ($("#runBtn")) {
       });
 
       if (!response.ok) {
-        alert(data.error || "Validation failed.");
+        const technical = data.error_type === "TECHNICAL_FAILURE" || response.status >= 500 || response.status === 0;
+        showInputMessage(apiErrorMessage(response, data, "Validation failed."), technical ? "technical" : "input");
         return;
+      }
+      if (data.duplicate) {
+        showInputMessage("This address was validated a moment ago, so the existing result is shown instead of saving a duplicate.", "info");
       }
 
       renderResult(data, { initial: true });
@@ -694,50 +802,87 @@ if ($("#runBtn")) {
     }
   });
 
-  async function loadHistory() {
-    const { response, data } = await jsonFetch("/api/history");
-    if (!response.ok) return;
-
-    const rows = data.history || [];
-    $("#historyList").innerHTML = rows.length
-      ? rows.map(v => `
-        <div class="history-item">
-          <div>
-            <strong>${escapeHtml(v.validation_id || "")}</strong>
-            <span class="h-addr">${escapeHtml(v.raw_address || "")}</span>
-          </div>
-          <div class="history-right">
-            ${escapeHtml(v.confidence ?? "—")}%<br>
-            <span class="badge ${badgeClass("decision", v.decision)}">${escapeHtml(v.decision || "")}</span>
-          </div>
-        </div>`).join("")
-      : `<div class="eval-empty">No validations yet.</div>`;
+  // Opened from the History page: /dashboard?id=<validation_id>
+  async function loadSavedValidation(validationId) {
+    const { response, data } = await jsonFetch(`/api/validation/${encodeURIComponent(validationId)}`);
+    if (!response.ok) {
+      showInputMessage(apiErrorMessage(response, data, "Could not load that validation."), response.status >= 500 ? "technical" : "input");
+      return;
+    }
+    $("#addressInput").value = data.raw_address || "";
+    renderResult(data, { initial: true });
+    setTimeout(() => {
+      $("#resultSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
   }
 
-  function switchView(history) {
-    $("#navDashboard")?.classList.toggle("active", !history);
-    $("#navHistory")?.classList.toggle("active", history);
-    $("#historySection")?.classList.toggle("hidden", !history);
-    $("#resultSection")?.classList.toggle("hidden", history);
-    if (history) loadHistory();
-  }
-
-  $("#navDashboard")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    switchView(false);
-  });
-
-  $("#navHistory")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    switchView(true);
-  });
-
-  $("#logoutBtn")?.addEventListener("click", async (event) => {
-    event.preventDefault();
-    await fetch("/api/auth/logout", { method: "POST" });
-    location.href = "/";
-  });
+  const savedId = new URLSearchParams(location.search).get("id");
+  if (savedId) loadSavedValidation(savedId);
 
   loadStats();
   loadEvaluation();
+}
+
+/* =========================
+   HISTORY PAGE
+========================= */
+if ($("#historyTable")) {
+  let historyRows = [];
+
+  function renderHistory() {
+    const query = ($("#historySearch")?.value || "").trim().toLowerCase();
+    const decision = $("#historyFilter")?.value || "";
+    const rows = historyRows.filter(v =>
+      (!decision || v.decision === decision) &&
+      (!query || `${v.raw_address || ""} ${v.validation_id || ""}`.toLowerCase().includes(query))
+    );
+
+    $("#historyCount").textContent =
+      `${rows.length} of ${historyRows.length} validation${historyRows.length === 1 ? "" : "s"}`;
+
+    if (!rows.length) {
+      $("#historyTable").innerHTML = `<tr><td colspan="8" class="table-empty">${
+        historyRows.length ? "No validations match your search." : "No validations yet. Run one from the dashboard."
+      }</td></tr>`;
+      return;
+    }
+
+    $("#historyTable").innerHTML = rows.map((v, index) => {
+      const when = parseUtc(v.created_at);
+      const id = encodeURIComponent(v.validation_id || "");
+      return `
+        <tr>
+          <td class="cell-num">${index + 1}</td>
+          <td class="cell-nowrap">${when ? IST_DATE.format(when) : "—"}</td>
+          <td class="cell-nowrap">${when ? IST_TIME.format(when) : "—"}</td>
+          <td class="cell-address">
+            <span class="h-addr-text">${escapeHtml(v.raw_address || "")}</span>
+            <small class="h-id">${escapeHtml(v.validation_id || "")}</small>
+          </td>
+          <td class="cell-nowrap">${escapeHtml(v.confidence ?? "—")}%</td>
+          <td><span class="badge ${badgeClass("risk", v.risk_level)}">${escapeHtml(v.risk_level || "—")}</span></td>
+          <td><span class="badge ${badgeClass("decision", v.decision)}">${escapeHtml(v.decision || "—")}</span></td>
+          <td class="cell-actions">
+            <a class="table-btn" href="/dashboard?id=${id}">View</a>
+            <a class="table-btn" href="/api/report/${id}/pdf" target="_blank" rel="noopener">PDF</a>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  async function loadHistoryPage() {
+    const { response, data } = await jsonFetch("/api/history");
+    if (!response.ok) {
+      if (response.status === 401) location.href = "/login";
+      $("#historyTable").innerHTML =
+        `<tr><td colspan="8" class="table-empty">${escapeHtml(data.error || "Could not load history.")}</td></tr>`;
+      return;
+    }
+    historyRows = data.history || [];
+    renderHistory();
+  }
+
+  $("#historySearch")?.addEventListener("input", renderHistory);
+  $("#historyFilter")?.addEventListener("change", renderHistory);
+  loadHistoryPage();
 }

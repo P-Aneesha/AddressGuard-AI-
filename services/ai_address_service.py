@@ -3,8 +3,10 @@ import re
 import difflib
 import logging
 from services.address_parser import parse_address, FIELDS
+from utils.ai_cache import ResultCache
 
 logger = logging.getLogger("addressguard.ai")
+_CACHE = ResultCache()
 
 RAW_ANCHOR_THRESHOLD = 0.55  # min fuzzy ratio to trust a segment as the "true" raw wording
 
@@ -56,7 +58,11 @@ def extract_with_ai(raw_text: str, api_key: str, base_url: str, model: str, time
         logger.warning("AI extraction skipped: GROQ_API_KEY is empty after config load.")
         parsed = parse_address(raw_text)
         return parsed, {"source": "fallback", "model": None, "status": "Fallback",
-                         "error": "GROQ_API_KEY not configured (check .env is in project root and loaded)"}
+                         "error": "AI service not configured (GROQ_API_KEY is not set)"}
+    cache_key = (model, base_url, raw_text)
+    cached = _CACHE.get(cache_key)
+    if cached is not None:
+        return cached
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout)
@@ -71,9 +77,12 @@ def extract_with_ai(raw_text: str, api_key: str, base_url: str, model: str, time
         parsed = {f: str(data.get(f, "") or "").strip() for f in FIELDS}
         parsed["unrecognized_text"] = []
         parsed = _anchor_to_raw_text(raw_text, parsed)
-        return parsed, {"source": "ai", "model": model, "status": "Completed"}
+        result = (parsed, {"source": "ai", "model": model, "status": "Completed"})
+        _CACHE.put(cache_key, result)
+        return result
     except Exception as e:
         safe_err = _sanitize(f"{type(e).__name__}: {e}", api_key)
         logger.warning("Groq AI extraction failed, using deterministic fallback: %s", safe_err)
         parsed = parse_address(raw_text)
-        return parsed, {"source": "fallback", "model": None, "status": "Fallback", "error": safe_err}
+        # The full (sanitized) error stays in the server log; users see only its type.
+        return parsed, {"source": "fallback", "model": None, "status": "Fallback", "error": f"AI service error: {type(e).__name__}"}

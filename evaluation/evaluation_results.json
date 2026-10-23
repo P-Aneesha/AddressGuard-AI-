@@ -5,8 +5,8 @@
   "failed_runs": 0,
   "experimental_setup": {
     "ai_enabled": false,
-    "model": "disabled",
-    "geocoding_enabled": false,
+    "model": "openai/gpt-oss-20b",
+    "geocoding_enabled": true,
     "dataset": "evaluation_dataset.json"
   },
   "metrics": {
@@ -18,26 +18,26 @@
       "VERIFIED": {
         "VERIFIED": 11,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 0
       },
       "NEEDS CUSTOMER CONFIRMATION": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 14,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 0
       },
-      "SUSPICIOUS": {
+      "VALIDATION WARNING": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 6,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 6,
+        "VALIDATION FAILED": 0
       },
-      "FAKE ADDRESS": {
+      "VALIDATION FAILED": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 3
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 3
       }
     }
   },
@@ -138,12 +138,6 @@
       "incorrect": 0,
       "accuracy": 1.0
     },
-    "SUSPICIOUS": {
-      "count": 2,
-      "correct": 2,
-      "incorrect": 0,
-      "accuracy": 1.0
-    },
     "TYPO": {
       "count": 5,
       "correct": 5,
@@ -153,6 +147,12 @@
     "VALID": {
       "count": 5,
       "correct": 5,
+      "incorrect": 0,
+      "accuracy": 1.0
+    },
+    "VALIDATION WARNING": {
+      "count": 2,
+      "correct": 2,
       "incorrect": 0,
       "accuracy": 1.0
     },
@@ -170,9 +170,9 @@
     }
   },
   "correction_metrics": {
-    "suggestions": 23,
-    "expected_corrections": 23,
-    "correct_suggestions": 23,
+    "suggestions": 24,
+    "expected_corrections": 24,
+    "correct_suggestions": 24,
     "incorrect_suggestions": 0,
     "correction_accuracy": 1.0,
     "correction_recall": 1.0,
@@ -294,9 +294,9 @@
       },
       {
         "id": "P01",
-        "expected": 0,
-        "generated": 0,
-        "correct": 0,
+        "expected": 1,
+        "generated": 1,
+        "correct": 1,
         "incorrect": 0,
         "missing": 0
       },
@@ -455,18 +455,18 @@
     ]
   },
   "before_correction_accuracy": 1.0,
-  "after_expected_correction_accuracy": 1.0,
+  "after_expected_correction_accuracy": 0.8889,
   "after_expected_correction_note": "Controlled experiment: labelled expected corrections were applied before re-validation and compared with the labelled expected post-correction status. This is not a human acceptance-rate measurement.",
-  "after_expected_correction_cases": 8,
-  "after_expected_correction_average_time_ms": 479.8228,
+  "after_expected_correction_cases": 9,
+  "after_expected_correction_average_time_ms": 122.5481,
   "baseline": {
     "description": "Basic format + PIN/phone presence rules",
     "accuracy": 0.4118,
     "same_dataset": true,
     "cases_evaluated": 34
   },
-  "average_validation_time_ms": 591.237,
-  "median_validation_time_ms": 476.8245,
+  "average_validation_time_ms": 281.3014,
+  "median_validation_time_ms": 315.0503,
   "false_positives": [],
   "false_negatives": [],
   "classification_errors": [],
@@ -476,12 +476,12 @@
       "category": "VALID",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 476.754,
+      "validation_time_ms": 646.594,
       "error": null
     },
     {
@@ -489,12 +489,12 @@
       "category": "VALID",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 471.543,
+      "validation_time_ms": 416.165,
       "error": null
     },
     {
@@ -502,12 +502,12 @@
       "category": "VALID",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 462.676,
+      "validation_time_ms": 298.138,
       "error": null
     },
     {
@@ -515,12 +515,12 @@
       "category": "VALID",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 476.895,
+      "validation_time_ms": 324.649,
       "error": null
     },
     {
@@ -528,12 +528,12 @@
       "category": "VALID",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 486.729,
+      "validation_time_ms": 407.14,
       "error": null
     },
     {
@@ -541,8 +541,8 @@
       "category": "TYPO",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 92,
-      "risk": "MEDIUM",
+      "confidence": 94,
+      "risk": "LOW",
       "corrections": 3,
       "predicted_corrections": [
         {
@@ -586,7 +586,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 477.892,
+      "validation_time_ms": 372.481,
       "error": null
     },
     {
@@ -594,8 +594,8 @@
       "category": "TYPO",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 92,
-      "risk": "MEDIUM",
+      "confidence": 94,
+      "risk": "LOW",
       "corrections": 3,
       "predicted_corrections": [
         {
@@ -639,7 +639,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 511.401,
+      "validation_time_ms": 365.339,
       "error": null
     },
     {
@@ -647,7 +647,7 @@
       "category": "TYPO",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
+      "confidence": 91,
       "risk": "LOW",
       "corrections": 1,
       "predicted_corrections": [
@@ -666,7 +666,7 @@
           "suggested": "Madhapur"
         }
       ],
-      "validation_time_ms": 501.319,
+      "validation_time_ms": 71.453,
       "error": null
     },
     {
@@ -674,7 +674,7 @@
       "category": "TYPO",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
+      "confidence": 91,
       "risk": "LOW",
       "corrections": 1,
       "predicted_corrections": [
@@ -693,7 +693,7 @@
           "suggested": "Opposite Metro Station"
         }
       ],
-      "validation_time_ms": 472.894,
+      "validation_time_ms": 109.858,
       "error": null
     },
     {
@@ -701,8 +701,8 @@
       "category": "TYPO",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
-      "risk": "MEDIUM",
+      "confidence": 91,
+      "risk": "LOW",
       "corrections": 3,
       "predicted_corrections": [
         {
@@ -745,7 +745,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 473.668,
+      "validation_time_ms": 375.431,
       "error": null
     },
     {
@@ -753,12 +753,12 @@
       "category": "MISSING_HOUSE_NUMBER",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
+      "confidence": 79,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 468.727,
+      "validation_time_ms": 75.432,
       "error": null
     },
     {
@@ -766,12 +766,12 @@
       "category": "MISSING_STREET",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
+      "confidence": 91,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 468.366,
+      "validation_time_ms": 71.889,
       "error": null
     },
     {
@@ -779,12 +779,12 @@
       "category": "MISSING_LOCALITY",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 79,
+      "confidence": 86,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 468.544,
+      "validation_time_ms": 160.849,
       "error": null
     },
     {
@@ -792,64 +792,79 @@
       "category": "MISSING_PIN",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 75,
+      "confidence": 79,
       "risk": "MEDIUM",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 527.178,
+      "validation_time_ms": 327.23,
       "error": null
     },
     {
       "id": "P01",
       "category": "WRONG_PIN",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 83,
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 50,
       "risk": "MEDIUM",
-      "corrections": 0,
-      "predicted_corrections": [],
-      "expected_corrections": [],
-      "validation_time_ms": 469.721,
+      "corrections": 1,
+      "predicted_corrections": [
+        {
+          "field": "pin_code",
+          "suggested": "500081",
+          "confidence": 80,
+          "reason": "Nearest India Post office to Madhapur (Hyderabad) is Cyberabad S.O, 0.1 km away, PIN 500081",
+          "source": "OpenStreetMap locality + India Post dataset",
+          "original": "560034"
+        }
+      ],
+      "expected_corrections": [
+        {
+          "field": "pin_code",
+          "original": "560034",
+          "suggested": "500081"
+        }
+      ],
+      "validation_time_ms": 305.452,
       "error": null
     },
     {
       "id": "P02",
       "category": "PIN_CITY_MISMATCH",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 83,
-      "risk": "HIGH",
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 50,
+      "risk": "MEDIUM",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 468.308,
+      "validation_time_ms": 372.702,
       "error": null
     },
     {
       "id": "P03",
       "category": "PIN_STATE_MISMATCH",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 83,
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 50,
       "risk": "HIGH",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 465.819,
+      "validation_time_ms": 409.532,
       "error": null
     },
     {
       "id": "P04",
       "category": "CITY_STATE_MISMATCH",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 83,
-      "risk": "MEDIUM",
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 50,
+      "risk": "HIGH",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 471.162,
+      "validation_time_ms": 354.671,
       "error": null
     },
     {
@@ -857,12 +872,12 @@
       "category": "INVALID_PHONE",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
+      "confidence": 91,
       "risk": "MEDIUM",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 485.956,
+      "validation_time_ms": 70.399,
       "error": null
     },
     {
@@ -870,77 +885,77 @@
       "category": "INVALID_PHONE",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 92,
+      "confidence": 91,
       "risk": "MEDIUM",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 477.419,
+      "validation_time_ms": 158.792,
       "error": null
     },
     {
       "id": "R01",
       "category": "RANDOM_TEXT",
-      "expected_status": "FAKE ADDRESS",
-      "predicted_status": "FAKE ADDRESS",
-      "confidence": 4,
+      "expected_status": "VALIDATION FAILED",
+      "predicted_status": "VALIDATION FAILED",
+      "confidence": 5,
       "risk": "CRITICAL",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 14.231,
+      "validation_time_ms": 50.407,
       "error": null
     },
     {
       "id": "R02",
       "category": "RANDOM_TEXT",
-      "expected_status": "FAKE ADDRESS",
-      "predicted_status": "FAKE ADDRESS",
+      "expected_status": "VALIDATION FAILED",
+      "predicted_status": "VALIDATION FAILED",
       "confidence": 0,
       "risk": "CRITICAL",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 31.682,
+      "validation_time_ms": 521.582,
       "error": null
     },
     {
       "id": "R03",
       "category": "REPEATED_MEANINGLESS",
-      "expected_status": "FAKE ADDRESS",
-      "predicted_status": "FAKE ADDRESS",
+      "expected_status": "VALIDATION FAILED",
+      "predicted_status": "VALIDATION FAILED",
       "confidence": 0,
       "risk": "CRITICAL",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 19.137,
+      "validation_time_ms": 72.325,
       "error": null
     },
     {
       "id": "S01",
-      "category": "SUSPICIOUS",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 54,
+      "category": "VALIDATION WARNING",
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 59,
       "risk": "CRITICAL",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 5499.872,
+      "validation_time_ms": 671.18,
       "error": null
     },
     {
       "id": "S02",
-      "category": "SUSPICIOUS",
-      "expected_status": "SUSPICIOUS",
-      "predicted_status": "SUSPICIOUS",
-      "confidence": 71,
+      "category": "VALIDATION WARNING",
+      "expected_status": "VALIDATION WARNING",
+      "predicted_status": "VALIDATION WARNING",
+      "confidence": 50,
       "risk": "HIGH",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 543.733,
+      "validation_time_ms": 417.813,
       "error": null
     },
     {
@@ -948,8 +963,8 @@
       "category": "CORRECTABLE",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 92,
-      "risk": "MEDIUM",
+      "confidence": 94,
+      "risk": "LOW",
       "corrections": 4,
       "predicted_corrections": [
         {
@@ -1005,7 +1020,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 555.719,
+      "validation_time_ms": 709.28,
       "error": null
     },
     {
@@ -1013,8 +1028,8 @@
       "category": "CORRECTABLE",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 92,
-      "risk": "MEDIUM",
+      "confidence": 94,
+      "risk": "LOW",
       "corrections": 4,
       "predicted_corrections": [
         {
@@ -1069,7 +1084,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 478.07,
+      "validation_time_ms": 375.831,
       "error": null
     },
     {
@@ -1077,8 +1092,8 @@
       "category": "CORRECTABLE",
       "expected_status": "NEEDS CUSTOMER CONFIRMATION",
       "predicted_status": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 83,
-      "risk": "MEDIUM",
+      "confidence": 91,
+      "risk": "LOW",
       "corrections": 4,
       "predicted_corrections": [
         {
@@ -1135,7 +1150,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 501.995,
+      "validation_time_ms": 409.72,
       "error": null
     },
     {
@@ -1143,12 +1158,12 @@
       "category": "FIELD_ORDER_VARIATION",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 480.607,
+      "validation_time_ms": 86.011,
       "error": null
     },
     {
@@ -1156,12 +1171,12 @@
       "category": "COMMA_SEPARATED",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 477.443,
+      "validation_time_ms": 180.744,
       "error": null
     },
     {
@@ -1169,12 +1184,12 @@
       "category": "MULTILINE",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 468.357,
+      "validation_time_ms": 84.083,
       "error": null
     },
     {
@@ -1182,12 +1197,12 @@
       "category": "WHATSAPP_STYLE",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 493.53,
+      "validation_time_ms": 90.419,
       "error": null
     },
     {
@@ -1195,12 +1210,12 @@
       "category": "COURIER_STYLE",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 479.613,
+      "validation_time_ms": 125.756,
       "error": null
     },
     {
@@ -1208,12 +1223,12 @@
       "category": "INVOICE_STYLE",
       "expected_status": "VERIFIED",
       "predicted_status": "VERIFIED",
-      "confidence": 92,
+      "confidence": 100,
       "risk": "LOW",
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 475.098,
+      "validation_time_ms": 74.901,
       "error": null
     }
   ],

@@ -12,8 +12,12 @@ from utils.indian_data import (
 from services.pin_validator import validate_pin
 
 from services.official_reference_service import (
+    _canon_state,
+    _norm as _norm_ref,
+    check_pin_near_locality,
     lookup_pincode,
     locality_matches,
+    pin_within_city_area,
     district_state_matches,
     get_reference_status,
     is_state_known,
@@ -73,6 +77,17 @@ def _similar(a: str, b: str, threshold: float = 0.78) -> bool:
     return difflib.SequenceMatcher(None, a, b).ratio() >= threshold
 
 
+def _state_key(value: str) -> str:
+    value = STATE_ALIASES.get(str(value or "").strip().lower(), value)
+    return re.sub(r"\band\b|\s", "", _norm_ref(_canon_state(value)))
+
+
+def _same_state(a: str, b: str) -> bool:
+    """States match only by canonical name: fuzzy matching would equate
+    Andhra Pradesh with Madhya Pradesh (about 79% similar)."""
+    return bool(a and b) and _state_key(a) == _state_key(b)
+
+
 def _canonical(value: str, aliases: dict) -> str:
     value = str(value or "").strip()
 
@@ -104,7 +119,7 @@ def verify_geography(
         if expected_state_for_city:
             checks["city_state"] = (
                 "CONSISTENT"
-                if _similar(expected_state_for_city, state)
+                if _same_state(expected_state_for_city, state)
                 else "INCONSISTENT"
             )
 
@@ -151,7 +166,7 @@ def verify_geography(
         if official_states:
             checks["pin_state"] = (
                 "CONSISTENT"
-                if any(_similar(s, state) for s in official_states)
+                if any(_same_state(s, state) for s in official_states)
                 else "INCONSISTENT"
             )
 
@@ -162,11 +177,17 @@ def verify_geography(
                 )
 
         elif pin_result.get("likely_state"):
-            checks["pin_state"] = (
-                "CONSISTENT"
-                if _similar(pin_result["likely_state"], state)
-                else "INCONSISTENT"
-            )
+            # Only the PIN prefix (postal circle) is known here, so agreement is
+            # a likely match rather than confirmation, while disagreement is a
+            # concrete conflict worth reporting.
+            if _same_state(pin_result["likely_state"], state):
+                checks["pin_state"] = "LIKELY_MATCH"
+            else:
+                checks["pin_state"] = "INCONSISTENT"
+                issues.append(
+                    f"PIN prefix {str(pin_code)[:2]} belongs to the "
+                    f"{pin_result['likely_state']} postal region, not {state}"
+                )
 
         else:
             checks["pin_state"] = (
@@ -188,41 +209,31 @@ def verify_geography(
                     if row.get(key):
                         places.add(row[key])
 
-            checks["pin_city"] = (
-                "CONSISTENT"
-                if any(_similar(x, city) for x in places)
-                else (
-                    "CONSISTENT"
-                    if expected_state_for_city
-                    and any(
-                        _similar(
-                            str(row.get("state", "")),
-                            expected_state_for_city,
-                        )
-                        for row in pin_rows
-                    )
-                    and any(
-                        _similar(
-                            str(row.get("district", "")),
-                            city,
-                        )
-                        or _similar(
-                            str(row.get("taluk", "")),
-                            city,
-                        )
-                        for row in pin_rows
-                    )
-                    else "LIKELY_MATCH"
-                )
-            )
+            if any(_similar(x, city) for x in places):
+                checks["pin_city"] = "CONSISTENT"
+            elif expected_state_for_city and not any(
+                _same_state(str(row.get("state", "")), expected_state_for_city)
+                for row in pin_rows
+            ):
+                # The PIN's post offices are all in a different state from the city.
+                checks["pin_city"] = "INCONSISTENT"
+                if checks.get("pin_state") != "INCONSISTENT":
+                    pin_states = sorted({str(row.get("state", "")) for row in pin_rows if row.get("state")})
+                    issues.append(f"PIN {pin_code} postal reference maps to {pin_states}, not {city}")
+            elif pin_within_city_area(
+                pin_code,
+                tuple({city, *(alias for alias, canon in CITY_ALIASES.items() if canon == city)}),
+                state or expected_state_for_city or "",
+            ):
+                # A suburb whose post office is in a neighbouring district of the metro area.
+                checks["pin_city"] = "CONSISTENT"
+            else:
+                checks["pin_city"] = "LIKELY_MATCH"
 
         elif pin_result.get("likely_state") and expected_state_for_city:
             checks["pin_city"] = (
-                "CONSISTENT"
-                if _similar(
-                    pin_result["likely_state"],
-                    expected_state_for_city,
-                )
+                "LIKELY_MATCH"
+                if _same_state(pin_result["likely_state"], expected_state_for_city)
                 else "INCONSISTENT"
             )
 
@@ -297,6 +308,22 @@ def verify_geography(
     else:
         checks["locality_city"] = "INCOMPLETE"
 
+    # Near-miss PIN: a real PIN of the right state/city whose post offices are
+    # far from the locality. Reported as a warning (customer confirmation),
+    # not a hard conflict, because office coordinates can be inaccurate.
+    warnings = []
+    pin_distance = None
+    if locality and pin_code and state and "INCONSISTENT" not in (checks.get("pin_state"), checks.get("pin_city")):
+        pin_distance = check_pin_near_locality(locality, city=city, district=district, state=state, pin=pin_code)
+        if pin_distance and pin_distance["status"] == "NEAR":
+            checks["pin_locality"] = "CONSISTENT"
+        elif pin_distance:
+            checks["pin_locality"] = "DISTANT"
+            warnings.append(
+                f"PIN {pin_code} post offices are about {pin_distance['distance_km']:.0f} km from {locality}; "
+                f"the post office next to {locality} ({pin_distance['nearby_office']}) uses PIN {pin_distance['nearby_pin']}"
+            )
+
     inconsistent = sum(
         1
         for v in checks.values()
@@ -331,6 +358,8 @@ def verify_geography(
     return {
         "checks": checks,
         "issues": issues,
+        "warnings": warnings,
+        "pin_distance": pin_distance,
         "overall": overall,
         "reference": reference,
         "official_locality": (

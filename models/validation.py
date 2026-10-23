@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import JSON
 from models import db
+from services.decision_labels import normalize_decision
 
 def json_type():
     try:
@@ -33,7 +34,8 @@ class Validation(db.Model):
             "corrections": self.corrections,
             "confidence": self.confidence,
             "risk_level": self.risk_level,
-            "decision": self.decision,
+            # Compatible mapping for any record that still holds a legacy label.
+            "decision": normalize_decision(self.decision),
             "pipeline": self.pipeline,
             "explainability": self.explainability,
             "created_at": self.created_at.isoformat() if self.created_at else None,

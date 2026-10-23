@@ -191,7 +191,7 @@
     "category": "WRONG_PIN",
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -200,7 +200,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "original",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -209,7 +209,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "original",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -218,7 +218,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "original",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -245,7 +245,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -254,7 +254,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -263,25 +263,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "original",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0024",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0025",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -620,7 +620,7 @@
     "category": "WRONG_PIN",
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -629,7 +629,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "normalized_commas",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -638,7 +638,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -647,7 +647,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -674,7 +674,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -683,7 +683,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -692,25 +692,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "normalized_commas",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0058",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0059",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1049,7 +1049,7 @@
     "category": "WRONG_PIN",
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1058,7 +1058,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "extra_spaces",
     "input": "Kavya  Nair,  Flat  806,  Maple  Crest  Towers,  4th  Main  Road,  Indiranagar,  Hyderabad,  Telangana,  560038,  9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1067,7 +1067,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Ravi  Kumar,  House  12,  5th  Cross  Road,  Koramangala,  Bengaluru,  Telangana,  560034,  9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1076,7 +1076,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Meera  Rao,  H.No  7-4-20,  2nd  Main  Road,  Madhapur,  Bengaluru,  Telangana,  500081,  9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1103,7 +1103,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "asdfgh  qwerty  random  address  xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1112,7 +1112,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "hello  hello  hello  000000  nonsense  text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1121,25 +1121,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "extra_spaces",
     "input": "abc  abc  abc  abc  abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0092",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Unknown  Person,  Road  99,  Unknown  Colony,  Hyderabad,  Telangana,  999999,  0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0093",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Test  User,  Flat  0,  Fake  Tower,  Random  Road,  Hyderabad,  Maharashtra,  500081,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1478,7 +1478,7 @@
     "category": "WRONG_PIN",
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1487,7 +1487,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "multiline",
     "input": "Kavya Nair\nFlat 806\nMaple Crest Towers\n4th Main Road\nIndiranagar\nHyderabad\nTelangana\n560038\n9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1496,7 +1496,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Ravi Kumar\nHouse 12\n5th Cross Road\nKoramangala\nBengaluru\nTelangana\n560034\n9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1505,7 +1505,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Meera Rao\nH.No 7-4-20\n2nd Main Road\nMadhapur\nBengaluru\nTelangana\n500081\n9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1532,7 +1532,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1541,7 +1541,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1550,25 +1550,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "multiline",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0126",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Unknown Person\nRoad 99\nUnknown Colony\nHyderabad\nTelangana\n999999\n0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0127",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Test User\nFlat 0\nFake Tower\nRandom Road\nHyderabad\nMaharashtra\n500081\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1907,7 +1907,7 @@
     "category": "WRONG_PIN",
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1916,7 +1916,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "uppercase",
     "input": "KAVYA NAIR, FLAT 806, MAPLE CREST TOWERS, 4TH MAIN ROAD, INDIRANAGAR, HYDERABAD, TELANGANA, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1925,7 +1925,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "RAVI KUMAR, HOUSE 12, 5TH CROSS ROAD, KORAMANGALA, BENGALURU, TELANGANA, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1934,7 +1934,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "MEERA RAO, H.NO 7-4-20, 2ND MAIN ROAD, MADHAPUR, BENGALURU, TELANGANA, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -1961,7 +1961,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "ASDFGH QWERTY RANDOM ADDRESS XYZ",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1970,7 +1970,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "HELLO HELLO HELLO 000000 NONSENSE TEXT",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -1979,25 +1979,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "uppercase",
     "input": "ABC ABC ABC ABC ABC",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0160",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "UNKNOWN PERSON, ROAD 99, UNKNOWN COLONY, HYDERABAD, TELANGANA, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0161",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "TEST USER, FLAT 0, FAKE TOWER, RANDOM ROAD, HYDERABAD, MAHARASHTRA, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2336,7 +2336,7 @@
     "category": "WRONG_PIN",
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2345,7 +2345,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "lowercase",
     "input": "kavya nair, flat 806, maple crest towers, 4th main road, indiranagar, hyderabad, telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2354,7 +2354,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "ravi kumar, house 12, 5th cross road, koramangala, bengaluru, telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2363,7 +2363,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "meera rao, h.no 7-4-20, 2nd main road, madhapur, bengaluru, telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2390,7 +2390,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -2399,7 +2399,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -2408,25 +2408,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "lowercase",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0194",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "unknown person, road 99, unknown colony, hyderabad, telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0195",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "test user, flat 0, fake tower, random road, hyderabad, maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2765,7 +2765,7 @@
     "category": "WRONG_PIN",
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2774,7 +2774,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "address_label",
     "input": "Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2783,7 +2783,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2792,7 +2792,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -2819,7 +2819,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -2828,7 +2828,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -2837,25 +2837,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "address_label",
     "input": "Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0228",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0229",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3194,7 +3194,7 @@
     "category": "WRONG_PIN",
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3203,7 +3203,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3212,7 +3212,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3221,7 +3221,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3248,7 +3248,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -3257,7 +3257,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -3266,25 +3266,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "delivery_label",
     "input": "Delivery Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0262",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0263",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3623,7 +3623,7 @@
     "category": "WRONG_PIN",
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3632,7 +3632,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3641,7 +3641,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3650,7 +3650,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -3677,7 +3677,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -3686,7 +3686,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -3695,25 +3695,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "customer_label",
     "input": "Customer: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0296",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0297",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4052,7 +4052,7 @@
     "category": "WRONG_PIN",
     "variant": "ship_to_label",
     "input": "Ship To: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4061,7 +4061,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4070,7 +4070,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4079,7 +4079,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4106,7 +4106,7 @@
     "category": "RANDOM_TEXT",
     "variant": "ship_to_label",
     "input": "Ship To: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4115,7 +4115,7 @@
     "category": "RANDOM_TEXT",
     "variant": "ship_to_label",
     "input": "Ship To: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4124,25 +4124,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "ship_to_label",
     "input": "Ship To: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0330",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "ship_to_label",
     "input": "Ship To: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0331",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "ship_to_label",
     "input": "Ship To: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4481,7 +4481,7 @@
     "category": "WRONG_PIN",
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4490,7 +4490,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "original",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4499,7 +4499,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "original",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4508,7 +4508,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "original",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4535,7 +4535,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4544,7 +4544,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4553,25 +4553,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "original",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0364",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0365",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4910,7 +4910,7 @@
     "category": "WRONG_PIN",
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4919,7 +4919,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "normalized_commas",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4928,7 +4928,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4937,7 +4937,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -4964,7 +4964,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4973,7 +4973,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -4982,25 +4982,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "normalized_commas",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0398",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0399",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5339,7 +5339,7 @@
     "category": "WRONG_PIN",
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5348,7 +5348,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "extra_spaces",
     "input": "Kavya  Nair,  Flat  806,  Maple  Crest  Towers,  4th  Main  Road,  Indiranagar,  Hyderabad,  Telangana,  560038,  9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5357,7 +5357,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Ravi  Kumar,  House  12,  5th  Cross  Road,  Koramangala,  Bengaluru,  Telangana,  560034,  9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5366,7 +5366,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Meera  Rao,  H.No  7-4-20,  2nd  Main  Road,  Madhapur,  Bengaluru,  Telangana,  500081,  9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5393,7 +5393,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "asdfgh  qwerty  random  address  xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -5402,7 +5402,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "hello  hello  hello  000000  nonsense  text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -5411,25 +5411,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "extra_spaces",
     "input": "abc  abc  abc  abc  abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0432",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Unknown  Person,  Road  99,  Unknown  Colony,  Hyderabad,  Telangana,  999999,  0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0433",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Test  User,  Flat  0,  Fake  Tower,  Random  Road,  Hyderabad,  Maharashtra,  500081,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5768,7 +5768,7 @@
     "category": "WRONG_PIN",
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5777,7 +5777,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "multiline",
     "input": "Kavya Nair\nFlat 806\nMaple Crest Towers\n4th Main Road\nIndiranagar\nHyderabad\nTelangana\n560038\n9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5786,7 +5786,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Ravi Kumar\nHouse 12\n5th Cross Road\nKoramangala\nBengaluru\nTelangana\n560034\n9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5795,7 +5795,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Meera Rao\nH.No 7-4-20\n2nd Main Road\nMadhapur\nBengaluru\nTelangana\n500081\n9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -5822,7 +5822,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -5831,7 +5831,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -5840,25 +5840,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "multiline",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0466",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Unknown Person\nRoad 99\nUnknown Colony\nHyderabad\nTelangana\n999999\n0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0467",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Test User\nFlat 0\nFake Tower\nRandom Road\nHyderabad\nMaharashtra\n500081\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6197,7 +6197,7 @@
     "category": "WRONG_PIN",
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6206,7 +6206,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "uppercase",
     "input": "KAVYA NAIR, FLAT 806, MAPLE CREST TOWERS, 4TH MAIN ROAD, INDIRANAGAR, HYDERABAD, TELANGANA, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6215,7 +6215,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "RAVI KUMAR, HOUSE 12, 5TH CROSS ROAD, KORAMANGALA, BENGALURU, TELANGANA, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6224,7 +6224,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "MEERA RAO, H.NO 7-4-20, 2ND MAIN ROAD, MADHAPUR, BENGALURU, TELANGANA, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6251,7 +6251,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "ASDFGH QWERTY RANDOM ADDRESS XYZ",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -6260,7 +6260,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "HELLO HELLO HELLO 000000 NONSENSE TEXT",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -6269,25 +6269,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "uppercase",
     "input": "ABC ABC ABC ABC ABC",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0500",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "UNKNOWN PERSON, ROAD 99, UNKNOWN COLONY, HYDERABAD, TELANGANA, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0501",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "TEST USER, FLAT 0, FAKE TOWER, RANDOM ROAD, HYDERABAD, MAHARASHTRA, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6626,7 +6626,7 @@
     "category": "WRONG_PIN",
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6635,7 +6635,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "lowercase",
     "input": "kavya nair, flat 806, maple crest towers, 4th main road, indiranagar, hyderabad, telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6644,7 +6644,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "ravi kumar, house 12, 5th cross road, koramangala, bengaluru, telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6653,7 +6653,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "meera rao, h.no 7-4-20, 2nd main road, madhapur, bengaluru, telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -6680,7 +6680,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -6689,7 +6689,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -6698,25 +6698,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "lowercase",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0534",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "unknown person, road 99, unknown colony, hyderabad, telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0535",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "test user, flat 0, fake tower, random road, hyderabad, maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7055,7 +7055,7 @@
     "category": "WRONG_PIN",
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7064,7 +7064,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "address_label",
     "input": "Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7073,7 +7073,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7082,7 +7082,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7109,7 +7109,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7118,7 +7118,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7127,25 +7127,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "address_label",
     "input": "Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0568",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0569",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7484,7 +7484,7 @@
     "category": "WRONG_PIN",
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7493,7 +7493,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7502,7 +7502,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7511,7 +7511,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7538,7 +7538,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7547,7 +7547,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7556,25 +7556,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "delivery_label",
     "input": "Delivery Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0602",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0603",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7913,7 +7913,7 @@
     "category": "WRONG_PIN",
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7922,7 +7922,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7931,7 +7931,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7940,7 +7940,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -7967,7 +7967,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7976,7 +7976,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -7985,25 +7985,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "customer_label",
     "input": "Customer: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0636",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0637",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8342,7 +8342,7 @@
     "category": "WRONG_PIN",
     "variant": "ship_to_label",
     "input": "Ship To: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8351,7 +8351,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8360,7 +8360,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8369,7 +8369,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "ship_to_label",
     "input": "Ship To: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8396,7 +8396,7 @@
     "category": "RANDOM_TEXT",
     "variant": "ship_to_label",
     "input": "Ship To: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -8405,7 +8405,7 @@
     "category": "RANDOM_TEXT",
     "variant": "ship_to_label",
     "input": "Ship To: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -8414,25 +8414,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "ship_to_label",
     "input": "Ship To: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0670",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "ship_to_label",
     "input": "Ship To: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0671",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "ship_to_label",
     "input": "Ship To: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8771,7 +8771,7 @@
     "category": "WRONG_PIN",
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8780,7 +8780,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "original",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8789,7 +8789,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "original",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8798,7 +8798,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "original",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -8825,7 +8825,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -8834,7 +8834,7 @@
     "category": "RANDOM_TEXT",
     "variant": "original",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -8843,25 +8843,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "original",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0704",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0705",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "original",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9200,7 +9200,7 @@
     "category": "WRONG_PIN",
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9209,7 +9209,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "normalized_commas",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9218,7 +9218,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9227,7 +9227,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "normalized_commas",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9254,7 +9254,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -9263,7 +9263,7 @@
     "category": "RANDOM_TEXT",
     "variant": "normalized_commas",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -9272,25 +9272,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "normalized_commas",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0738",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0739",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "normalized_commas",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9629,7 +9629,7 @@
     "category": "WRONG_PIN",
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9638,7 +9638,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "extra_spaces",
     "input": "Kavya  Nair,  Flat  806,  Maple  Crest  Towers,  4th  Main  Road,  Indiranagar,  Hyderabad,  Telangana,  560038,  9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9647,7 +9647,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Ravi  Kumar,  House  12,  5th  Cross  Road,  Koramangala,  Bengaluru,  Telangana,  560034,  9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9656,7 +9656,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "extra_spaces",
     "input": "Meera  Rao,  H.No  7-4-20,  2nd  Main  Road,  Madhapur,  Bengaluru,  Telangana,  500081,  9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -9683,7 +9683,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "asdfgh  qwerty  random  address  xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -9692,7 +9692,7 @@
     "category": "RANDOM_TEXT",
     "variant": "extra_spaces",
     "input": "hello  hello  hello  000000  nonsense  text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -9701,25 +9701,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "extra_spaces",
     "input": "abc  abc  abc  abc  abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0772",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Unknown  Person,  Road  99,  Unknown  Colony,  Hyderabad,  Telangana,  999999,  0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0773",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "extra_spaces",
     "input": "Test  User,  Flat  0,  Fake  Tower,  Random  Road,  Hyderabad,  Maharashtra,  500081,  9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10058,7 +10058,7 @@
     "category": "WRONG_PIN",
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10067,7 +10067,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "multiline",
     "input": "Kavya Nair\nFlat 806\nMaple Crest Towers\n4th Main Road\nIndiranagar\nHyderabad\nTelangana\n560038\n9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10076,7 +10076,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Ravi Kumar\nHouse 12\n5th Cross Road\nKoramangala\nBengaluru\nTelangana\n560034\n9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10085,7 +10085,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "multiline",
     "input": "Meera Rao\nH.No 7-4-20\n2nd Main Road\nMadhapur\nBengaluru\nTelangana\n500081\n9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10112,7 +10112,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10121,7 +10121,7 @@
     "category": "RANDOM_TEXT",
     "variant": "multiline",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10130,25 +10130,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "multiline",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0806",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Unknown Person\nRoad 99\nUnknown Colony\nHyderabad\nTelangana\n999999\n0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0807",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "multiline",
     "input": "Test User\nFlat 0\nFake Tower\nRandom Road\nHyderabad\nMaharashtra\n500081\n9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10487,7 +10487,7 @@
     "category": "WRONG_PIN",
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10496,7 +10496,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "uppercase",
     "input": "KAVYA NAIR, FLAT 806, MAPLE CREST TOWERS, 4TH MAIN ROAD, INDIRANAGAR, HYDERABAD, TELANGANA, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10505,7 +10505,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "RAVI KUMAR, HOUSE 12, 5TH CROSS ROAD, KORAMANGALA, BENGALURU, TELANGANA, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10514,7 +10514,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "uppercase",
     "input": "MEERA RAO, H.NO 7-4-20, 2ND MAIN ROAD, MADHAPUR, BENGALURU, TELANGANA, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10541,7 +10541,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "ASDFGH QWERTY RANDOM ADDRESS XYZ",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10550,7 +10550,7 @@
     "category": "RANDOM_TEXT",
     "variant": "uppercase",
     "input": "HELLO HELLO HELLO 000000 NONSENSE TEXT",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10559,25 +10559,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "uppercase",
     "input": "ABC ABC ABC ABC ABC",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0840",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "UNKNOWN PERSON, ROAD 99, UNKNOWN COLONY, HYDERABAD, TELANGANA, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0841",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "uppercase",
     "input": "TEST USER, FLAT 0, FAKE TOWER, RANDOM ROAD, HYDERABAD, MAHARASHTRA, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10916,7 +10916,7 @@
     "category": "WRONG_PIN",
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10925,7 +10925,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "lowercase",
     "input": "kavya nair, flat 806, maple crest towers, 4th main road, indiranagar, hyderabad, telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10934,7 +10934,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "ravi kumar, house 12, 5th cross road, koramangala, bengaluru, telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10943,7 +10943,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "lowercase",
     "input": "meera rao, h.no 7-4-20, 2nd main road, madhapur, bengaluru, telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -10970,7 +10970,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10979,7 +10979,7 @@
     "category": "RANDOM_TEXT",
     "variant": "lowercase",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -10988,25 +10988,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "lowercase",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0874",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "unknown person, road 99, unknown colony, hyderabad, telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0875",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "lowercase",
     "input": "test user, flat 0, fake tower, random road, hyderabad, maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11345,7 +11345,7 @@
     "category": "WRONG_PIN",
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11354,7 +11354,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "address_label",
     "input": "Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11363,7 +11363,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11372,7 +11372,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "address_label",
     "input": "Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11399,7 +11399,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -11408,7 +11408,7 @@
     "category": "RANDOM_TEXT",
     "variant": "address_label",
     "input": "Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -11417,25 +11417,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "address_label",
     "input": "Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0908",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0909",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "address_label",
     "input": "Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11774,7 +11774,7 @@
     "category": "WRONG_PIN",
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11783,7 +11783,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11792,7 +11792,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11801,7 +11801,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "delivery_label",
     "input": "Delivery Address: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -11828,7 +11828,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -11837,7 +11837,7 @@
     "category": "RANDOM_TEXT",
     "variant": "delivery_label",
     "input": "Delivery Address: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -11846,25 +11846,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "delivery_label",
     "input": "Delivery Address: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0942",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0943",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "delivery_label",
     "input": "Delivery Address: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -12203,7 +12203,7 @@
     "category": "WRONG_PIN",
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -12212,7 +12212,7 @@
     "category": "PIN_CITY_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -12221,7 +12221,7 @@
     "category": "PIN_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -12230,7 +12230,7 @@
     "category": "CITY_STATE_MISMATCH",
     "variant": "customer_label",
     "input": "Customer: Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -12257,7 +12257,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -12266,7 +12266,7 @@
     "category": "RANDOM_TEXT",
     "variant": "customer_label",
     "input": "Customer: hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
@@ -12275,25 +12275,25 @@
     "category": "REPEATED_MEANINGLESS",
     "variant": "customer_label",
     "input": "Customer: abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S1000-0976",
     "source_case_id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S1000-0977",
     "source_case_id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "variant": "customer_label",
     "input": "Customer: Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {

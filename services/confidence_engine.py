@@ -1,7 +1,9 @@
-from utils.indian_data import INDIAN_STATES, CITY_STATE_MAP, KNOWN_LOCALITIES
+from utils.indian_data import INDIAN_STATES, CITY_STATE_MAP, CITY_ALIASES, KNOWN_LOCALITIES
 from services.official_reference_service import is_state_known, locality_matches
 
 def score_confidence(parsed: dict, phone_result: dict, pin_result: dict, geo_result: dict) -> dict:
+    """Address-confidence score: how complete and reference-consistent the
+    address text is. It is separate from delivery risk (risk_engine)."""
     breakdown = []
     score = 0
 
@@ -51,8 +53,14 @@ def score_confidence(parsed: dict, phone_result: dict, pin_result: dict, geo_res
         locality_recognized = bool(official_locality.get("verified"))
     add(locality_recognized, 15, "Recognized locality (reference data)", "Locality not recognized in reference data")
 
-    city_recognized = bool(parsed.get("city")) and parsed["city"].lower() in \
-        [c.lower() for c in CITY_STATE_MAP.keys()]
+    # A city is recognised from the built-in city list/aliases, or when the
+    # postal reference rows for the supplied PIN confirm it.
+    geo_checks = geo_result.get("checks", {}) or {}
+    city_value = str(parsed.get("city") or "").strip().lower()
+    known_cities = {c.lower() for c in CITY_STATE_MAP} | {a.lower() for a in CITY_ALIASES}
+    city_recognized = bool(city_value) and (
+        city_value in known_cities or geo_checks.get("pin_city") == "CONSISTENT"
+    )
     add(city_recognized, 15, "Recognized city (reference data)", "City not recognized in reference data")
 
     state_value = str(parsed.get("state") or "").strip()
@@ -60,19 +68,47 @@ def score_confidence(parsed: dict, phone_result: dict, pin_result: dict, geo_res
         [s.lower() for s in INDIAN_STATES] or is_state_known(state_value))
     add(state_valid, 10, "Valid state name", "State not recognized/invalid")
 
-    add(pin_result.get("valid"), 20, "Valid 6-digit PIN code", "PIN code missing or invalid")
+    add(pin_result.get("valid"), 10, "Valid 6-digit PIN format",
+        "PIN code missing" if pin_result.get("error_type") == "missing" else "PIN code format invalid")
+    add(bool(pin_result.get("valid") and pin_result.get("reference_found")), 10,
+        "PIN found in postal reference data", "PIN not confirmed by postal reference data")
 
-    geo_checks = geo_result.get("checks", {})
     consistency_ok = geo_checks and not any(v == "INCONSISTENT" for v in geo_checks.values()) and \
         any(v in ("CONSISTENT", "VERIFIED") for v in geo_checks.values())
     add(consistency_ok, 10, "PIN/city/state geographic consistency", "Geographic consistency not confirmed")
 
     valid_pattern = bool(parsed.get("street") or has_house or has_flat)
-    add(valid_pattern, 5, "Structured address pattern (house/flat + street)", "No structured house/flat + street pattern")
+    add(valid_pattern, 5, "Structured address pattern (house/flat or street)", "No house/flat number or street reference")
 
-    max_possible = sum(b["points"] if b["points"] else 0 for b in breakdown) or 1
-    # max_possible above only sums earned points; recompute true ceiling from the rule set:
-    max_possible = 5 + 10 + 10 + 10 + 15 + 15 + 10 + 20 + 10 + 5  # = 110
+    max_possible = 5 + 10 + 10 + 10 + 15 + 15 + 10 + 10 + 10 + 10 + 5  # = 110
     normalized = round((score / max_possible) * 100)
     normalized = max(0, min(100, normalized))
-    return {"score": normalized, "raw_points": score, "max_points": max_possible, "breakdown": breakdown}
+
+    # Caps keep the score consistent with the checks that failed or could not
+    # run. Each applied cap is recorded so the change is explained.
+    caps = []
+    if any(v == "INCONSISTENT" for v in geo_checks.values()):
+        caps.append((50, "a reference check reported a geographic conflict"))
+    missing = [
+        label for label, present in (
+            ("house/flat number", has_address_number),
+            ("street or locality", bool(parsed.get("street") or parsed.get("locality"))),
+            ("city", bool(parsed.get("city"))),
+            ("state", bool(parsed.get("state"))),
+            ("valid PIN code", bool(pin_result.get("valid"))),
+        ) if not present
+    ]
+    if missing:
+        caps.append((79, "essential information is missing or invalid: " + ", ".join(missing)))
+    if geo_checks.get("pin_locality") == "DISTANT":
+        caps.append((79, "the PIN's post offices are far from the stated locality"))
+    reference = geo_result.get("reference") or {}
+    if reference.get("error") or (reference and not reference.get("india_post_rows")):
+        caps.append((79, "reference verification could not be completed"))
+    for limit, why in caps:
+        if normalized > limit:
+            breakdown.append({"ok": False, "label": f"Confidence capped at {limit}% because {why}", "points": 0})
+            normalized = limit
+
+    cap = min([limit for limit, _ in caps], default=100)
+    return {"score": normalized, "raw_points": score, "max_points": max_possible, "breakdown": breakdown, "cap": cap}

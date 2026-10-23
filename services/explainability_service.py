@@ -1,3 +1,6 @@
+from services.decision_labels import DECISION_DESCRIPTIONS, normalize_decision
+
+
 def build_explanation(confidence_result: dict, risk_result: dict, decision_result: dict,
                        geo_result: dict, corrections: list) -> dict:
     def _icon(b):
@@ -31,14 +34,21 @@ def build_explanation(confidence_result: dict, risk_result: dict, decision_resul
 
     # Never leave the dashboard with an empty/"None reported" decision reason.
     if not explanation:
-        decision = str(decision_result.get("decision", "")).upper()
-        fallback = {
-            "VERIFIED": "Required address components are present and validation evidence is consistent.",
-            "NEEDS CUSTOMER CONFIRMATION": "The address is plausible but needs customer confirmation before dispatch.",
-            "SUSPICIOUS": "One or more validation checks produced a strong conflict that requires manual review.",
-            "FAKE ADDRESS": "The supplied text does not contain enough recognizable address structure to verify it.",
-        }
-        explanation.append(fallback.get(decision, "Validation completed with review information available above."))
+        decision = normalize_decision(decision_result.get("decision", ""))
+        explanation.append(DECISION_DESCRIPTIONS.get(decision, "Validation completed with review information available above."))
+
+    # Name the rule that produced the decision so it can be audited.
+    if decision_result.get("rule"):
+        explanation.insert(0, f"Rule {decision_result['rule']}: {decision_result.get('rule_description', '')}")
+
+    limitations = [
+        "Reference and geocoding checks confirm geographic consistency only; they do not prove that the building exists or guarantee delivery.",
+    ]
+    reference = geo_result.get("reference") or {}
+    if reference.get("error") or (reference and not reference.get("india_post_rows")):
+        limitations.append("India Post reference data was unavailable, so PIN and locality checks could not be completed.")
+    if reference and reference.get("lgd_village_rows") == 0:
+        limitations.append("LGD village data is not installed, so village-level locality checks were not performed.")
 
     return {
         "confidence_explanation": confidence_lines,
@@ -47,4 +57,6 @@ def build_explanation(confidence_result: dict, risk_result: dict, decision_resul
         "geo_checks": geo_result["checks"],
         "geo_issues": geo_result["issues"],
         "corrections_found": len(pending_corrections),
+        "decision_rule": decision_result.get("rule"),
+        "limitations": limitations,
     }

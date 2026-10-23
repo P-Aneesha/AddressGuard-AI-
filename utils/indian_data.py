@@ -140,13 +140,14 @@ PIN_REFERENCE = {
 }
 
 STREET_KEYWORDS = ["road","street","st","lane","ln","nagar","colony","main","cross","layout",
-                    "marg","avenue","circle","chowk","sector","phase","block","extension","ext"]
+                    "marg","avenue","circle","chowk","sector","phase","block","extension","ext",
+                    "salai","gali"]
 
 HOUSE_KEYWORDS = ["h.no","h no","hno","house no","house number","door no","d.no","plot no","plot"]
 FLAT_KEYWORDS = ["flat","apt","apartment no","unit","suite","room no","#"]
 BUILDING_KEYWORDS = ["apartments","apartment","towers","tower","residency","heights","hights",
                       "enclave","complex","chambers","plaza","arcade","court","gardens","homes",
-                      "villa","villas","society","chs"]
+                      "villa","villas","society","chs","nivas","nilayam","bhavan","sadan","mansion"]
 
 ADDRESS_CATEGORY_TERMS = {
     "house": HOUSE_KEYWORDS, "flat": FLAT_KEYWORDS, "building": BUILDING_KEYWORDS, "street": STREET_KEYWORDS

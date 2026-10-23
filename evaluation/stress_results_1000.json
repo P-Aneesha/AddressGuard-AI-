@@ -17,26 +17,26 @@
       "VERIFIED": {
         "VERIFIED": 324,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 0
       },
       "NEEDS CUSTOMER CONFIRMATION": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 415,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 0
       },
-      "SUSPICIOUS": {
+      "VALIDATION WARNING": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 174,
-        "FAKE ADDRESS": 0
+        "VALIDATION WARNING": 174,
+        "VALIDATION FAILED": 0
       },
-      "FAKE ADDRESS": {
+      "VALIDATION FAILED": {
         "VERIFIED": 0,
         "NEEDS CUSTOMER CONFIRMATION": 0,
-        "SUSPICIOUS": 0,
-        "FAKE ADDRESS": 87
+        "VALIDATION WARNING": 0,
+        "VALIDATION FAILED": 87
       }
     }
   },
@@ -47,10 +47,10 @@
     "field_recall": 1.0
   },
   "timing_ms": {
-    "average": 11.617,
-    "median": 9.845,
-    "min": 5.056,
-    "max": 234.579
+    "average": 36.112,
+    "median": 29.221,
+    "min": 9.936,
+    "max": 573.74
   },
   "by_category": {
     "CITY_STATE_MISMATCH": {
@@ -133,11 +133,6 @@
       "correct": 29,
       "accuracy": 1.0
     },
-    "SUSPICIOUS": {
-      "count": 58,
-      "correct": 58,
-      "accuracy": 1.0
-    },
     "TYPO": {
       "count": 150,
       "correct": 150,
@@ -146,6 +141,11 @@
     "VALID": {
       "count": 150,
       "correct": 150,
+      "accuracy": 1.0
+    },
+    "VALIDATION WARNING": {
+      "count": 58,
+      "correct": 58,
       "accuracy": 1.0
     },
     "WHATSAPP_STYLE": {

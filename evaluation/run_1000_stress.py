@@ -50,8 +50,8 @@ OUTPUT = Path(__file__).with_name("stress_results_1000.json")
 STATUSES = [
     "VERIFIED",
     "NEEDS CUSTOMER CONFIRMATION",
-    "SUSPICIOUS",
-    "FAKE ADDRESS",
+    "VALIDATION WARNING",
+    "VALIDATION FAILED",
 ]
 
 

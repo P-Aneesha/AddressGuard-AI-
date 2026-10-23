@@ -37,17 +37,17 @@ def test_clean_address_no_unnecessary_corrections():
     assert r["corrections"] == []
     assert r["decision"] == "VERIFIED"
 
-def test_missing_house_number_not_fake():
+def test_missing_house_number_is_not_failed():
     r = run_pipeline(
         "Priya Reddy, Road No. 5, Madhapur, Hyderabad, Telangana, 500081, 9876543210", CFG)
-    assert r["decision"] != "FAKE ADDRESS"
+    assert r["decision"] != "VALIDATION FAILED"
     complete = run_pipeline(
         "Rahul Sharma, H.No. 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 500081, 9876543210", CFG)
     assert r["confidence"] < complete["confidence"]
 
-def test_random_text_is_fake():
+def test_random_text_fails_validation():
     r = run_pipeline("asdfgh qwerty random address 000000 xyz", CFG)
-    assert r["decision"] == "FAKE ADDRESS"
+    assert r["decision"] == "VALIDATION FAILED"
     assert r["risk_level"] == "CRITICAL"
     assert r["confidence"] < 20
 

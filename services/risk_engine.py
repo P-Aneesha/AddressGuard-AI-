@@ -4,13 +4,13 @@ def assess_risk(parsed: dict, phone_result: dict, pin_result: dict, geo_result: 
 
     if anomaly_result["severity"] == "CRITICAL":
         return {"level": "CRITICAL", "score": 100,
-                "reasons": ["No recognizable address structure — likely fake/random text"] + anomaly_result["reasons"]}
+                "reasons": ["No recognizable address structure (random or non-address text)"] + anomaly_result["reasons"]}
 
     points = 0
     if not phone_result.get("valid"):
         points += 15; reasons.append("Invalid or missing phone number")
     if not pin_result.get("valid"):
-        points += 20; reasons.append("Invalid or missing PIN code")
+        points += 20; reasons.append(f"Invalid or missing PIN code ({pin_result.get('reason', 'not provided')})")
     if not parsed.get("city"):
         points += 15; reasons.append("City missing")
     if not parsed.get("state"):
@@ -30,9 +30,11 @@ def assess_risk(parsed: dict, phone_result: dict, pin_result: dict, geo_result: 
     elif anomaly_result["severity"] == "MEDIUM":
         points += 15; reasons.extend(anomaly_result["reasons"])
 
+    # Spelling/format suggestions are a review item, not a delivery hazard on
+    # their own: capped at 10 points so typos alone can never exceed LOW risk.
     if corrections:
-        points += min(15, 5 * len(corrections))
-        reasons.append(f"{len(corrections)} unresolved correction(s) pending review")
+        points += min(10, 5 * len(corrections))
+        reasons.append(f"{len(corrections)} unresolved spelling/format correction(s) pending review")
 
     if not parsed.get("house_number") and not parsed.get("flat_unit"):
         points += 10

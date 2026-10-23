@@ -166,28 +166,34 @@
     "id": "P01",
     "category": "WRONG_PIN",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
-    "expected_status": "SUSPICIOUS",
-    "expected_corrections": []
+    "expected_status": "VALIDATION WARNING",
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "P02",
     "category": "PIN_CITY_MISMATCH",
     "input": "Kavya Nair, Flat 806, Maple Crest Towers, 4th Main Road, Indiranagar, Hyderabad, Telangana, 560038, 9012345678",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "P03",
     "category": "PIN_STATE_MISMATCH",
     "input": "Ravi Kumar, House 12, 5th Cross Road, Koramangala, Bengaluru, Telangana, 560034, 9988776655",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "P04",
     "category": "CITY_STATE_MISMATCH",
     "input": "Meera Rao, H.No 7-4-20, 2nd Main Road, Madhapur, Bengaluru, Telangana, 500081, 9876543211",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
@@ -208,35 +214,35 @@
     "id": "R01",
     "category": "RANDOM_TEXT",
     "input": "asdfgh qwerty random address xyz",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "R02",
     "category": "RANDOM_TEXT",
     "input": "hello hello hello 000000 nonsense text",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "R03",
     "category": "REPEATED_MEANINGLESS",
     "input": "abc abc abc abc abc",
-    "expected_status": "FAKE ADDRESS",
+    "expected_status": "VALIDATION FAILED",
     "expected_corrections": []
   },
   {
     "id": "S01",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "input": "Unknown Person, Road 99, Unknown Colony, Hyderabad, Telangana, 999999, 0000000000",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {
     "id": "S02",
-    "category": "SUSPICIOUS",
+    "category": "VALIDATION WARNING",
     "input": "Test User, Flat 0, Fake Tower, Random Road, Hyderabad, Maharashtra, 500081, 9876543210",
-    "expected_status": "SUSPICIOUS",
+    "expected_status": "VALIDATION WARNING",
     "expected_corrections": []
   },
   {

@@ -43,3 +43,14 @@ Audit summary:
     "final_rows": 20144
   }
 }
+
+
+Additional datasets (downloaded by scripts/fetch_reference_data.py)
+-------------------------------------------------------------------
+- lgd_villages.csv: LGD village directory (Ministry of Panchayati Raj,
+  lgdirectory.gov.in), daily mirror github.com/ramSeraph/opendata.
+- lgd_pincode_villages.csv: LGD village-to-PIN mapping from the same source.
+- osm_localities.csv: named suburbs/neighbourhoods/quarters in India from
+  OpenStreetMap (Overpass API). District/state are copied from the nearest
+  India Post office (within 15 km) and are therefore approximate.
+  OpenStreetMap data (c) OpenStreetMap contributors, ODbL 1.0.

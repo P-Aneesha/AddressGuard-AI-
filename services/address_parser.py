@@ -1,12 +1,28 @@
 import re
 import difflib
+from services.official_reference_service import reference_place_name
 from utils.indian_data import (
     STATE_ALIASES, CITY_ALIASES, CITY_STATE_MAP, KNOWN_LOCALITIES, LOCALITY_ALIASES,
     STREET_KEYWORDS, HOUSE_KEYWORDS, FLAT_KEYWORDS, BUILDING_KEYWORDS,
 )
 
-PHONE_RE = re.compile(r"(?:\+91[\-\s]?|0)?([6-9]\d{9})\b")
+# An optional short label (ph/mob/tel) is consumed with the number so it is not
+# later misread as an address word, and "98100 12345" style spacing is accepted.
+PHONE_RE = re.compile(
+    r"(?:\b(?:ph|mob|tel|cell)\.?\s*[:#\-]?\s*)?(?:\+91[\-\s]?|\b0)?\b([6-9]\d{4}[\-\s]?\d{5})\b",
+    re.I,
+)
+HOUSE_PREFIX_RE = re.compile(
+    r"^(?:(?:h\.?\s*no|hno|house(?:\s+(?:no|number))?|door(?:\s+no)?|plot(?:\s+no)?)\.?)?\s*[:#-]?\s*"
+    r"([0-9]+(?:[-/][0-9A-Za-z]+)*[A-Za-z]?)(.*)$",
+    re.I,
+)
+ROAD_WORD_RE = re.compile(r"\b(?:road|rd|street|st|lane|ln|marg|salai|gali|cross|main|avenue|highway)\b", re.I)
+# Unlabelled unit identifiers such as "B-12", "A/304", "C1".
+ALNUM_UNIT_RE = re.compile(r"^[A-Za-z]{1,2}\s?[-/]?\s?\d{1,5}[A-Za-z]?$")
 PIN_RE = re.compile(r"\b(\d{6})\b")
+SPACED_PIN_RE = re.compile(r"\b[1-9]\d{2}\s\d{3}\b")
+BAD_PIN_SEGMENT_RE = re.compile(r"(?:^|[,\n|])\s*(?:pin(?:code)?\s*[:#-]?\s*)?(\d{4,5}|\d{7})\s*(?=$|[,\n|])", re.I)
 
 FIELDS = [
     "name", "phone", "house_number", "flat_unit", "building", "street", "landmark",
@@ -17,7 +33,7 @@ FIELDS = [
 LABEL_RE = re.compile(
     r"\b(?:deliver\s*to|ship\s*to|shipping\s*address|delivery\s*address|"
     r"address|customer|recipient|name|mobile|phone|contact|pin(?:code)?|"
-    r"postal\s*code|pincode|landmark)\s*[:#\-]?\s*",
+    r"postal\s*code|pincode|landmark|pls|please|kindly)\s*[:#\-]?\s*",
     re.I,
 )
 
@@ -111,6 +127,29 @@ def _clean_segment(text):
     return re.sub(r"\s+", " ", text).strip()
 
 
+UNIT_RE = re.compile(
+    r"(\b(?:flat|apt|unit|suite|h\.?\s*no|hno|house\s+no|door\s+no|plot\s+no|plot)\.?\s*[:#-]?\s*\d[0-9A-Za-z/-]*)\s+",
+    re.I,
+)
+ROAD_END_RE = re.compile(r"(\b(?:road|rd|street|lane|marg|salai|avenue|highway)\b\.?)\s+", re.I)
+
+
+def _split_unpunctuated(text):
+    """Insert segment breaks into an address typed without commas or newlines.
+
+    "ravi flat 12 lotus towers mg road indiranagar" becomes
+    "ravi, flat 12, lotus towers, mg road, indiranagar" so the normal
+    segment-based parsing can classify each part.
+    """
+    if re.search(r"[\n,|]", text) or len(text.split()) < 6:
+        return text
+    text = re.sub(r"\s+(?=(?:flat|apt|unit|suite|h\.?\s*no|hno|house\s+no|door\s+no|plot\s+no)\b)", ", ", text, flags=re.I)
+    text = UNIT_RE.sub(r"\1, ", text)
+    building_end = r"(\b(?:" + "|".join(re.escape(k) for k in BUILDING_KEYWORDS) + r")\b)\s+"
+    text = re.sub(building_end, r"\1, ", text, flags=re.I)
+    return ROAD_END_RE.sub(r"\1, ", text)
+
+
 def _append(result, field, value, separator="; "):
     value = _clean_segment(value)
     if not value:
@@ -145,13 +184,23 @@ def parse_address(raw: str) -> dict:
     # Detect phone/PIN globally before field classification, regardless of order.
     m = PHONE_RE.search(text)
     if m:
-        result["phone"] = m.group(1)
+        result["phone"] = re.sub(r"\D", "", m.group(1))
         text = text[:m.start()] + " " + text[m.end():]
 
-    pm = PIN_RE.search(text)
+    pm = PIN_RE.search(text) or SPACED_PIN_RE.search(text)
     if pm:
-        result["pin_code"] = pm.group(1)
+        result["pin_code"] = re.sub(r"\D", "", pm.group(0))
         text = text[:pm.start()] + " " + text[pm.end():]
+    else:
+        # A standalone wrong-length number in its own segment is almost always a
+        # mistyped PIN. Keep it so validation reports a format error instead of
+        # claiming that no PIN was supplied.
+        bad = BAD_PIN_SEGMENT_RE.search(text)
+        if bad:
+            result["pin_code"] = bad.group(1)
+            text = text[:bad.start(1)] + " " + text[bad.end(1):]
+
+    text = _split_unpunctuated(text)
 
     # Split all ordinary address presentation formats.
     segments = [
@@ -162,6 +211,9 @@ def parse_address(raw: str) -> dict:
 
     # First pass: extract known geographic components even when they share a line.
     residual_segments = []
+    street_candidates = []
+    weak_locality = False
+    partial_locality_segment = ""
     for seg in segments:
         work = seg
 
@@ -188,6 +240,10 @@ def parse_address(raw: str) -> dict:
             city_hit = _canonical_from_text(work, city_alias_map)
         if city_hit:
             _, _, matched = city_hit
+            # "Kollam, Kollam": a city name repeated in a later segment means the
+            # earlier occurrence was the locality (a post office of that name).
+            if result["city"] == city_hit[1] and not result["locality"] and not _remove_phrase(work, matched).strip():
+                result["locality"] = city_hit[1]
             result["city"] = city_hit[1]
             if not re.fullmatch(r"(?i)" + re.escape(str(city_hit[1])), str(matched).strip()):
                 result["_raw_correction_fields"]["city"] = str(matched).strip()
@@ -196,7 +252,12 @@ def parse_address(raw: str) -> dict:
         locality_map = dict(LOCALITY_ALIASES)
         locality_map.update({k: k for k in KNOWN_LOCALITIES})
         loc_hit = _canonical_from_text(work, locality_map)
-        if loc_hit:
+        if loc_hit and _looks_like_landmark(work):
+            # "Near Andheri Station" is a landmark: keep it intact and only use
+            # the embedded place as a locality hint when nothing better exists.
+            if not result["locality"]:
+                result["locality"] = loc_hit[1]
+        elif loc_hit:
             _, _, matched = loc_hit
             result["locality"] = loc_hit[1]
             if not re.fullmatch(r"(?i)" + re.escape(str(loc_hit[1])), str(matched).strip()):
@@ -207,8 +268,14 @@ def parse_address(raw: str) -> dict:
             if remaining_after_locality.strip() and _has_kw(remaining_after_locality, BUILDING_KEYWORDS):
                 result["building"] = _clean_segment(work)
                 result["_raw_correction_fields"]["building"] = result["building"]
+                # Only a hint: a real locality elsewhere in the address wins.
+                weak_locality = True
                 work = ""
             else:
+                if remaining_after_locality.strip():
+                    # "C T T Nagar" contains the known "T Nagar"; the whole
+                    # segment may be the real place name.
+                    partial_locality_segment = _clean_segment(work)
                 work = remaining_after_locality
 
         residual = _clean_segment(work)
@@ -216,8 +283,17 @@ def parse_address(raw: str) -> dict:
             # High-signal structural phrase: keep road/street segments for the
             # structural pass instead of allowing fuzzy geography to consume them.
             if _has_kw(residual, STREET_KEYWORDS) and not _looks_like_landmark(residual):
-                result["street"] = residual
-                result["_raw_correction_fields"]["street"] = residual
+                # "house 45 sector 21": split the house identifier off the street.
+                house_match = HOUSE_PREFIX_RE.match(residual)
+                if (house_match and not result["house_number"]
+                        and re.match(r"[\s:,.\-]+[A-Za-z]", house_match.group(2))):
+                    result["house_number"] = house_match.group(1).strip()
+                    residual = _clean_segment(house_match.group(2))
+                # Keep every street-like segment instead of overwriting: one of
+                # them may turn out to be the locality (e.g. "Lajpat Nagar").
+                street_candidates.append(residual)
+                result["street"] = street_candidates[0]
+                result["_raw_correction_fields"]["street"] = street_candidates[0]
                 continue
             residual_segments.append(residual)
 
@@ -245,7 +321,11 @@ def parse_address(raw: str) -> dict:
                 result["_raw_correction_fields"]["state"] = seg
                 continue
         if not result["city"]:
-            candidate = _fuzzy_reference(seg, CITY_STATE_MAP.keys(), 0.78)
+            # Prefer cities of the stated state: "Knapur, Uttar Pradesh" is Kanpur, not Nagpur.
+            # Once the state is known, a city of another state is a contradiction, not a correction.
+            state_cities = [c for c, s in CITY_STATE_MAP.items() if s == result["state"]]
+            candidate = _fuzzy_reference(seg, state_cities, 0.70) if state_cities \
+                else _fuzzy_reference(seg, CITY_STATE_MAP.keys(), 0.78)
             if candidate and not _has_kw(low, HOUSE_KEYWORDS + STREET_KEYWORDS + BUILDING_KEYWORDS):
                 result["city"] = candidate
                 result["_raw_correction_fields"]["city"] = seg
@@ -274,7 +354,7 @@ def parse_address(raw: str) -> dict:
         if _has_kw(low, HOUSE_KEYWORDS + ["house", "door"]):
             # Preserve a street tail when a copied WhatsApp label contains both
             # the house identifier and road text: `H.No: 8-2-293 Road No 5`.
-            house_match = re.match(r"^(?:h\.?\s*no|hno|house(?:\s+number)?|door(?:\s+no)?|plot(?:\s+no)?)?\s*[:#-]?\s*([0-9]+(?:[-/][0-9A-Za-z]+)*[A-Za-z]?)(.*)$", seg, re.I)
+            house_match = HOUSE_PREFIX_RE.match(seg)
             if house_match and house_match.group(2).strip() and _has_kw(house_match.group(2), STREET_KEYWORDS):
                 result["house_number"] = house_match.group(1).strip()
                 _append(result, "street", house_match.group(2), " ")
@@ -315,7 +395,7 @@ def parse_address(raw: str) -> dict:
             continue
 
         # Plain house/flat patterns without labels.
-        if re.match(r"^(?:\d+[A-Za-z]?[-/]?\d*[A-Za-z]?|\d+[-/]\d+[-/]\d+)(?:\s|$)", seg):
+        if re.match(r"^(?:\d+[A-Za-z]?[-/]?\d*[A-Za-z]?|\d+[-/]\d+[-/]\d+)(?:\s|$)", seg) or ALNUM_UNIT_RE.match(seg):
             if not result["house_number"]:
                 result["house_number"] = seg
                 continue
@@ -328,7 +408,9 @@ def parse_address(raw: str) -> dict:
 
         # Remaining text that looks like a normal locality/building/street phrase
         # is retained for downstream correction rather than silently discarded.
-        if re.search(r"\d", seg) and not result["street"]:
+        # Markup/code characters never occur in a street name, so such text is
+        # left unrecognised instead of being promoted to a street.
+        if re.search(r"\d", seg) and not result["street"] and not re.search(r"[<>{}=]", seg):
             result["street"] = seg
             continue
 
@@ -343,10 +425,46 @@ def parse_address(raw: str) -> dict:
                 result["_raw_correction_fields"]["street"] = seg
                 break
 
+    # Locality from the whole-India reference data: when the built-in list did
+    # not identify a locality, a leftover street-like or unrecognised segment
+    # that exactly matches a post office, OSM locality or LGD village in the
+    # stated state is taken as the locality.
+    if partial_locality_segment and reference_place_name(partial_locality_segment, result["state"]):
+        result["locality"] = partial_locality_segment
+        result["_raw_correction_fields"].pop("locality", None)
+        result["unrecognized_text"] = [
+            t for t in result["unrecognized_text"] if t.lower() not in partial_locality_segment.lower()
+        ]
+    if not result["locality"] or weak_locality:
+        if weak_locality:
+            result["_raw_correction_fields"].pop("locality", None)
+        pool = list(result["unrecognized_text"]) + street_candidates[1:] + street_candidates[:1]
+        for candidate in pool:
+            # Road names often double as post-office names ("Station Road"), so
+            # a segment that names a road is never taken as the locality.
+            if ROAD_WORD_RE.search(candidate):
+                continue
+            if reference_place_name(candidate, result["state"]):
+                result["locality"] = candidate
+                if candidate in result["unrecognized_text"]:
+                    result["unrecognized_text"].remove(candidate)
+                if candidate in street_candidates:
+                    street_candidates.remove(candidate)
+                    result["street"] = street_candidates[0] if street_candidates else ""
+                    if result["street"]:
+                        result["_raw_correction_fields"]["street"] = result["street"]
+                    else:
+                        result["_raw_correction_fields"].pop("street", None)
+                break
+
     # If state extraction left a harmless metadata word such as Mobile, do not
-    # treat it as geographic data or suspicious content.
+    # treat it as geographic data or a problem.
     result["state"] = _clean_segment(result["state"])
     result["city"] = _clean_segment(result["city"])
+    # Delhi and Chandigarh are both the state/UT and the city: "Sarojini Nagar,
+    # Delhi" names the city even though the parser read "Delhi" as the state.
+    if not result["city"] and result["state"] in CITY_STATE_MAP:
+        result["city"] = result["state"]
     result["locality"] = _clean_segment(result["locality"])
 
     return result

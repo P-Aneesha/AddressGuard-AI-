@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AddressGuard AI — History</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("ag-theme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="dashboard-page">
+<header class="topbar">
+  <a class="brand-lockup brand-link" href="/dashboard">
+    <div class="brand-logo small">✓</div>
+    <div><strong>AddressGuard <span>AI</span></strong><small>Intelligent Address Verification</small></div>
+  </a>
+  <nav class="topnav">
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme">☀</button>
+    <div class="profile-wrap">
+      <button id="profileBtn" class="profile-btn" aria-expanded="false">
+        <span id="userAvatar" class="user-avatar">P</span>
+        <span class="profile-copy"><small>Signed in as</small><strong id="userNameTop">User</strong></span>
+        <span class="profile-chevron">⌄</span>
+      </button>
+      <div id="profileMenu" class="profile-menu hidden">
+        <div class="profile-menu-head"><span id="profileAvatar" class="user-avatar large">P</span><div><strong id="profileName">User</strong><small id="profileEmail">—</small></div></div>
+        <div class="profile-stat"><span>Account</span><b>Active</b></div>
+        <button id="profileLogoutBtn" class="profile-logout">Sign out</button>
+      </div>
+    </div>
+    <a href="/dashboard" class="navlink">Dashboard</a>
+    <a href="/history" class="navlink active">History</a>
+    <button id="logoutBtn" class="navlink danger-link">Logout</button>
+  </nav>
+</header>
+
+<main class="dash-main">
+  <section class="dashboard-head">
+    <div>
+      <span class="eyebrow">VALIDATION HISTORY</span>
+      <h1>Your validations</h1>
+      <p>Every address you have validated. Dates and times are in Indian Standard Time (IST).</p>
+    </div>
+    <a href="/dashboard" class="primary-btn">＋ New validation</a>
+  </section>
+
+  <section class="card history-card">
+    <div class="history-toolbar">
+      <input id="historySearch" class="history-search" type="search" placeholder="Search address or validation ID…">
+      <select id="historyFilter" class="history-filter">
+        <option value="">All decisions</option>
+        <option>VERIFIED</option>
+        <option>NEEDS CUSTOMER CONFIRMATION</option>
+        <option>VALIDATION WARNING</option>
+        <option>VALIDATION FAILED</option>
+      </select>
+      <span id="historyCount" class="history-count"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date (IST)</th>
+            <th>Time (IST)</th>
+            <th>Address</th>
+            <th>Confidence</th>
+            <th>Risk</th>
+            <th>Decision</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="historyTable">
+          <tr><td colspan="8" class="table-empty">Loading history…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

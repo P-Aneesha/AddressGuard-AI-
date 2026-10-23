@@ -9,7 +9,10 @@ import json
 import logging
 import re
 
+from utils.ai_cache import ResultCache
+
 logger = logging.getLogger("addressguard.ai_correction")
+_CACHE = ResultCache()
 
 MIN_CONFIDENCE = 70
 
@@ -81,6 +84,11 @@ def generate_ai_corrections(raw_text, parsed, api_key, base_url, model, timeout)
         },
     }
 
+    cache_key = (model, base_url, json.dumps(context, ensure_ascii=False, sort_keys=True))
+    cached = _CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout)
@@ -132,7 +140,9 @@ def generate_ai_corrections(raw_text, parsed, api_key, base_url, model, timeout)
                 "method": "AI contextual spelling correction",
             })
 
-        return corrections, {"source": "ai", "status": "Completed", "model": model}
+        result = (corrections, {"source": "ai", "status": "Completed", "model": model})
+        _CACHE.put(cache_key, result)
+        return result
 
     except Exception as exc:
         logger.warning("AI spelling correction failed: %s", exc)
@@ -140,5 +150,5 @@ def generate_ai_corrections(raw_text, parsed, api_key, base_url, model, timeout)
             "source": "fallback",
             "status": "Fallback",
             "model": model,
-            "error": f"{type(exc).__name__}: {exc}",
+            "error": type(exc).__name__,
         }

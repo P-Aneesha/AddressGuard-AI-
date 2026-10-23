@@ -8,7 +8,7 @@ AddressGuard AI is a human-in-the-loop address validation system for messy India
 
 - Frontend: HTML5, CSS3, Vanilla JavaScript
 - Backend: Python, Flask
-- Database: PostgreSQL/Neon + SQLAlchemy; local SQLite fallback for development
+- Database: PostgreSQL (e.g. Neon) + SQLAlchemy — required; there is no other database option
 - Allowed techniques: regex, fuzzy matching, rules, pattern recognition, reference datasets, optional external geocoding, PDF/CSV/QR/barcode, password hashing, environment variables
 - No React, Node.js, MongoDB, Java, C++, or ML model training
 
@@ -25,7 +25,7 @@ python app.py
 
 Open `http://localhost:5000`.
 
-Without `DATABASE_URL`, the project uses local SQLite for development. With `GROQ_API_KEY` absent, the pipeline falls back to deterministic parsing/correction and remains usable.
+`DATABASE_URL` must be a PostgreSQL connection string; the app refuses to start without one and prints why. Users and validation history are stored only in PostgreSQL. (The read-only reference lookup index `data/reference_index.sqlite3` is a bundled data file, not the application database.) With `GROQ_API_KEY` absent, the pipeline falls back to deterministic parsing/correction and remains usable.
 
 ## Groq AI
 
@@ -49,7 +49,7 @@ GEOCODING_URL=https://nominatim.openstreetmap.org/search
 GEOCODING_TIMEOUT_SECONDS=8
 ```
 
-When enabled, the corrected address is sent to the configured geocoding service and the result is classified as `CONFIRMED`, `PARTIAL MATCH`, `NOT FOUND`, or `UNAVAILABLE`. A geocoding failure does not turn an address into a fake address.
+When enabled, the corrected address is sent to the configured geocoding service and the result is classified as `CONFIRMED`, `PARTIAL MATCH`, `NOT FOUND`, or `UNAVAILABLE`. A geocoding failure never turns an address into a VALIDATION FAILED result.
 
 The existing reference-data checks remain separate from external verification. A format/reference match is not presented as proof that a physical address exists.
 
@@ -112,6 +112,23 @@ Official source documentation:
 - India Post / Department of Posts OGD catalog: https://data.gov.in/catalog/all-india-pincode-directory-through-webservice
 - Local Government Directory / Ministry of Panchayati Raj: https://data.gov.in/catalog/local-government-directory-lgd
 - Official LGD portal: https://lgdirectory.gov.in/
+
+## Additional Reference Data (villages and urban localities)
+
+`python scripts/fetch_reference_data.py` downloads two more datasets into `data/`; the index is rebuilt on the
+next start (or run `python scripts/build_reference_index.py`).
+
+| File | Source | Contents |
+|---|---|---|
+| `data/lgd_villages.csv` | LGD (lgdirectory.gov.in), daily mirror at github.com/ramSeraph/opendata | ~6.8 lakh villages with sub-district, district and state |
+| `data/lgd_pincode_villages.csv` | same | village-to-PIN links, so a village can be checked against the supplied PIN |
+| `data/osm_localities.csv` | OpenStreetMap via the Overpass API | ~19,700 named suburbs, neighbourhoods and quarters; district/state taken from the nearest India Post office |
+
+OpenStreetMap data © OpenStreetMap contributors, available under the Open Database License (ODbL 1.0).
+
+Coverage limits: OSM is community-mapped, so some well-known areas are missing or tagged under other names
+(for example "Salt Lake"), and an OSM locality is only accepted as verified when its district or postcode agrees
+with the supplied PIN. No public dataset covers street names or individual buildings.
 
 ## Live Whole-India Postal Fallback
 
@@ -189,11 +206,66 @@ The project keeps these concepts separate:
 
 The project does not claim that a dataset match proves that an address physically exists.
 
+## Decision Labels and Rules
+
+Every result carries one of four labels (defined once in `services/decision_labels.py`):
+
+| Label | Meaning |
+|---|---|
+| `VERIFIED` | All essential components present and every completed reference check is consistent. |
+| `NEEDS CUSTOMER CONFIRMATION` | Plausible, but incomplete, uncertain, or with corrections awaiting review. |
+| `VALIDATION WARNING` | A reference check found a concrete conflict (e.g. PIN vs state) that needs manual review. |
+| `VALIDATION FAILED` | The text has no recognisable address structure. |
+
+Older releases used `SUSPICIOUS` / `NEEDS VERIFICATION` and `FAKE ADDRESS`. Stored records are renamed on
+startup by an idempotent, non-destructive update, and any remaining legacy value is mapped when read.
+
+`services/decision_engine.py` applies ordered rules; the first match decides and its id is shown in the
+decision reasoning:
+
+- **D1 → VALIDATION FAILED** — no recognisable address structure.
+- **D2 → VALIDATION WARNING** — critical risk backed by concrete conflicting evidence.
+- **D3 → VALIDATION WARNING** — a reference dataset reports a hard geographic conflict.
+- **D4 → VALIDATION WARNING** — high-severity anomaly (placeholder PIN, mostly unrecognised text).
+- **D5 → VERIFIED** — all essentials present, PIN confirmed in postal reference data, no conflicts, no pending corrections, reference data available.
+- **D6 → NEEDS CUSTOMER CONFIRMATION** — everything else. Missing or unverifiable data is uncertainty, never proof of an invalid address.
+
+Confidence (address completeness/consistency) and delivery risk are separate scores. Confidence is capped
+at 50% when a geographic conflict exists and at 79% when essential data is missing or reference data is
+unavailable; each cap is listed in the confidence evidence. Spelling suggestions alone cannot raise delivery
+risk above LOW.
+
+PIN handling distinguishes a missing PIN, a format error (wrong length, leading 0, repeated digits), and a
+well-formed PIN that the reference data cannot confirm (reported as unconfirmed, not invalid).
+
 ## Tests
 
 ```bash
-python -m pytest tests/ -v
+python -m pytest tests/ -v                  # full suite (uses a temporary database, never the real one)
+python evaluation/run_30_cases.py           # 30 documented cases -> evaluation/TEST_30_CASES.md
+python evaluation/run_evaluation.py --no-ai # 34 labelled cases, deterministic
+python evaluation/run_1000_stress.py        # 1,000 synthetic variants
+python evaluation/run_messy_250.py          # 250 messy addresses -> evaluation/MESSY_250_REPORT.md
+python evaluation/messy_addresses.py 7      # build an independent holdout set (seed 7)
+python evaluation/run_messy_250.py evaluation/messy_250_holdout_7.json
 ```
+
+`tests/test_30_address_cases.py` covers valid addresses, spelling errors, missing fields, invalid PINs,
+geographic mismatches, unusual input, empty/long/malformed input, and injected database, pipeline, Groq,
+geocoder and reference-data failures. The evaluation datasets were written alongside the system, so their
+scores show consistency with the documented rules rather than independent real-world accuracy.
+
+The 250-address sets are generated from real India Post delivery offices (real localities, PINs, cities and
+states; synthetic names, phones and streets) written in messy ways: no punctuation, WhatsApp layout, typos,
+missing parts, PINs from another state, near-miss PINs and non-addresses. They are not real customer data.
+The engine was tuned while looking at the seed-2026 set, so the seed-7 holdout is the fairer number.
+
+## Rate limiting
+
+Login (10 per 5 minutes per IP), registration (5 per hour per IP) and validation (30 per minute and 500 per
+day per user) are limited. Hits are counted in the `rate_limit_hits` table, so limits hold across serverless
+instances. Exceeding a limit returns HTTP 429 with a `Retry-After` header. Override a limit with e.g.
+`RATELIMIT_VALIDATE=60/60`; limits are off in automated tests unless `RATELIMIT_ENABLED=1`.
 
 ## Database (Neon PostgreSQL)
 
@@ -207,29 +279,21 @@ Tables are created automatically for development. Flask-Migrate is included for 
 
 ## Deployment (Vercel)
 
-Set these environment variables in the deployment platform:
+The raw CSVs (about 200 MB) and the uncompressed index (226 MB) are not deployed; `.vercelignore` excludes
+them. Instead the app ships `data/reference_index.sqlite3.gz` (about 49 MB) and unpacks it into the temp
+folder on a cold start (about 1-3 s).
 
-```text
-SECRET_KEY
-DATABASE_URL
-GROQ_API_KEY
-GROQ_BASE_URL
-GROQ_MODEL
-GROQ_TIMEOUT_SECONDS
-GEOCODING_ENABLED
-GEOCODING_URL
-GEOCODING_TIMEOUT_SECONDS
-OFFICIAL_REFERENCE_ENABLED
-INDIA_POST_PINCODE_CSV
-LGD_VILLAGES_CSV
-POSTAL_LGD_MAPPING_CSV
-REFERENCE_INDEX_DB
-DATA_GOV_API_KEY
-DATA_GOV_PINCODE_RESOURCE_ID
-OFFICIAL_REFERENCE_TIMEOUT
+```bash
+python scripts/package_reference_index.py   # after any index rebuild
+vercel login
+vercel link
+python scripts/vercel_env_sync.py           # copies .env settings; generates a new SECRET_KEY
+vercel deploy --prod
 ```
 
-Reports are generated in memory and streamed, so the application does not depend on a writable deployment filesystem.
+On Vercel the app refuses to start without a random `SECRET_KEY` of at least 32 characters, sends session
+cookies only over HTTPS, and skips the local DNS workaround. Reports are generated in memory and streamed,
+so the application does not depend on a writable deployment filesystem.
 
 ## Core Pipeline
 

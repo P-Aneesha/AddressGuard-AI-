@@ -172,6 +172,7 @@ def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap
         }
 
     last_reason = "External geocoder returned no result"
+    external_error = None
     for query in query_list:
         try:
             params = urllib.parse.urlencode({
@@ -196,6 +197,7 @@ def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap
             status, matches, matched, comparable_count, *_ = result
             return {
                 "status": status,
+                "external_status": "AVAILABLE",
                 "source": "Nominatim/OpenStreetMap",
                 "coordinates": {"lat": item.get("lat"), "lon": item.get("lon")},
                 "display_name": item.get("display_name", ""),
@@ -203,7 +205,8 @@ def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap
                 "reason": f"Compared {matched}/{comparable_count} supplied geographic fields" if comparable_count else "No comparable geographic fields",
             }
         except Exception as exc:
-            last_reason = f"External geocoder unavailable: {type(exc).__name__}"
+            external_error = type(exc).__name__
+            last_reason = f"External geocoder unavailable: {external_error}"
             logger.warning("Geocoding query failed: %s", exc)
             break
 
@@ -212,10 +215,26 @@ def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap
     # a misleading warning when the postal geography is consistent.
     postal = _postal_fallback(parsed)
     if postal:
+        # Keep the external failure visible: this is a local-dataset result,
+        # not a confirmation from the external geocoder.
+        postal["external_status"] = "UNAVAILABLE" if external_error else "NO RESULT"
+        if external_error:
+            postal["reason"] = (
+                f"External geocoder unavailable ({external_error}); the local India Post "
+                "reference matched the PIN and geographic context instead."
+            )
         return postal
 
+    if external_error:
+        return {
+            "status": "UNAVAILABLE", "external_status": "UNAVAILABLE",
+            "source": "Nominatim/OpenStreetMap",
+            "coordinates": None, "display_name": "", "matches": {},
+            "reason": last_reason + "; this is a temporary service limitation, not evidence against the address",
+        }
+
     return {
-        "status": "NOT FOUND", "source": "Nominatim/OpenStreetMap",
+        "status": "NOT FOUND", "external_status": "NO RESULT", "source": "Nominatim/OpenStreetMap",
         "coordinates": None, "display_name": "", "matches": {},
         "reason": last_reason,
     }
