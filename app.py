@@ -199,13 +199,19 @@ def create_app(test_config=None):
         app.logger.warning("Reference-data index unavailable at startup: %s", type(exc).__name__)
     return app
 
-try:
-    app = create_app()
-except RuntimeError as exc:
-    if __name__ == "__main__":
-        print(f"\nAddressGuard could not start: {exc}\n")
-        raise SystemExit(1)
-    raise
+def _create_app_or_exit():
+    try:
+        return create_app()
+    except RuntimeError as exc:
+        if __name__ == "__main__":
+            print(f"\nAddressGuard could not start: {exc}\n")
+            raise SystemExit(1)
+        raise
+
+
+# Must stay a plain top-level assignment: Vercel finds the entrypoint by
+# looking for a top-level "app" in this file.
+app = _create_app_or_exit()
 
 if __name__ == "__main__":
     app.run(debug=True)
