@@ -257,7 +257,8 @@ if ($("#runBtn")) {
   function statusClass(value) {
     const v = String(value || "").toUpperCase();
     if (["CONSISTENT", "VERIFIED", "COMPLETED", "VALID", "VALID / CHECKED", "CHECKED"].includes(v)) return "check-good";
-    if (["LIKELY_MATCH", "INCOMPLETE", "WARNING", "FALLBACK", "MISSING"].includes(v)) return "check-warn";
+    if (["LIKELY_MATCH", "INCOMPLETE", "WARNING", "FALLBACK", "MISSING", "NOT ENOUGH DATA", "PARTLY CONFIRMED",
+         "UNCONFIRMED", "NOT IN REFERENCE DATA", "CHECK PIN"].includes(v)) return "check-warn";
     return "check-bad";
   }
 
@@ -380,14 +381,43 @@ if ($("#runBtn")) {
     $("#parsedAddressGrid").innerHTML = html || `<div class="empty-state">No parsed address data available.</div>`;
   }
 
+  // Summary labels come from the pipeline's own verdicts, not from whether a
+  // field was typed: a PIN like 000000 is present but invalid.
+  function stageStatus(v, name) {
+    const stage = (v.pipeline || []).find(s => s.stage === name);
+    return { status: String(stage?.status || ""), details: String(stage?.details || "") };
+  }
+
+  function phoneLabel(v) {
+    if (!v.parsed_data?.phone) return "Missing";
+    return stageStatus(v, "Phone Validation").status === "Completed" ? "Valid" : "Invalid";
+  }
+
+  function pinLabel(v) {
+    if (!v.parsed_data?.pin_code) return "Missing";
+    const { status, details } = stageStatus(v, "PIN Validation");
+    if (status === "Completed") return "Valid / Checked";
+    if (status === "Failed") return "Invalid format";
+    return /reference/i.test(details) ? "Not in reference data" : "Unconfirmed";
+  }
+
+  function geographyLabel(v) {
+    const ex = v.explainability || {};
+    if (ex.geo_issues?.length) return "Conflict";
+    const checks = Object.values(ex.geo_checks || {});
+    if (!checks.length || checks.every(c => c === "INCOMPLETE")) return "Not enough data";
+    if (checks.includes("DISTANT")) return "Check PIN";
+    return checks.every(c => ["CONSISTENT", "VERIFIED", "INCOMPLETE"].includes(c)) ? "Consistent" : "Partly confirmed";
+  }
+
   function renderValidationDetails(v) {
     const ex = v.explainability || {};
     const geo = ex.geo_checks || {};
     const parsed = v.parsed_data || {};
 
     const checks = [
-      ["Phone number", parsed.phone ? "VALID" : "MISSING"],
-      ["PIN code", parsed.pin_code ? "VALID / CHECKED" : "MISSING"],
+      ["Phone number", phoneLabel(v).toUpperCase()],
+      ["PIN code", pinLabel(v).toUpperCase()],
       ["City ↔ State", geo.city_state || "INCOMPLETE"],
       ["Locality ↔ City", geo.locality_city || "INCOMPLETE"],
       ["PIN ↔ State", geo.pin_state || "INCOMPLETE"],
@@ -414,11 +444,11 @@ if ($("#runBtn")) {
     const ex = v.explainability || {};
     const geo = ex.geo_checks || {};
     const checks = [
-      ["Phone", v.parsed_data?.phone ? "Valid" : "Missing"],
-      ["PIN", v.parsed_data?.pin_code ? "Checked" : "Missing"],
+      ["Phone", phoneLabel(v)],
+      ["PIN", pinLabel(v)],
       ["City / State", geo.city_state || "Incomplete"],
       ["Locality / City", geo.locality_city || "Incomplete"],
-      ["Geography", ex.geo_issues?.length ? "Conflict" : "Consistent"]
+      ["Geography", geographyLabel(v)]
     ];
 
     $("#quickChecks").innerHTML = checks.map(([label, value]) => {

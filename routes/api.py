@@ -2,6 +2,8 @@ import csv
 import io
 import logging
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor, wait
 from datetime import datetime, timedelta
 from types import SimpleNamespace
 from flask import Blueprint, request, jsonify, session, send_file, current_app
@@ -249,6 +251,10 @@ def validate():
 
 
 BULK_MAX_ROWS = 50  # keeps one upload well inside a serverless request time limit
+BULK_TIME_BUDGET_SECONDS = 20.0  # the whole file, not each row
+BULK_SAVE_RESERVE_SECONDS = 3.0  # kept for saving all rows and building the response
+BULK_MIN_ROW_SECONDS = 2.0  # a row is not started with less time than this
+_BULK_POOL = ThreadPoolExecutor(max_workers=8, thread_name_prefix="addressguard-bulk")
 _ADDRESS_HEADERS = ("raw_address", "address", "delivery address", "shipping address", "full address")
 
 
@@ -296,44 +302,74 @@ def validate_bulk():
     if error:
         return jsonify({"error": error, "error_type": "INPUT_ERROR"}), 400
 
+    # The whole file shares one time budget: rows are validated in parallel,
+    # each row's pipeline only gets the time that is left, and all rows are
+    # saved in one transaction at the end (each database round trip is slow).
     cfg = _cfg()
-    results = []
+    budget = float(current_app.config.get("BULK_TIME_BUDGET_SECONDS", BULK_TIME_BUDGET_SECONDS))
+    deadline = time.monotonic() + budget - BULK_SAVE_RESERVE_SECONDS
+
+    def validate_row(raw):
+        left = deadline - time.monotonic()
+        if left < BULK_MIN_ROW_SECONDS:
+            return None  # no time left to start this row
+        row_cfg = SimpleNamespace(**vars(cfg))
+        row_cfg.VALIDATION_TIME_BUDGET_SECONDS = min(left, row_cfg.VALIDATION_TIME_BUDGET_SECONDS or left)
+        # The public geocoder allows one request per second, so 50 rows cannot
+        # use it within the budget; every reference check and the offline road
+        # index still run for each row.
+        row_cfg.GEOCODING_ENABLED = False
+        return run_pipeline(raw, row_cfg, accepted=[])
+
+    results, futures = [], {}
     for number, text in enumerate(addresses, start=1):
         raw, error = _clean_address_input(text)
         row = {"row": number, "raw_address": text, "decision": "", "confidence": "", "risk_level": "",
                "rule": "", "suggested_corrections": "", "validation_id": "", "error": ""}
+        results.append(row)
         if error:
             row.update(decision="VALIDATION FAILED", error=error)
-            results.append(row)
+        else:
+            futures[number] = (raw, _BULK_POOL.submit(validate_row, raw))
+    wait([f for _, f in futures.values()], timeout=max(0.0, deadline - time.monotonic()) + 1)
+
+    saved = {}
+    for number, (raw, future) in futures.items():
+        row = results[number - 1]
+        if not future.done():
+            row["error"] = "Not finished within the time limit; validate this address on its own."
             continue
         try:
-            result = run_pipeline(raw, cfg, accepted=[])
-            v = Validation(
-                user_id=uid, raw_address=raw, parsed_data=result["parsed_data"],
-                corrections=result["corrections"], confidence=result["confidence"],
-                risk_level=result["risk_level"], decision=result["decision"],
-                pipeline=result["pipeline"], explainability=result["explainability"],
-            )
-            db.session.add(v)
-            db.session.commit()
-        except SQLAlchemyError:
-            db.session.rollback()
-            logger.exception("Saving bulk row %s failed", number)
-            row["error"] = DATABASE_FAILURE_MESSAGE
-            results.append(row)
-            continue
+            result = future.result()
         except Exception:
             logger.exception("Bulk row %s failed", number)
             row["error"] = TECHNICAL_FAILURE_MESSAGE
-            results.append(row)
             continue
-        row.update(
+        if result is None:
+            row["error"] = "Not started within the time limit; validate this address on its own."
+            continue
+        saved[number] = Validation(
+            user_id=uid, raw_address=raw, parsed_data=result["parsed_data"],
+            corrections=result["corrections"], confidence=result["confidence"],
+            risk_level=result["risk_level"], decision=result["decision"],
+            pipeline=result["pipeline"], explainability=result["explainability"],
+        )
+    try:
+        db.session.add_all(saved.values())
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        logger.exception("Saving bulk results failed")
+        for number in saved:
+            results[number - 1]["error"] = DATABASE_FAILURE_MESSAGE
+        saved = {}
+    for number, v in saved.items():
+        results[number - 1].update(
             decision=v.decision, confidence=v.confidence, risk_level=v.risk_level,
             rule=(v.explainability or {}).get("decision_rule", ""), validation_id=v.validation_id,
             suggested_corrections="; ".join(
                 f"{c.get('field')}: {c.get('original')} -> {c.get('suggested')}" for c in v.corrections or []),
         )
-        results.append(row)
 
     buffer = io.StringIO()
     writer = csv.DictWriter(buffer, fieldnames=list(results[0]))

@@ -52,3 +52,33 @@ def test_bulk_rejects_non_csv_and_too_many_rows(client):
     too_many = "address\n" + "\n".join(f"Flat {i}, Hyderabad, Telangana 500081" for i in range(51))
     response = _upload(client, too_many)
     assert response.status_code == 400 and "at most 50" in response.get_json()["error"]
+
+
+def test_whole_file_stays_within_the_time_budget(tmp_path):
+    import time
+    from unittest import mock
+    from routes import api
+    app = create_app({"SQLALCHEMY_DATABASE_URI": f"sqlite:///{tmp_path / 'budget.db'}", "TESTING": True,
+                      "GROQ_API_KEY": "", "SECRET_KEY": "test", "BULK_TIME_BUDGET_SECONDS": 6.0})
+    client = app.test_client()
+    client.post("/api/auth/register", json={"name": "T", "email": "t@test.local", "password": "pass12345"})
+    real = api.run_pipeline
+
+    def slow(raw, cfg, **kwargs):  # every row takes 2.5 s (a slow AI service)
+        time.sleep(2.5)
+        return real(raw, cfg, **kwargs)
+
+    text = "address\n" + "\n".join(f"Flat {i}, Madhapur, Hyderabad, Telangana 500081" for i in range(40))
+    with mock.patch.object(api, "run_pipeline", slow):
+        started = time.monotonic()
+        body = _upload(client, text).get_json()
+        elapsed = time.monotonic() - started
+    assert elapsed < 6.0 + 1.0
+    finished = [r for r in body["rows"] if r["decision"]]
+    unfinished = [r for r in body["rows"] if not r["decision"]]
+    assert finished and unfinished  # some rows done, the rest reported, nothing runs over
+    assert all("time limit" in r["error"] for r in unfinished)
+    from models import db
+    with app.app_context():
+        db.session.remove()
+        db.engine.dispose()

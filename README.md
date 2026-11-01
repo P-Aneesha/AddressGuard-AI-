@@ -282,6 +282,9 @@ The dashboard accepts a CSV with one address per row (a column named `address` o
 the first column). Up to 50 rows per file; each row is validated and saved to History exactly like a
 single validation, and the results can be downloaded as CSV (formula-injection safe).
 
+The whole file shares one 20-second budget: rows are validated in parallel and saved in one
+transaction. The public geocoder is skipped in bulk because it allows only one request per second.
+
 ## Measured correction acceptance
 
 Every accept, edit or reject of a correction suggestion is stored in the `review_decisions` table. The

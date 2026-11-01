@@ -64,3 +64,12 @@ Notes:
   With the AI working, a new address took about 2.2 s (measured earlier).
 - These timings used a local SQLite test database; against Neon from India each database query adds ~0.22 s
   (about 6 queries per validation, ~1.3 s).
+
+## Bulk upload within 20 seconds (added 1 Nov 2026)
+- The whole file (up to 50 rows) shares one 20 s budget: rows run in parallel (8 at a time), each row's
+  pipeline gets only the time left, all rows are saved in one database transaction, and 3 s are kept for
+  saving. A row that cannot finish in time is reported as not finished instead of delaying the file.
+- The public geocoder is skipped in bulk (its policy allows 1 request/second, so 50 rows cannot fit in 20 s);
+  every reference check and the offline road index still run for each row.
+- Measured end-to-end through the API (live AI key, local test database):
+  16-row sample file 6.2 s (was ~40 s sequential), 50-row file 6.0–8.4 s; all rows finished.
