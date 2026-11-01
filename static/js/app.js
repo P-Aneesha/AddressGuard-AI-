@@ -277,12 +277,10 @@ if ($("#runBtn")) {
     ];
     // Measured from the reviewer's own accept/edit/reject decisions.
     const review = data.review || {};
-    boxes.push([
-      review.reviewed ? `Corrections accepted (${review.reviewed} reviewed)` : "Corrections accepted (none reviewed yet)",
-      review.reviewed ? `${review.acceptance_rate}%` : "—",
-      "✎",
-      "purple",
-    ]);
+    // With no reviews yet there is no rate to show, so show the count (0) instead of a bare dash.
+    boxes.push(review.reviewed
+      ? ["Corrections accepted (" + review.reviewed + " reviewed)", `${review.acceptance_rate}%`, "✎", "purple"]
+      : ["Corrections reviewed", 0, "✎", "purple"]);
 
     $("#statsSection").innerHTML = boxes.map(([label, value, icon, cls]) => `
       <div class="stat-box">
@@ -963,6 +961,7 @@ if ($("#historyTable")) {
           <td class="cell-actions">
             <a class="table-btn" href="/dashboard?id=${id}">View</a>
             <a class="table-btn" href="/api/report/${id}/pdf" target="_blank" rel="noopener">PDF</a>
+            <button class="table-btn danger" type="button" data-delete="${escapeHtml(v.validation_id || "")}">Delete</button>
           </td>
         </tr>`;
     }).join("");
@@ -979,6 +978,31 @@ if ($("#historyTable")) {
     historyRows = data.history || [];
     renderHistory();
   }
+
+  // Delete a record after confirmation; the row disappears only once the server confirms.
+  $("#historyTable")?.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-delete]");
+    if (!button) return;
+    const id = button.dataset.delete;
+    const record = historyRows.find(v => v.validation_id === id);
+    const preview = String(record?.raw_address || "").slice(0, 80);
+    if (!confirm(`Delete this validation permanently?
+
+${preview}
+
+This cannot be undone.`)) return;
+    button.disabled = true;
+    button.textContent = "Deleting…";
+    const { response, data } = await jsonFetch(`/api/validation/${encodeURIComponent(id)}`, { method: "DELETE" });
+    if (!response.ok) {
+      button.disabled = false;
+      button.textContent = "Delete";
+      alert(apiErrorMessage(response, data, "Could not delete this validation."));
+      return;
+    }
+    historyRows = historyRows.filter(v => v.validation_id !== id);
+    renderHistory();
+  });
 
   $("#historySearch")?.addEventListener("input", renderHistory);
   $("#historyFilter")?.addEventListener("change", renderHistory);

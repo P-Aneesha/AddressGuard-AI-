@@ -502,6 +502,30 @@ def get_validation(validation_id):
     return jsonify(_result_payload(v))
 
 
+@api_bp.delete("/validation/<validation_id>")
+def delete_validation(validation_id):
+    """Delete one of the signed-in user's own validations (from History).
+
+    Its review decisions are removed in the same transaction; another user's
+    record is reported as not found, so its existence is not revealed.
+    """
+    uid = _require_login()
+    if not uid:
+        return jsonify({"error": "login required"}), 401
+    v = Validation.query.filter_by(validation_id=validation_id, user_id=uid).first()
+    if not v:
+        return jsonify({"error": "That validation was not found."}), 404
+    try:
+        ReviewDecision.query.filter_by(validation_id=v.id).delete(synchronize_session=False)
+        db.session.delete(v)
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        logger.exception("Deleting validation %s failed", validation_id)
+        return jsonify({"error": DATABASE_FAILURE_MESSAGE, "error_type": "TECHNICAL_FAILURE"}), 503
+    return jsonify({"deleted": validation_id})
+
+
 @api_bp.get("/dashboard-stats")
 def dashboard_stats():
     uid = _require_login()
