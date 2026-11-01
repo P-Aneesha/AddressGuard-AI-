@@ -173,7 +173,8 @@
         "original": "560034",
         "suggested": "500081"
       }
-    ]
+    ],
+    "expected_status_after_correction": "VERIFIED"
   },
   {
     "id": "P02",

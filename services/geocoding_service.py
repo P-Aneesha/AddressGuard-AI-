@@ -6,11 +6,15 @@ it reports CONFIRMED, PARTIAL MATCH, NOT FOUND, or UNAVAILABLE.
 """
 import json
 import logging
+import math
 import re
+import threading
+import time
 import urllib.parse
 import urllib.request
 
-from services.official_reference_service import lookup_pincode
+from services.official_reference_service import lookup_pincode, street_near_pin
+from utils.ai_cache import ResultCache
 
 logger = logging.getLogger("addressguard.geocoding")
 
@@ -47,22 +51,22 @@ def _queries(parsed):
     building = _clean(parsed.get("building"))
 
     queries = []
-    # Precise query first, but do not make a failed building/house match fatal.
+    # The area query (locality, city, state, PIN) is what the comparison uses and
+    # is what OpenStreetMap usually has for Indian addresses, so it goes first;
+    # the full query with house/building/street is only tried when it is the
+    # only query available. Each extra query costs a 1.1 s policy pause.
     full_parts = [
         _clean(parsed.get("house_number")), parsed.get("flat_unit"), building,
         street, locality, city, district, state, pin, "India"
     ]
     full = ", ".join(_clean(p) for p in full_parts if _clean(p))
-    if full:
-        queries.append(full)
-
-    # Reduced geographic query is much more likely to be indexed in OSM.
-    reduced_parts = [locality, city, district, state, pin, "India"]
+    reduced_parts = [locality, city, district, state, pin]
     reduced = ", ".join(_clean(p) for p in reduced_parts if _clean(p))
-    if reduced and reduced != full:
-        queries.append(reduced)
-
-    return queries[:2]
+    if reduced:
+        queries.append(reduced + ", India")
+    elif full:
+        queries.append(full)
+    return queries
 
 
 def _build_match_result(parsed, item):
@@ -152,6 +156,89 @@ def _postal_fallback(parsed):
     }
 
 
+_NOMINATIM_LOCK = threading.Lock()
+_GEOCODE_CACHE = ResultCache(max_items=1024)
+_last_call = [0.0]
+STREET_NEAR_KM = 5.0
+
+
+def _nominatim(url, params, timeout):
+    """One Nominatim request, spaced at least 1.1 s from the previous one
+    (the public service's usage policy allows one request per second)."""
+    with _NOMINATIM_LOCK:
+        wait = 1.1 - (time.monotonic() - _last_call[0])
+        if wait > 0:
+            time.sleep(wait)
+        _last_call[0] = time.monotonic()
+    req = urllib.request.Request(f"{url}?{urllib.parse.urlencode(params)}",
+                                 headers={"User-Agent": "AddressGuard-AI/1.0 research-project"})
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def _km(a, b):
+    dx = (b[1] - a[1]) * math.cos(math.radians((a[0] + b[0]) / 2))
+    return math.hypot(b[0] - a[0], dx) * 111.2
+
+
+def _describe_offline(found, street, city, pin):
+    status = found["status"]
+    reasons = {
+        "FOUND NEAR PIN": f"'{found.get('name')}' is mapped {found.get('distance_km')} km from a post office of PIN {pin}",
+        "FOUND ELSEWHERE": f"A road named '{street}' is mapped in the state, but {found.get('distance_km')} km from "
+                           f"PIN {pin}; common road names repeat across a city",
+        "FOUND IN STATE": f"A road named '{street}' is mapped in the state (the PIN has no coordinates to compare)",
+        "NOT IN OPENSTREETMAP": f"'{street}' is not on the OpenStreetMap map near PIN {pin} yet. "
+                                "Many Indian streets are not mapped, so this does not affect the decision",
+    }
+    return {**found, "source": "OpenStreetMap offline road index", "reason": reasons[status]}
+
+
+def verify_street(parsed, enabled=False, url="https://nominatim.openstreetmap.org/search", timeout=8):
+    """Check whether a road of the given name is mapped near the PIN's post offices.
+
+    Informational only: OpenStreetMap's street coverage in India is incomplete
+    and generic names ("Main Road") exist everywhere, so the result never
+    changes the decision. Statuses: FOUND NEAR PIN, FOUND ELSEWHERE,
+    NOT IN OPENSTREETMAP, NOT CHECKED, UNAVAILABLE.
+    """
+    street, city, state = _clean(parsed.get("street")), _clean(parsed.get("city")), _clean(parsed.get("state"))
+    if not street or not (city or parsed.get("locality")):
+        return {"status": "NOT CHECKED", "reason": "No street, or no city/locality to search in"}
+    # The offline road index (every named road in OpenStreetMap) needs no network.
+    offline = street_near_pin(street, state, parsed.get("pin_code", ""))
+    if offline is not None:
+        return _describe_offline(offline, street, city, parsed.get("pin_code", ""))
+    if not enabled:
+        return {"status": "NOT CHECKED", "reason": "No offline road index and external geocoding is disabled"}
+    pin_points = []
+    for row in lookup_pincode(_clean(parsed.get("pin_code"))) if parsed.get("pin_code") else []:
+        try:
+            pin_points.append((float(row.get("latitude")), float(row.get("longitude"))))
+        except (TypeError, ValueError):
+            continue
+    try:
+        data = _nominatim(url, {"street": street, "city": city or _clean(parsed.get("locality")), "state": state,
+                                "country": "India", "format": "jsonv2", "addressdetails": 1, "limit": 5}, timeout)
+    except Exception as exc:
+        logger.warning("Street lookup failed: %s", exc)
+        return {"status": "UNAVAILABLE", "reason": f"External geocoder unavailable: {type(exc).__name__}"}
+    roads = [d for d in data or [] if _similar((d.get("address") or {}).get("road"), street)]
+    if not roads:
+        return {"status": "NOT IN OPENSTREETMAP",
+                "reason": f"'{street}' is not on the OpenStreetMap map of {city or parsed.get('locality')} yet. "
+                          "Many Indian streets are not mapped, so this does not affect the decision"}
+    if not pin_points:
+        return {"status": "FOUND ELSEWHERE", "reason": f"'{street}' is mapped in {city}, but the PIN has no coordinates to compare"}
+    best = min(_km((float(d["lat"]), float(d["lon"])), p) for d in roads for p in pin_points)
+    if best <= STREET_NEAR_KM:
+        return {"status": "FOUND NEAR PIN", "distance_km": round(best, 1),
+                "reason": f"'{street}' is mapped {best:.1f} km from a post office of PIN {parsed.get('pin_code')}"}
+    return {"status": "FOUND ELSEWHERE", "distance_km": round(best, 1),
+            "reason": f"A road named '{street}' is mapped in {city}, but {best:.0f} km from PIN "
+                      f"{parsed.get('pin_code')}; common road names repeat across a city"}
+
+
 def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap.org/search", timeout=8):
     if not enabled:
         return {
@@ -175,19 +262,11 @@ def verify_geocoding(parsed, enabled=False, url="https://nominatim.openstreetmap
     external_error = None
     for query in query_list:
         try:
-            params = urllib.parse.urlencode({
-                "q": query,
-                "format": "jsonv2",
-                "addressdetails": 1,
-                "limit": 1,
-                "countrycodes": "in",
-            })
-            req = urllib.request.Request(
-                f"{url}?{params}",
-                headers={"User-Agent": "AddressGuard-AI/1.0 research-project"},
-            )
-            with urllib.request.urlopen(req, timeout=timeout) as response:
-                data = json.loads(response.read().decode("utf-8"))
+            data = _GEOCODE_CACHE.get((url, query))
+            if data is None:
+                data = _nominatim(url, {"q": query, "format": "jsonv2", "addressdetails": 1,
+                                        "limit": 1, "countrycodes": "in"}, timeout)
+                _GEOCODE_CACHE.put((url, query), data)
 
             if not data:
                 continue

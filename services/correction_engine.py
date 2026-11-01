@@ -1,7 +1,7 @@
 import difflib
 import re
 
-from services.official_reference_service import reference_place_name
+from services.official_reference_service import named_place, reference_place_name
 
 from utils.indian_data import (
     INDIAN_STATES,
@@ -760,8 +760,10 @@ def generate_corrections(parsed: dict) -> list:
 
         # A locality that exactly names a real place in the stated state is not
         # a misspelling, even if it resembles a better-known one (Raipur/Jaipur).
-        if field == "locality" and not LOCALITY_ALIASES.get(raw.lower()) and \
-                reference_place_name(raw, parsed.get("state", "")):
+        if (field == "locality" and not LOCALITY_ALIASES.get(raw.lower())
+                and reference_place_name(raw, parsed.get("_validated_state") or parsed.get("state", ""))) or (
+                field == "city" and not CITY_ALIASES.get(raw.lower())
+                and named_place(raw, parsed.get("_validated_state") or parsed.get("state", ""))):
             canonical_protected_fields.add(field)
             continue
 

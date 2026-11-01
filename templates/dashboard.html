@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AddressGuard AI — Dashboard</title>
   <script>try{document.documentElement.dataset.theme=localStorage.getItem("ag-theme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css?v=6">
 </head>
 <body class="dashboard-page">
 <header class="topbar">
@@ -24,6 +24,13 @@
       <div id="profileMenu" class="profile-menu hidden">
         <div class="profile-menu-head"><span id="profileAvatar" class="user-avatar large">P</span><div><strong id="profileName">User</strong><small id="profileEmail">—</small></div></div>
         <div class="profile-stat"><span>Account</span><b>Active</b></div>
+        <button id="changePwToggle" class="profile-secondary" type="button">Change password</button>
+        <form id="changePwForm" class="change-pw hidden" autocomplete="off">
+          <input id="currentPw" type="password" placeholder="Current password" autocomplete="current-password" required>
+          <input id="newPw" type="password" placeholder="New password (8+ characters)" minlength="8" autocomplete="new-password" required>
+          <button class="primary-btn" type="submit">Update password</button>
+          <small id="changePwMsg" class="change-pw-msg" role="status" aria-live="polite"></small>
+        </form>
         <button id="profileLogoutBtn" class="profile-logout">Sign out</button>
       </div>
     </div>
@@ -65,6 +72,23 @@ Opposit Indiranagr Metro Staton"></textarea>
       <span class="input-hint">Your address is processed through the validation pipeline.</span>
     </div>
     <div id="inputMessage" class="input-message hidden" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="card input-card">
+    <div class="card-title-row">
+      <div class="section-icon">▤</div>
+      <div><h2>Bulk validation</h2><p>Upload a CSV with one address per row (column "address", or the first column). Up to 50 addresses per file.</p></div>
+    </div>
+    <div class="input-actions">
+      <input id="bulkFile" type="file" accept=".csv,text/csv" class="bulk-file">
+      <button id="bulkBtn" class="primary-btn">▶ Validate file</button>
+      <span class="input-hint">Every row is saved to History, where it can be reviewed.</span>
+    </div>
+    <div id="bulkMessage" class="input-message hidden" role="status" aria-live="polite"></div>
+    <div id="bulkResult" class="hidden">
+      <div id="bulkSummary" class="bulk-summary"></div>
+      <button id="bulkDownload" class="secondary-btn">⤓ Download results CSV</button>
+    </div>
   </section>
 
   <section id="resultSection" class="hidden">
@@ -151,6 +175,7 @@ Opposit Indiranagr Metro Staton"></textarea>
     <div id="evaluationBox"><div class="loading-state">Loading evaluation results…</div></div>
   </section>
 </main>
-<script src="/static/js/app.js"></script>
+<script src="/static/js/theme.js?v=6"></script>
+<script src="/static/js/app.js?v=6"></script>
 </body>
 </html>

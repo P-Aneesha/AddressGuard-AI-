@@ -1,6 +1,6 @@
 import re
 import difflib
-from services.official_reference_service import reference_place_name
+from services.official_reference_service import named_place, post_office_at_pin, reference_place_name
 from utils.indian_data import (
     STATE_ALIASES, CITY_ALIASES, CITY_STATE_MAP, KNOWN_LOCALITIES, LOCALITY_ALIASES,
     STREET_KEYWORDS, HOUSE_KEYWORDS, FLAT_KEYWORDS, BUILDING_KEYWORDS,
@@ -214,8 +214,18 @@ def parse_address(raw: str) -> dict:
     street_candidates = []
     weak_locality = False
     partial_locality_segment = ""
+    multiword_cities = {c.lower(): c for c in CITY_STATE_MAP if " " in c}
     for seg in segments:
         work = seg
+
+        # "Neww Delhi": a misspelt multi-word city would otherwise be read as
+        # the state it contains ("Delhi") plus a leftover word ("Neww").
+        if not result["city"] and len(work.split()) > 1:
+            close = difflib.get_close_matches(work.lower(), list(multiword_cities), n=1, cutoff=0.88)
+            if close and close[0] != work.lower():
+                result["city"] = multiword_cities[close[0]]
+                result["_raw_correction_fields"]["city"] = work
+                continue
 
         state_hit = _canonical_from_text(work, STATE_ALIASES)
         if state_hit:
@@ -314,6 +324,12 @@ def parse_address(raw: str) -> dict:
     remaining_for_structure = []
     for seg in residual_segments:
         low = seg.lower()
+        # Delhi/Chandigarh name both city and state: in "Delhi, Dehli" or
+        # "New Delhi, Dehli" the misspelt segment is the state.
+        if (result["state"] in CITY_STATE_MAP and "state" not in result["_raw_correction_fields"]
+                and low != result["state"].lower() and _fuzzy_reference(seg, [result["state"]], 0.75)):
+            result["_raw_correction_fields"]["state"] = seg
+            continue
         if not result["state"]:
             candidate = _fuzzy_reference(seg, STATE_ALIASES.values(), 0.80)
             if candidate and not _has_kw(low, HOUSE_KEYWORDS + STREET_KEYWORDS + BUILDING_KEYWORDS):
@@ -326,6 +342,9 @@ def parse_address(raw: str) -> dict:
             state_cities = [c for c, s in CITY_STATE_MAP.items() if s == result["state"]]
             candidate = _fuzzy_reference(seg, state_cities, 0.70) if state_cities \
                 else _fuzzy_reference(seg, CITY_STATE_MAP.keys(), 0.78)
+            # A real town of the state (Gudur) is not a misspelt city (Guntur).
+            if candidate and named_place(seg, result["state"]):
+                candidate = None
             if candidate and not _has_kw(low, HOUSE_KEYWORDS + STREET_KEYWORDS + BUILDING_KEYWORDS):
                 result["city"] = candidate
                 result["_raw_correction_fields"]["city"] = seg
@@ -441,8 +460,10 @@ def parse_address(raw: str) -> dict:
         pool = list(result["unrecognized_text"]) + street_candidates[1:] + street_candidates[:1]
         for candidate in pool:
             # Road names often double as post-office names ("Station Road"), so
-            # a segment that names a road is never taken as the locality.
-            if ROAD_WORD_RE.search(candidate):
+            # a segment that names a road is taken as the locality only when a
+            # post office of exactly that name serves the stated PIN ("Anna Road").
+            if ROAD_WORD_RE.search(candidate) and not (
+                    len(street_candidates) > 1 and post_office_at_pin(candidate, result["pin_code"])):
                 continue
             if reference_place_name(candidate, result["state"]):
                 result["locality"] = candidate

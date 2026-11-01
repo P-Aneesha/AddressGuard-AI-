@@ -4,13 +4,16 @@
     python scripts/fetch_reference_data.py            # both datasets
     python scripts/fetch_reference_data.py --lgd      # LGD villages + village PIN codes
     python scripts/fetch_reference_data.py --osm      # OpenStreetMap urban localities
+    python scripts/fetch_reference_data.py --streets  # every named road in OpenStreetMap
 
 Sources
 - LGD (Local Government Directory, Ministry of Panchayati Raj) village directory
   and village-to-PIN mapping, as republished daily from lgdirectory.gov.in at
   github.com/ramSeraph/opendata (release "lgd-latest").
-- OpenStreetMap named suburbs, neighbourhoods and quarters in India, via the
-  Overpass API. OSM data is (c) OpenStreetMap contributors, ODbL 1.0.
+- OpenStreetMap named suburbs, neighbourhoods, quarters, localities and
+  residential areas, and every named road, in India, via the Overpass API.
+  OSM data is (c) OpenStreetMap contributors, ODbL 1.0. OpenStreetMap does not
+  map every Indian street; no free dataset does.
 
 After downloading, the reference index is rebuilt automatically on the next
 app start, or immediately with: python scripts/build_reference_index.py
@@ -26,6 +29,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 import httpx
@@ -48,6 +52,9 @@ area["ISO3166-1"="IN"][admin_level=2]->.in;
   node["place"~"^(suburb|neighbourhood|quarter)$"]["name"](area.in);
   way["place"~"^(suburb|neighbourhood|quarter)$"]["name"](area.in);
   relation["place"~"^(suburb|neighbourhood|quarter)$"]["name"](area.in);
+  node["place"="locality"]["name"](area.in);
+  way["landuse"="residential"]["name"](area.in);
+  relation["landuse"="residential"]["name"](area.in);
 );
 out center tags;
 """
@@ -150,12 +157,14 @@ def _nearest(grid, lat, lon, max_km=15):
     return best if best and best[0] <= max_km else None
 
 
-def fetch_osm():
+def fetch_osm(target=None):
+    # Colonies are often mapped as named residential areas or place=locality
+    # rather than as suburbs, so those are included too.
     payload = _overpass()
     elements = payload.get("elements", [])
     print(f"  {len(elements):,} OSM elements")
     grid = _post_office_grid()
-    target = DATA / "osm_localities.csv"
+    target = Path(target or os.getenv("OSM_OUTPUT") or DATA / "osm_localities.csv")
     written = 0
     with target.open("w", encoding="utf-8", newline="") as fh:
         w = csv.writer(fh)
@@ -180,18 +189,92 @@ def fetch_osm():
             if key in seen:
                 continue
             seen.add(key)
-            w.writerow([f"{el['type']}/{el['id']}", name, tags.get("place", ""), lat, lon, postcode,
+            place = tags.get("place") or ("residential" if tags.get("landuse") == "residential" else "")
+            w.writerow([f"{el['type']}/{el['id']}", name, place, lat, lon, postcode,
                         district, state, "nearest India Post office" if near else ""])
             written += 1
     print(f"  {target.name}: {written:,} localities (OSM base {payload.get('osm3s', {}).get('timestamp_osm_base', '?')})")
+
+
+# ---------------------------------------------------------------- OSM streets
+
+# ISO 3166-2 codes of every Indian state and union territory.
+STATE_CODES = {
+    "AN": "Andaman and Nicobar Islands", "AP": "Andhra Pradesh", "AR": "Arunachal Pradesh", "AS": "Assam",
+    "BR": "Bihar", "CH": "Chandigarh", "CT": "Chhattisgarh", "DH": "Dadra and Nagar Haveli and Daman and Diu",
+    "DL": "Delhi", "GA": "Goa", "GJ": "Gujarat", "HR": "Haryana", "HP": "Himachal Pradesh",
+    "JK": "Jammu and Kashmir", "JH": "Jharkhand", "KA": "Karnataka", "KL": "Kerala", "LA": "Ladakh",
+    "LD": "Lakshadweep", "MP": "Madhya Pradesh", "MH": "Maharashtra", "MN": "Manipur", "ML": "Meghalaya",
+    "MZ": "Mizoram", "NL": "Nagaland", "OR": "Odisha", "PY": "Puducherry", "PB": "Punjab", "RJ": "Rajasthan",
+    "SK": "Sikkim", "TN": "Tamil Nadu", "TG": "Telangana", "TR": "Tripura", "UP": "Uttar Pradesh",
+    "UT": "Uttarakhand", "WB": "West Bengal",
+}
+# Roads that carry addresses; footpaths, tracks, cycleways etc. are left out.
+STREET_TYPES = "motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|service|road"
+STREET_QUERY = """[out:csv(::lat, ::lon, name, "name:en"; false; "\\t")][timeout:900];
+area["ISO3166-2"="IN-{code}"]->.s;
+way["highway"~"^({types})$"]["name"](area.s);
+out center;"""
+
+
+def fetch_osm_streets(target=None):
+    """Download every named road in India from OpenStreetMap, state by state.
+
+    Segments of the same road are merged per ~1 km cell, so each row is one
+    road name at one place. Only Latin-script names are kept. OpenStreetMap
+    does not map every Indian street; this is its full named-road coverage.
+    """
+    target = Path(target or os.getenv("OSM_STREETS_OUTPUT") or DATA / "osm_streets.csv")
+    partial = target.with_suffix(".partial")
+    seen, written = set(), 0
+    with partial.open("w", encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["name", "latitude", "longitude", "state"])
+        for code, state in STATE_CODES.items():
+            query = STREET_QUERY.format(code=code, types=STREET_TYPES)
+            text = None
+            for url in OVERPASS_URLS:
+                try:
+                    r = httpx.post(url, data={"data": query}, headers=HEADERS, timeout=httpx.Timeout(900, connect=30))
+                    r.raise_for_status()
+                    text = r.text
+                    break
+                except Exception as exc:
+                    print(f"    {code} via {url}: {type(exc).__name__}")
+            if text is None:
+                raise RuntimeError(f"Overpass unavailable for {state}")
+            before = written
+            for line in text.splitlines():
+                parts = line.split("\t")
+                if len(parts) < 4:
+                    continue
+                lat, lon, name, name_en = parts[:4]
+                name = (name_en or name).strip()
+                if not name or not re.search(r"[A-Za-z]", name) or re.search(r"[^\x00-\x7F]", name):
+                    continue
+                try:
+                    lat, lon = float(lat), float(lon)
+                except ValueError:
+                    continue
+                key = (name.lower(), round(lat, 2), round(lon, 2))
+                if key in seen:
+                    continue
+                seen.add(key)
+                w.writerow([name, f"{lat:.6f}", f"{lon:.6f}", state])
+                written += 1
+            print(f"  {state}: {written - before:,} named roads", flush=True)
+            time.sleep(5)  # be gentle with the shared public Overpass service
+    os.replace(partial, target)
+    print(f"  {target.name}: {written:,} named roads across India")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--lgd", action="store_true", help="download LGD villages and village PIN codes")
     parser.add_argument("--osm", action="store_true", help="download OpenStreetMap localities")
+    parser.add_argument("--streets", action="store_true", help="download every named road in India (OpenStreetMap)")
     args = parser.parse_args()
-    both = not (args.lgd or args.osm)
+    both = not (args.lgd or args.osm or args.streets)
     failed = False
     if args.lgd or both:
         print("Downloading LGD village data...")
@@ -207,6 +290,13 @@ def main():
         except Exception as exc:
             failed = True
             print(f"  OSM download failed: {type(exc).__name__}: {exc}")
+    if args.streets or both:
+        print("Downloading OpenStreetMap named roads (one state at a time, can take an hour)...")
+        try:
+            fetch_osm_streets()
+        except Exception as exc:
+            failed = True
+            print(f"  Street download failed: {type(exc).__name__}: {exc}")
     print("Rebuild the index with: python scripts/build_reference_index.py")
     return 1 if failed else 0
 

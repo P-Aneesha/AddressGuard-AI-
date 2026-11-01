@@ -25,6 +25,7 @@ LIMITS = {
     "register": ("5/3600", False),
     "validate": ("30/60", True),
     "validate_daily": ("500/86400", True),
+    "bulk": ("5/3600", True),  # up to 50 addresses per upload
 }
 
 

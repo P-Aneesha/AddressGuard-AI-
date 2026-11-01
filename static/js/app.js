@@ -12,9 +12,13 @@ function escapeHtml(value) {
   return d.innerHTML;
 }
 
+// Every API call carries this header; the server rejects state-changing
+// requests without it, which blocks cross-site request forgery.
+const CSRF_HEADERS = { "X-Requested-With": "AddressGuard" };
+
 async function jsonFetch(url, options = {}) {
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url, { ...options, headers: { ...CSRF_HEADERS, ...(options.headers || {}) } });
     let data = {};
     try { data = await response.json(); } catch (_) {}
     return { response, data };
@@ -67,26 +71,6 @@ function parseUtc(value) {
   const date = new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(text) ? text : `${text}Z`);
   return Number.isNaN(date.getTime()) ? null : date;
 }
-
-/* =========================
-   THEME (light / dark)
-========================= */
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  const toggle = $("#themeToggle");
-  if (toggle) {
-    toggle.textContent = theme === "light" ? "☾" : "☀";
-    toggle.title = theme === "light" ? "Switch to dark theme" : "Switch to light theme";
-  }
-}
-
-applyTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
-
-$("#themeToggle")?.addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-  applyTheme(next);
-  try { localStorage.setItem("ag-theme", next); } catch (_) {}
-});
 
 function setAuthMessage(message, ok = false) {
   const box = $("#authMsg");
@@ -213,6 +197,24 @@ if ($("#profileBtn")) {
     }
   });
 
+  $("#changePwToggle")?.addEventListener("click", () => {
+    $("#changePwForm")?.classList.toggle("hidden");
+    $("#currentPw")?.focus();
+  });
+
+  $("#changePwForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const msg = $("#changePwMsg");
+    const { response, data } = await jsonFetch("/api/auth/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ current_password: $("#currentPw").value, new_password: $("#newPw").value })
+    });
+    msg.textContent = response.ok ? "Password updated." : apiErrorMessage(response, data, "Could not change the password.");
+    msg.className = `change-pw-msg ${response.ok ? "ok" : "bad"}`;
+    if (response.ok) event.target.reset();
+  });
+
   $("#profileLogoutBtn")?.addEventListener("click", async () => {
     await jsonFetch("/api/auth/logout", { method: "POST" });
     location.href = "/login";
@@ -220,7 +222,7 @@ if ($("#profileBtn")) {
 
   $("#logoutBtn")?.addEventListener("click", async (event) => {
     event.preventDefault();
-    await fetch("/api/auth/logout", { method: "POST" });
+    await fetch("/api/auth/logout", { method: "POST", headers: CSRF_HEADERS });
     location.href = "/";
   });
 
@@ -272,6 +274,14 @@ if ($("#runBtn")) {
       ["Validation warnings", decisions["VALIDATION WARNING"] ?? 0, "⚠", "orange"],
       ["Validation failed", decisions["VALIDATION FAILED"] ?? 0, "×", "red"]
     ];
+    // Measured from the reviewer's own accept/edit/reject decisions.
+    const review = data.review || {};
+    boxes.push([
+      review.reviewed ? `Corrections accepted (${review.reviewed} reviewed)` : "Corrections accepted (none reviewed yet)",
+      review.reviewed ? `${review.acceptance_rate}%` : "—",
+      "✎",
+      "purple",
+    ]);
 
     $("#statsSection").innerHTML = boxes.map(([label, value, icon, cls]) => `
       <div class="stat-box">
@@ -431,7 +441,9 @@ if ($("#runBtn")) {
     box.innerHTML = pipeline.map(stage => {
       const status = String(stage.status || "");
       const lower = status.toLowerCase();
-      const cls = lower === "completed" ? "stage-completed" : lower === "failed" ? "stage-failed" : "stage-warning";
+      // "Info"/"Skipped" are informational checks that never affect the decision.
+      const cls = lower === "completed" ? "stage-completed" : lower === "failed" ? "stage-failed"
+        : (lower === "info" || lower === "skipped") ? "stage-info" : "stage-warning";
       return `
         <div class="pipeline-stage">
           <div class="pipeline-top">
@@ -800,6 +812,62 @@ if ($("#runBtn")) {
       button.disabled = false;
       button.textContent = "▶ Run validation";
     }
+  });
+
+  // Bulk validation: upload a CSV, show a summary, offer the results as a CSV.
+  let bulkCsv = "";
+  function showBulkMessage(message, kind = "input") {
+    const box = $("#bulkMessage");
+    if (!box) return;
+    box.textContent = message || "";
+    box.className = `input-message ${message ? kind : "hidden"}`;
+  }
+
+  $("#bulkBtn")?.addEventListener("click", async () => {
+    const file = $("#bulkFile")?.files?.[0];
+    showBulkMessage("");
+    hide("#bulkResult");
+    if (!file) {
+      showBulkMessage("Choose a CSV file first.", "input");
+      return;
+    }
+    const button = $("#bulkBtn");
+    button.disabled = true;
+    button.textContent = "Validating file...";
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const { response, data } = await jsonFetch("/api/validate-bulk", { method: "POST", body: form });
+      if (!response.ok) {
+        const technical = data.error_type === "TECHNICAL_FAILURE" || response.status >= 500 || response.status === 0;
+        showBulkMessage(apiErrorMessage(response, data, "Bulk validation failed."), technical ? "technical" : "input");
+        return;
+      }
+      bulkCsv = data.csv || "";
+      const s = data.summary || {};
+      $("#bulkSummary").innerHTML = `
+        <strong>${escapeHtml(data.total)} addresses validated</strong>
+        <span class="badge good">${escapeHtml(s["VERIFIED"] ?? 0)} verified</span>
+        <span class="badge warning">${escapeHtml(s["NEEDS CUSTOMER CONFIRMATION"] ?? 0)} need confirmation</span>
+        <span class="badge alert">${escapeHtml(s["VALIDATION WARNING"] ?? 0)} warnings</span>
+        <span class="badge danger">${escapeHtml(s["VALIDATION FAILED"] ?? 0)} failed</span>
+        ${s.errors ? `<span class="badge neutral">${escapeHtml(s.errors)} could not be processed</span>` : ""}`;
+      show("#bulkResult");
+      await loadStats();
+    } finally {
+      button.disabled = false;
+      button.textContent = "▶ Validate file";
+    }
+  });
+
+  $("#bulkDownload")?.addEventListener("click", () => {
+    if (!bulkCsv) return;
+    const url = URL.createObjectURL(new Blob([bulkCsv], { type: "text/csv;charset=utf-8" }));
+    const link = Object.assign(document.createElement("a"), { href: url, download: "addressguard-bulk-results.csv" });
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   });
 
   // Opened from the History page: /dashboard?id=<validation_id>

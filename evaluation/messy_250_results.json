@@ -1,29 +1,31 @@
 {
   "summary": {
-    "executed_at_utc": "2026-10-22T17:44:19+00:00",
+    "executed_at_utc": "2026-11-01T14:05:23+00:00",
     "total": 250,
-    "passed": 241,
-    "accuracy_pct": 96.4,
+    "passed": 249,
+    "accuracy_pct": 99.6,
     "false_verified": 0,
     "should_not_verify": 175,
-    "good_addresses_verified": 72,
+    "good_addresses_verified": 75,
     "good_addresses": 75,
     "time_ms": {
-      "mean": 152.0,
-      "median": 71.8,
-      "max": 421.6
+      "mean": 214.8,
+      "median": 149.0,
+      "max": 677.9
     },
+    "ai_mode": false,
+    "ai_used": 0,
     "per_category": {
       "Clean, complete": {
-        "passed": 24,
+        "passed": 25,
         "total": 25
       },
       "Messy formatting, all correct": {
-        "passed": 24,
+        "passed": 25,
         "total": 25
       },
       "WhatsApp multi-line, all correct": {
-        "passed": 24,
+        "passed": 25,
         "total": 25
       },
       "City misspelt": {
@@ -31,7 +33,7 @@
         "total": 25
       },
       "State misspelt": {
-        "passed": 23,
+        "passed": 25,
         "total": 25
       },
       "Phone missing": {
@@ -51,7 +53,7 @@
         "total": 25
       },
       "Not an address": {
-        "passed": 22,
+        "passed": 25,
         "total": 25
       }
     }
@@ -71,7 +73,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 319.1
+      "time_ms": 387.1,
+      "ai_used": false
     },
     {
       "id": "M002",
@@ -87,7 +90,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 61.0
+      "time_ms": 95.1,
+      "ai_used": false
     },
     {
       "id": "M003",
@@ -103,7 +107,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 68.8
+      "time_ms": 98.3,
+      "ai_used": false
     },
     {
       "id": "M004",
@@ -121,7 +126,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 89.2
+      "time_ms": 166.2,
+      "ai_used": false
     },
     {
       "id": "M005",
@@ -139,7 +145,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 272.6
+      "time_ms": 423.7,
+      "ai_used": false
     },
     {
       "id": "M006",
@@ -155,7 +162,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 69.8
+      "time_ms": 103.6,
+      "ai_used": false
     },
     {
       "id": "M007",
@@ -171,7 +179,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 42.0
+      "time_ms": 44.7,
+      "ai_used": false
     },
     {
       "id": "M008",
@@ -189,7 +198,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 284.1
+      "time_ms": 348.0,
+      "ai_used": false
     },
     {
       "id": "M009",
@@ -208,7 +218,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 270.3
+      "time_ms": 352.6,
+      "ai_used": false
     },
     {
       "id": "M010",
@@ -224,7 +235,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 341.5
+      "time_ms": 356.5,
+      "ai_used": false
     },
     {
       "id": "M011",
@@ -240,7 +252,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 104.7
+      "time_ms": 82.7,
+      "ai_used": false
     },
     {
       "id": "M012",
@@ -256,7 +269,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 58.2
+      "time_ms": 76.1,
+      "ai_used": false
     },
     {
       "id": "M013",
@@ -274,7 +288,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 105.5
+      "time_ms": 141.8,
+      "ai_used": false
     },
     {
       "id": "M014",
@@ -292,7 +307,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 280.1
+      "time_ms": 329.7,
+      "ai_used": false
     },
     {
       "id": "M015",
@@ -308,7 +324,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 51.4
+      "time_ms": 60.7,
+      "ai_used": false
     },
     {
       "id": "M016",
@@ -324,7 +341,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 40.0
+      "time_ms": 45.6,
+      "ai_used": false
     },
     {
       "id": "M017",
@@ -342,7 +360,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 316.9
+      "time_ms": 314.1,
+      "ai_used": false
     },
     {
       "id": "M018",
@@ -361,7 +380,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 318.5
+      "time_ms": 445.3,
+      "ai_used": false
     },
     {
       "id": "M019",
@@ -377,7 +397,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 295.8
+      "time_ms": 350.9,
+      "ai_used": false
     },
     {
       "id": "M020",
@@ -393,7 +414,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.8
+      "time_ms": 60.3,
+      "ai_used": false
     },
     {
       "id": "M021",
@@ -409,7 +431,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 58.0
+      "time_ms": 63.3,
+      "ai_used": false
     },
     {
       "id": "M022",
@@ -427,7 +450,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 73.4
+      "time_ms": 83.2,
+      "ai_used": false
     },
     {
       "id": "M023",
@@ -445,7 +469,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 257.1
+      "time_ms": 278.3,
+      "ai_used": false
     },
     {
       "id": "M024",
@@ -461,7 +486,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 58.6
+      "time_ms": 47.1,
+      "ai_used": false
     },
     {
       "id": "M025",
@@ -477,7 +503,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 40.0
+      "time_ms": 41.7,
+      "ai_used": false
     },
     {
       "id": "M026",
@@ -495,7 +522,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 351.0
+      "time_ms": 385.9,
+      "ai_used": false
     },
     {
       "id": "M027",
@@ -514,7 +542,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 306.0
+      "time_ms": 313.5,
+      "ai_used": false
     },
     {
       "id": "M028",
@@ -530,7 +559,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 277.3
+      "time_ms": 348.7,
+      "ai_used": false
     },
     {
       "id": "M029",
@@ -546,7 +576,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.8
+      "time_ms": 109.1,
+      "ai_used": false
     },
     {
       "id": "M030",
@@ -562,7 +593,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 70.0
+      "time_ms": 124.7,
+      "ai_used": false
     },
     {
       "id": "M031",
@@ -580,7 +612,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 65.6
+      "time_ms": 97.4,
+      "ai_used": false
     },
     {
       "id": "M032",
@@ -594,12 +627,12 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "state": "Chhattisgarh",
-        "locality": "Jabalpur"
+        "state": "Chhattisgarh"
       },
       "passed": true,
       "failures": [],
-      "time_ms": 335.3
+      "time_ms": 312.7,
+      "ai_used": false
     },
     {
       "id": "M033",
@@ -615,7 +648,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 60.2
+      "time_ms": 63.5,
+      "ai_used": false
     },
     {
       "id": "M034",
@@ -631,7 +665,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 40.1
+      "time_ms": 58.2,
+      "ai_used": false
     },
     {
       "id": "M035",
@@ -649,7 +684,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 305.5
+      "time_ms": 332.3,
+      "ai_used": false
     },
     {
       "id": "M036",
@@ -668,7 +704,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 290.1
+      "time_ms": 376.5,
+      "ai_used": false
     },
     {
       "id": "M037",
@@ -684,7 +721,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 313.3
+      "time_ms": 455.0,
+      "ai_used": false
     },
     {
       "id": "M038",
@@ -700,7 +738,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 71.6
+      "time_ms": 256.0,
+      "ai_used": false
     },
     {
       "id": "M039",
@@ -716,7 +755,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 62.5
+      "time_ms": 198.4,
+      "ai_used": false
     },
     {
       "id": "M040",
@@ -734,7 +774,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.8
+      "time_ms": 114.4,
+      "ai_used": false
     },
     {
       "id": "M041",
@@ -752,7 +793,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 263.1
+      "time_ms": 409.6,
+      "ai_used": false
     },
     {
       "id": "M042",
@@ -768,7 +810,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 44.6
+      "time_ms": 188.5,
+      "ai_used": false
     },
     {
       "id": "M043",
@@ -784,7 +827,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.5
+      "time_ms": 41.9,
+      "ai_used": false
     },
     {
       "id": "M044",
@@ -802,7 +846,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 338.8
+      "time_ms": 333.7,
+      "ai_used": false
     },
     {
       "id": "M045",
@@ -821,7 +866,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 332.9
+      "time_ms": 641.0,
+      "ai_used": false
     },
     {
       "id": "M046",
@@ -837,7 +883,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 293.5
+      "time_ms": 326.8,
+      "ai_used": false
     },
     {
       "id": "M047",
@@ -853,7 +900,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.2
+      "time_ms": 96.5,
+      "ai_used": false
     },
     {
       "id": "M048",
@@ -869,7 +917,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 50.7
+      "time_ms": 86.4,
+      "ai_used": false
     },
     {
       "id": "M049",
@@ -887,7 +936,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 67.8
+      "time_ms": 83.7,
+      "ai_used": false
     },
     {
       "id": "M050",
@@ -905,7 +955,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 259.2
+      "time_ms": 296.2,
+      "ai_used": false
     },
     {
       "id": "M051",
@@ -921,7 +972,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.9
+      "time_ms": 179.9,
+      "ai_used": false
     },
     {
       "id": "M052",
@@ -937,7 +989,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 34.9
+      "time_ms": 37.8,
+      "ai_used": false
     },
     {
       "id": "M053",
@@ -955,7 +1008,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 298.3
+      "time_ms": 392.1,
+      "ai_used": false
     },
     {
       "id": "M054",
@@ -974,7 +1028,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 261.1
+      "time_ms": 311.4,
+      "ai_used": false
     },
     {
       "id": "M055",
@@ -990,7 +1045,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 298.4
+      "time_ms": 403.1,
+      "ai_used": false
     },
     {
       "id": "M056",
@@ -1006,7 +1062,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.6
+      "time_ms": 71.5,
+      "ai_used": false
     },
     {
       "id": "M057",
@@ -1022,7 +1079,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 51.8
+      "time_ms": 79.6,
+      "ai_used": false
     },
     {
       "id": "M058",
@@ -1040,7 +1098,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 69.9
+      "time_ms": 255.2,
+      "ai_used": false
     },
     {
       "id": "M059",
@@ -1058,7 +1117,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 265.3
+      "time_ms": 387.8,
+      "ai_used": false
     },
     {
       "id": "M060",
@@ -1074,7 +1134,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 45.4
+      "time_ms": 68.4,
+      "ai_used": false
     },
     {
       "id": "M061",
@@ -1090,7 +1151,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.3
+      "time_ms": 42.9,
+      "ai_used": false
     },
     {
       "id": "M062",
@@ -1108,7 +1170,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 264.7
+      "time_ms": 359.4,
+      "ai_used": false
     },
     {
       "id": "M063",
@@ -1127,7 +1190,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 325.0
+      "time_ms": 512.4,
+      "ai_used": false
     },
     {
       "id": "M064",
@@ -1143,7 +1207,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 364.7
+      "time_ms": 400.3,
+      "ai_used": false
     },
     {
       "id": "M065",
@@ -1159,7 +1224,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.7
+      "time_ms": 105.6,
+      "ai_used": false
     },
     {
       "id": "M066",
@@ -1175,7 +1241,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 77.1
+      "time_ms": 124.5,
+      "ai_used": false
     },
     {
       "id": "M067",
@@ -1193,7 +1260,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.0
+      "time_ms": 177.5,
+      "ai_used": false
     },
     {
       "id": "M068",
@@ -1211,7 +1279,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 261.7
+      "time_ms": 324.8,
+      "ai_used": false
     },
     {
       "id": "M069",
@@ -1227,7 +1296,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 71.4
+      "time_ms": 90.5,
+      "ai_used": false
     },
     {
       "id": "M070",
@@ -1243,7 +1313,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 63.8
+      "time_ms": 48.1,
+      "ai_used": false
     },
     {
       "id": "M071",
@@ -1259,7 +1330,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 326.5
+      "time_ms": 324.9,
+      "ai_used": false
     },
     {
       "id": "M072",
@@ -1276,7 +1348,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 318.4
+      "time_ms": 409.6,
+      "ai_used": false
     },
     {
       "id": "M073",
@@ -1292,7 +1365,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 289.5
+      "time_ms": 581.5,
+      "ai_used": false
     },
     {
       "id": "M074",
@@ -1308,7 +1382,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.7
+      "time_ms": 156.2,
+      "ai_used": false
     },
     {
       "id": "M075",
@@ -1324,7 +1399,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 44.0
+      "time_ms": 172.9,
+      "ai_used": false
     },
     {
       "id": "M076",
@@ -1338,11 +1414,14 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "city": "Delhi"
+        "state": "Delhi"
       },
-      "passed": true,
-      "failures": [],
-      "time_ms": 49.9
+      "passed": false,
+      "failures": [
+        "expected city correction to Delhi, got none"
+      ],
+      "time_ms": 314.8,
+      "ai_used": false
     },
     {
       "id": "M077",
@@ -1356,13 +1435,12 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "city": "Delhi"
+        "state": "Delhi"
       },
-      "passed": false,
-      "failures": [
-        "expected state correction to Delhi, got none"
-      ],
-      "time_ms": 58.4
+      "passed": true,
+      "failures": [],
+      "time_ms": 353.6,
+      "ai_used": false
     },
     {
       "id": "M078",
@@ -1378,7 +1456,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.6
+      "time_ms": 156.5,
+      "ai_used": false
     },
     {
       "id": "M079",
@@ -1394,7 +1473,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.1
+      "time_ms": 35.4,
+      "ai_used": false
     },
     {
       "id": "M080",
@@ -1412,7 +1492,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 250.9
+      "time_ms": 314.0,
+      "ai_used": false
     },
     {
       "id": "M081",
@@ -1431,7 +1512,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 237.1
+      "time_ms": 311.3,
+      "ai_used": false
     },
     {
       "id": "M082",
@@ -1447,7 +1529,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 345.5
+      "time_ms": 428.5,
+      "ai_used": false
     },
     {
       "id": "M083",
@@ -1463,7 +1546,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 57.4
+      "time_ms": 98.7,
+      "ai_used": false
     },
     {
       "id": "M084",
@@ -1479,7 +1563,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 59.2
+      "time_ms": 80.2,
+      "ai_used": false
     },
     {
       "id": "M085",
@@ -1497,7 +1582,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 146.1
+      "time_ms": 215.1,
+      "ai_used": false
     },
     {
       "id": "M086",
@@ -1515,7 +1601,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 324.6
+      "time_ms": 332.5,
+      "ai_used": false
     },
     {
       "id": "M087",
@@ -1531,7 +1618,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 68.3
+      "time_ms": 91.0,
+      "ai_used": false
     },
     {
       "id": "M088",
@@ -1547,7 +1635,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 35.4
+      "time_ms": 43.0,
+      "ai_used": false
     },
     {
       "id": "M089",
@@ -1565,7 +1654,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 352.0
+      "time_ms": 393.2,
+      "ai_used": false
     },
     {
       "id": "M090",
@@ -1584,7 +1674,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 395.6
+      "time_ms": 522.8,
+      "ai_used": false
     },
     {
       "id": "M091",
@@ -1600,7 +1691,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 285.0
+      "time_ms": 501.4,
+      "ai_used": false
     },
     {
       "id": "M092",
@@ -1616,7 +1708,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 55.3
+      "time_ms": 213.4,
+      "ai_used": false
     },
     {
       "id": "M093",
@@ -1632,7 +1725,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.6
+      "time_ms": 233.1,
+      "ai_used": false
     },
     {
       "id": "M094",
@@ -1642,15 +1736,16 @@
         "NEEDS CUSTOMER CONFIRMATION"
       ],
       "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 100,
+      "confidence": 94,
       "rule": "D6",
       "reasons": [],
-      "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected city correction to New Delhi, got none"
-      ],
-      "time_ms": 60.1
+      "corrections": {
+        "city": "New Delhi"
+      },
+      "passed": true,
+      "failures": [],
+      "time_ms": 84.8,
+      "ai_used": false
     },
     {
       "id": "M095",
@@ -1664,13 +1759,12 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "unrecognized_text": "Delhi"
+        "state": "Delhi"
       },
-      "passed": false,
-      "failures": [
-        "expected state correction to Delhi, got none"
-      ],
-      "time_ms": 69.6
+      "passed": true,
+      "failures": [],
+      "time_ms": 323.4,
+      "ai_used": false
     },
     {
       "id": "M096",
@@ -1686,7 +1780,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 46.0
+      "time_ms": 68.5,
+      "ai_used": false
     },
     {
       "id": "M097",
@@ -1702,7 +1797,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 30.8
+      "time_ms": 37.2,
+      "ai_used": false
     },
     {
       "id": "M098",
@@ -1718,7 +1814,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 276.6
+      "time_ms": 293.2,
+      "ai_used": false
     },
     {
       "id": "M099",
@@ -1737,7 +1834,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 273.7
+      "time_ms": 376.8,
+      "ai_used": false
     },
     {
       "id": "M100",
@@ -1753,7 +1851,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 288.0
+      "time_ms": 321.2,
+      "ai_used": false
     },
     {
       "id": "M101",
@@ -1769,7 +1868,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 82.7
+      "time_ms": 91.2,
+      "ai_used": false
     },
     {
       "id": "M102",
@@ -1785,7 +1885,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 72.1
+      "time_ms": 87.4,
+      "ai_used": false
     },
     {
       "id": "M103",
@@ -1803,7 +1904,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.4
+      "time_ms": 113.2,
+      "ai_used": false
     },
     {
       "id": "M104",
@@ -1821,7 +1923,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 276.6
+      "time_ms": 321.4,
+      "ai_used": false
     },
     {
       "id": "M105",
@@ -1837,7 +1940,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 53.2
+      "time_ms": 72.8,
+      "ai_used": false
     },
     {
       "id": "M106",
@@ -1853,7 +1957,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 38.2
+      "time_ms": 50.9,
+      "ai_used": false
     },
     {
       "id": "M107",
@@ -1871,7 +1976,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 278.5
+      "time_ms": 315.5,
+      "ai_used": false
     },
     {
       "id": "M108",
@@ -1890,7 +1996,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 270.8
+      "time_ms": 328.4,
+      "ai_used": false
     },
     {
       "id": "M109",
@@ -1906,7 +2013,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 323.9
+      "time_ms": 416.2,
+      "ai_used": false
     },
     {
       "id": "M110",
@@ -1922,7 +2030,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.5
+      "time_ms": 61.0,
+      "ai_used": false
     },
     {
       "id": "M111",
@@ -1938,7 +2047,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.4
+      "time_ms": 64.3,
+      "ai_used": false
     },
     {
       "id": "M112",
@@ -1956,7 +2066,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 98.6
+      "time_ms": 132.4,
+      "ai_used": false
     },
     {
       "id": "M113",
@@ -1970,12 +2081,12 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "state": "Madhya Pradesh",
-        "locality": "T Nagar"
+        "state": "Madhya Pradesh"
       },
       "passed": true,
       "failures": [],
-      "time_ms": 308.5
+      "time_ms": 349.7,
+      "ai_used": false
     },
     {
       "id": "M114",
@@ -1991,7 +2102,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 43.2
+      "time_ms": 53.8,
+      "ai_used": false
     },
     {
       "id": "M115",
@@ -2007,7 +2119,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.9
+      "time_ms": 56.7,
+      "ai_used": false
     },
     {
       "id": "M116",
@@ -2025,7 +2138,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 333.8
+      "time_ms": 587.8,
+      "ai_used": false
     },
     {
       "id": "M117",
@@ -2044,7 +2158,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 322.3
+      "time_ms": 551.3,
+      "ai_used": false
     },
     {
       "id": "M118",
@@ -2060,7 +2175,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 311.9
+      "time_ms": 446.0,
+      "ai_used": false
     },
     {
       "id": "M119",
@@ -2076,7 +2192,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 64.2
+      "time_ms": 115.5,
+      "ai_used": false
     },
     {
       "id": "M120",
@@ -2092,7 +2209,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.7
+      "time_ms": 98.3,
+      "ai_used": false
     },
     {
       "id": "M121",
@@ -2110,7 +2228,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.9
+      "time_ms": 133.0,
+      "ai_used": false
     },
     {
       "id": "M122",
@@ -2128,7 +2247,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 260.1
+      "time_ms": 310.7,
+      "ai_used": false
     },
     {
       "id": "M123",
@@ -2144,7 +2264,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 49.4
+      "time_ms": 99.3,
+      "ai_used": false
     },
     {
       "id": "M124",
@@ -2160,7 +2281,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 58.0
+      "time_ms": 67.9,
+      "ai_used": false
     },
     {
       "id": "M125",
@@ -2178,7 +2300,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 308.4
+      "time_ms": 313.7,
+      "ai_used": false
     },
     {
       "id": "M126",
@@ -2197,7 +2320,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 346.2
+      "time_ms": 368.5,
+      "ai_used": false
     },
     {
       "id": "M127",
@@ -2213,7 +2337,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 322.6
+      "time_ms": 368.6,
+      "ai_used": false
     },
     {
       "id": "M128",
@@ -2229,7 +2354,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 73.6
+      "time_ms": 81.5,
+      "ai_used": false
     },
     {
       "id": "M129",
@@ -2245,7 +2371,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 55.1
+      "time_ms": 62.6,
+      "ai_used": false
     },
     {
       "id": "M130",
@@ -2263,7 +2390,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 94.1
+      "time_ms": 91.5,
+      "ai_used": false
     },
     {
       "id": "M131",
@@ -2281,7 +2409,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 300.1
+      "time_ms": 306.1,
+      "ai_used": false
     },
     {
       "id": "M132",
@@ -2297,7 +2426,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 72.4
+      "time_ms": 81.3,
+      "ai_used": false
     },
     {
       "id": "M133",
@@ -2313,7 +2443,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.8
+      "time_ms": 41.7,
+      "ai_used": false
     },
     {
       "id": "M134",
@@ -2331,7 +2462,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 302.9
+      "time_ms": 357.2,
+      "ai_used": false
     },
     {
       "id": "M135",
@@ -2350,7 +2482,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 317.3
+      "time_ms": 442.1,
+      "ai_used": false
     },
     {
       "id": "M136",
@@ -2366,7 +2499,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 287.3
+      "time_ms": 301.9,
+      "ai_used": false
     },
     {
       "id": "M137",
@@ -2382,7 +2516,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 45.6
+      "time_ms": 85.2,
+      "ai_used": false
     },
     {
       "id": "M138",
@@ -2398,7 +2533,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.8
+      "time_ms": 80.4,
+      "ai_used": false
     },
     {
       "id": "M139",
@@ -2416,7 +2552,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 78.4
+      "time_ms": 127.6,
+      "ai_used": false
     },
     {
       "id": "M140",
@@ -2434,7 +2571,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 284.3
+      "time_ms": 373.6,
+      "ai_used": false
     },
     {
       "id": "M141",
@@ -2450,7 +2588,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 59.5
+      "time_ms": 89.5,
+      "ai_used": false
     },
     {
       "id": "M142",
@@ -2466,7 +2605,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 36.9
+      "time_ms": 57.4,
+      "ai_used": false
     },
     {
       "id": "M143",
@@ -2484,7 +2624,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 284.0
+      "time_ms": 472.6,
+      "ai_used": false
     },
     {
       "id": "M144",
@@ -2503,7 +2644,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 288.4
+      "time_ms": 388.1,
+      "ai_used": false
     },
     {
       "id": "M145",
@@ -2512,16 +2654,15 @@
       "expected": [
         "VERIFIED"
       ],
-      "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 86,
-      "rule": "D6",
+      "decision": "VERIFIED",
+      "confidence": 100,
+      "rule": "D5",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VERIFIED, got NEEDS CUSTOMER CONFIRMATION"
-      ],
-      "time_ms": 272.7
+      "passed": true,
+      "failures": [],
+      "time_ms": 324.8,
+      "ai_used": false
     },
     {
       "id": "M146",
@@ -2530,16 +2671,15 @@
       "expected": [
         "VERIFIED"
       ],
-      "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 86,
-      "rule": "D6",
+      "decision": "VERIFIED",
+      "confidence": 100,
+      "rule": "D5",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VERIFIED, got NEEDS CUSTOMER CONFIRMATION"
-      ],
-      "time_ms": 43.7
+      "passed": true,
+      "failures": [],
+      "time_ms": 92.5,
+      "ai_used": false
     },
     {
       "id": "M147",
@@ -2548,16 +2688,15 @@
       "expected": [
         "VERIFIED"
       ],
-      "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 86,
-      "rule": "D6",
+      "decision": "VERIFIED",
+      "confidence": 100,
+      "rule": "D5",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VERIFIED, got NEEDS CUSTOMER CONFIRMATION"
-      ],
-      "time_ms": 54.6
+      "passed": true,
+      "failures": [],
+      "time_ms": 102.9,
+      "ai_used": false
     },
     {
       "id": "M148",
@@ -2567,7 +2706,7 @@
         "NEEDS CUSTOMER CONFIRMATION"
       ],
       "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 86,
+      "confidence": 94,
       "rule": "D6",
       "reasons": [],
       "corrections": {
@@ -2575,7 +2714,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 75.1
+      "time_ms": 434.8,
+      "ai_used": false
     },
     {
       "id": "M149",
@@ -2585,7 +2725,7 @@
         "NEEDS CUSTOMER CONFIRMATION"
       ],
       "decision": "NEEDS CUSTOMER CONFIRMATION",
-      "confidence": 86,
+      "confidence": 94,
       "rule": "D6",
       "reasons": [],
       "corrections": {
@@ -2593,7 +2733,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 270.0
+      "time_ms": 677.9,
+      "ai_used": false
     },
     {
       "id": "M150",
@@ -2609,7 +2750,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 103.8
+      "time_ms": 88.9,
+      "ai_used": false
     },
     {
       "id": "M151",
@@ -2625,7 +2767,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.4
+      "time_ms": 332.1,
+      "ai_used": false
     },
     {
       "id": "M152",
@@ -2641,7 +2784,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 309.9
+      "time_ms": 333.0,
+      "ai_used": false
     },
     {
       "id": "M153",
@@ -2658,7 +2802,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 300.8
+      "time_ms": 359.8,
+      "ai_used": false
     },
     {
       "id": "M154",
@@ -2674,7 +2819,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 327.1
+      "time_ms": 535.1,
+      "ai_used": false
     },
     {
       "id": "M155",
@@ -2690,7 +2836,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 69.3
+      "time_ms": 264.9,
+      "ai_used": false
     },
     {
       "id": "M156",
@@ -2706,7 +2853,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 51.2
+      "time_ms": 253.3,
+      "ai_used": false
     },
     {
       "id": "M157",
@@ -2724,7 +2872,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 111.2
+      "time_ms": 287.8,
+      "ai_used": false
     },
     {
       "id": "M158",
@@ -2742,7 +2891,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 302.9
+      "time_ms": 550.0,
+      "ai_used": false
     },
     {
       "id": "M159",
@@ -2758,7 +2908,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 63.4
+      "time_ms": 87.6,
+      "ai_used": false
     },
     {
       "id": "M160",
@@ -2774,7 +2925,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 40.7
+      "time_ms": 42.5,
+      "ai_used": false
     },
     {
       "id": "M161",
@@ -2792,7 +2944,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 314.5
+      "time_ms": 365.2,
+      "ai_used": false
     },
     {
       "id": "M162",
@@ -2811,7 +2964,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 312.9
+      "time_ms": 399.7,
+      "ai_used": false
     },
     {
       "id": "M163",
@@ -2827,7 +2981,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 300.3
+      "time_ms": 348.9,
+      "ai_used": false
     },
     {
       "id": "M164",
@@ -2843,7 +2998,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.5
+      "time_ms": 65.0,
+      "ai_used": false
     },
     {
       "id": "M165",
@@ -2859,7 +3015,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 52.6
+      "time_ms": 92.6,
+      "ai_used": false
     },
     {
       "id": "M166",
@@ -2877,7 +3034,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 81.6
+      "time_ms": 119.2,
+      "ai_used": false
     },
     {
       "id": "M167",
@@ -2891,12 +3049,12 @@
       "rule": "D6",
       "reasons": [],
       "corrections": {
-        "state": "Himachal Pradesh",
-        "locality": "Raipur Bushahr"
+        "state": "Himachal Pradesh"
       },
       "passed": true,
       "failures": [],
-      "time_ms": 350.2
+      "time_ms": 306.2,
+      "ai_used": false
     },
     {
       "id": "M168",
@@ -2912,7 +3070,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 50.1
+      "time_ms": 74.1,
+      "ai_used": false
     },
     {
       "id": "M169",
@@ -2928,7 +3087,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.1
+      "time_ms": 48.0,
+      "ai_used": false
     },
     {
       "id": "M170",
@@ -2946,7 +3106,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 296.0
+      "time_ms": 305.0,
+      "ai_used": false
     },
     {
       "id": "M171",
@@ -2965,7 +3126,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 277.0
+      "time_ms": 316.3,
+      "ai_used": false
     },
     {
       "id": "M172",
@@ -2981,7 +3143,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 272.0
+      "time_ms": 395.9,
+      "ai_used": false
     },
     {
       "id": "M173",
@@ -2997,7 +3160,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 57.7
+      "time_ms": 117.0,
+      "ai_used": false
     },
     {
       "id": "M174",
@@ -3013,7 +3177,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 42.6
+      "time_ms": 115.4,
+      "ai_used": false
     },
     {
       "id": "M175",
@@ -3031,7 +3196,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 65.5
+      "time_ms": 110.2,
+      "ai_used": false
     },
     {
       "id": "M176",
@@ -3049,7 +3215,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 254.8
+      "time_ms": 304.9,
+      "ai_used": false
     },
     {
       "id": "M177",
@@ -3065,7 +3232,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 55.5
+      "time_ms": 79.7,
+      "ai_used": false
     },
     {
       "id": "M178",
@@ -3081,7 +3249,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 35.6
+      "time_ms": 39.1,
+      "ai_used": false
     },
     {
       "id": "M179",
@@ -3099,7 +3268,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 303.1
+      "time_ms": 453.4,
+      "ai_used": false
     },
     {
       "id": "M180",
@@ -3118,7 +3288,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 305.4
+      "time_ms": 401.0,
+      "ai_used": false
     },
     {
       "id": "M181",
@@ -3134,7 +3305,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 289.4
+      "time_ms": 330.9,
+      "ai_used": false
     },
     {
       "id": "M182",
@@ -3150,7 +3322,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.0
+      "time_ms": 84.5,
+      "ai_used": false
     },
     {
       "id": "M183",
@@ -3166,7 +3339,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 54.3
+      "time_ms": 57.5,
+      "ai_used": false
     },
     {
       "id": "M184",
@@ -3184,7 +3358,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 94.5
+      "time_ms": 135.1,
+      "ai_used": false
     },
     {
       "id": "M185",
@@ -3202,7 +3377,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 277.2
+      "time_ms": 331.5,
+      "ai_used": false
     },
     {
       "id": "M186",
@@ -3218,7 +3394,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 65.6
+      "time_ms": 96.1,
+      "ai_used": false
     },
     {
       "id": "M187",
@@ -3234,7 +3411,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.3
+      "time_ms": 39.5,
+      "ai_used": false
     },
     {
       "id": "M188",
@@ -3252,7 +3430,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 290.3
+      "time_ms": 398.9,
+      "ai_used": false
     },
     {
       "id": "M189",
@@ -3271,7 +3450,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 305.8
+      "time_ms": 382.7,
+      "ai_used": false
     },
     {
       "id": "M190",
@@ -3287,7 +3467,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 298.1
+      "time_ms": 318.9,
+      "ai_used": false
     },
     {
       "id": "M191",
@@ -3303,7 +3484,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 60.9
+      "time_ms": 89.2,
+      "ai_used": false
     },
     {
       "id": "M192",
@@ -3319,7 +3501,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 53.1
+      "time_ms": 85.2,
+      "ai_used": false
     },
     {
       "id": "M193",
@@ -3337,7 +3520,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 57.0
+      "time_ms": 113.3,
+      "ai_used": false
     },
     {
       "id": "M194",
@@ -3355,7 +3539,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 247.0
+      "time_ms": 346.3,
+      "ai_used": false
     },
     {
       "id": "M195",
@@ -3371,7 +3556,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 54.0
+      "time_ms": 79.3,
+      "ai_used": false
     },
     {
       "id": "M196",
@@ -3387,7 +3573,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.5
+      "time_ms": 48.4,
+      "ai_used": false
     },
     {
       "id": "M197",
@@ -3405,7 +3592,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 282.1
+      "time_ms": 326.6,
+      "ai_used": false
     },
     {
       "id": "M198",
@@ -3424,7 +3612,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 272.9
+      "time_ms": 349.1,
+      "ai_used": false
     },
     {
       "id": "M199",
@@ -3440,7 +3629,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 309.2
+      "time_ms": 441.6,
+      "ai_used": false
     },
     {
       "id": "M200",
@@ -3456,7 +3646,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 74.2
+      "time_ms": 99.4,
+      "ai_used": false
     },
     {
       "id": "M201",
@@ -3472,7 +3663,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 61.6
+      "time_ms": 95.3,
+      "ai_used": false
     },
     {
       "id": "M202",
@@ -3490,7 +3682,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 89.7
+      "time_ms": 163.4,
+      "ai_used": false
     },
     {
       "id": "M203",
@@ -3508,7 +3701,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 258.7
+      "time_ms": 394.7,
+      "ai_used": false
     },
     {
       "id": "M204",
@@ -3524,7 +3718,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 53.9
+      "time_ms": 129.7,
+      "ai_used": false
     },
     {
       "id": "M205",
@@ -3540,7 +3735,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 35.7
+      "time_ms": 54.5,
+      "ai_used": false
     },
     {
       "id": "M206",
@@ -3558,7 +3754,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 318.5
+      "time_ms": 405.2,
+      "ai_used": false
     },
     {
       "id": "M207",
@@ -3577,7 +3774,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 342.7
+      "time_ms": 386.7,
+      "ai_used": false
     },
     {
       "id": "M208",
@@ -3593,7 +3791,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 314.3
+      "time_ms": 444.5,
+      "ai_used": false
     },
     {
       "id": "M209",
@@ -3609,7 +3808,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 51.8
+      "time_ms": 95.9,
+      "ai_used": false
     },
     {
       "id": "M210",
@@ -3625,7 +3825,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 65.2
+      "time_ms": 105.4,
+      "ai_used": false
     },
     {
       "id": "M211",
@@ -3643,7 +3844,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.9
+      "time_ms": 189.1,
+      "ai_used": false
     },
     {
       "id": "M212",
@@ -3661,7 +3863,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 251.3
+      "time_ms": 356.3,
+      "ai_used": false
     },
     {
       "id": "M213",
@@ -3677,7 +3880,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 46.6
+      "time_ms": 117.6,
+      "ai_used": false
     },
     {
       "id": "M214",
@@ -3693,7 +3897,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 34.0
+      "time_ms": 72.0,
+      "ai_used": false
     },
     {
       "id": "M215",
@@ -3711,7 +3916,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 358.2
+      "time_ms": 347.7,
+      "ai_used": false
     },
     {
       "id": "M216",
@@ -3730,7 +3936,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 340.3
+      "time_ms": 405.5,
+      "ai_used": false
     },
     {
       "id": "M217",
@@ -3746,7 +3953,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 305.7
+      "time_ms": 651.6,
+      "ai_used": false
     },
     {
       "id": "M218",
@@ -3762,7 +3970,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 50.2
+      "time_ms": 318.2,
+      "ai_used": false
     },
     {
       "id": "M219",
@@ -3778,7 +3987,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.6
+      "time_ms": 256.2,
+      "ai_used": false
     },
     {
       "id": "M220",
@@ -3796,7 +4006,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 96.5
+      "time_ms": 182.7,
+      "ai_used": false
     },
     {
       "id": "M221",
@@ -3814,7 +4025,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 309.5
+      "time_ms": 641.5,
+      "ai_used": false
     },
     {
       "id": "M222",
@@ -3830,7 +4042,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 55.7
+      "time_ms": 111.0,
+      "ai_used": false
     },
     {
       "id": "M223",
@@ -3846,7 +4059,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.5
+      "time_ms": 50.5,
+      "ai_used": false
     },
     {
       "id": "M224",
@@ -3864,7 +4078,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 301.6
+      "time_ms": 377.8,
+      "ai_used": false
     },
     {
       "id": "M225",
@@ -3883,7 +4098,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 307.8
+      "time_ms": 339.2,
+      "ai_used": false
     },
     {
       "id": "M226",
@@ -3901,7 +4117,8 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 42.9
+      "time_ms": 65.4,
+      "ai_used": false
     },
     {
       "id": "M227",
@@ -3917,7 +4134,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 19.5
+      "time_ms": 51.3,
+      "ai_used": false
     },
     {
       "id": "M228",
@@ -3926,16 +4144,15 @@
       "expected": [
         "VALIDATION FAILED"
       ],
-      "decision": "VALIDATION WARNING",
+      "decision": "VALIDATION FAILED",
       "confidence": 14,
-      "rule": "D2",
+      "rule": "D1",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VALIDATION FAILED, got VALIDATION WARNING"
-      ],
-      "time_ms": 32.8
+      "passed": true,
+      "failures": [],
+      "time_ms": 31.0,
+      "ai_used": false
     },
     {
       "id": "M229",
@@ -3951,7 +4168,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 17.7
+      "time_ms": 20.9,
+      "ai_used": false
     },
     {
       "id": "M230",
@@ -3967,7 +4185,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 20.6
+      "time_ms": 21.3,
+      "ai_used": false
     },
     {
       "id": "M231",
@@ -3983,7 +4202,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 24.4
+      "time_ms": 24.1,
+      "ai_used": false
     },
     {
       "id": "M232",
@@ -3999,7 +4219,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 0.7
+      "time_ms": 0.8,
+      "ai_used": false
     },
     {
       "id": "M233",
@@ -4008,16 +4229,15 @@
       "expected": [
         "VALIDATION FAILED"
       ],
-      "decision": "VALIDATION WARNING",
+      "decision": "VALIDATION FAILED",
       "confidence": 14,
-      "rule": "D2",
+      "rule": "D1",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VALIDATION FAILED, got VALIDATION WARNING"
-      ],
-      "time_ms": 11.9
+      "passed": true,
+      "failures": [],
+      "time_ms": 53.3,
+      "ai_used": false
     },
     {
       "id": "M234",
@@ -4026,16 +4246,15 @@
       "expected": [
         "VALIDATION FAILED"
       ],
-      "decision": "VALIDATION WARNING",
+      "decision": "VALIDATION FAILED",
       "confidence": 14,
-      "rule": "D2",
+      "rule": "D1",
       "reasons": [],
       "corrections": {},
-      "passed": false,
-      "failures": [
-        "expected VALIDATION FAILED, got VALIDATION WARNING"
-      ],
-      "time_ms": 18.6
+      "passed": true,
+      "failures": [],
+      "time_ms": 110.4,
+      "ai_used": false
     },
     {
       "id": "M235",
@@ -4051,7 +4270,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.4
+      "time_ms": 48.1,
+      "ai_used": false
     },
     {
       "id": "M236",
@@ -4067,7 +4287,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 27.0
+      "time_ms": 27.9,
+      "ai_used": false
     },
     {
       "id": "M237",
@@ -4083,7 +4304,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 21.1
+      "time_ms": 24.4,
+      "ai_used": false
     },
     {
       "id": "M238",
@@ -4099,7 +4321,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 43.7
+      "time_ms": 40.9,
+      "ai_used": false
     },
     {
       "id": "M239",
@@ -4115,7 +4338,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 26.4
+      "time_ms": 25.3,
+      "ai_used": false
     },
     {
       "id": "M240",
@@ -4131,7 +4355,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 17.5
+      "time_ms": 23.7,
+      "ai_used": false
     },
     {
       "id": "M241",
@@ -4147,7 +4372,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 16.1
+      "time_ms": 25.3,
+      "ai_used": false
     },
     {
       "id": "M242",
@@ -4163,7 +4389,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 0.9
+      "time_ms": 4.4,
+      "ai_used": false
     },
     {
       "id": "M243",
@@ -4179,7 +4406,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 15.2
+      "time_ms": 30.8,
+      "ai_used": false
     },
     {
       "id": "M244",
@@ -4195,7 +4423,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 25.8
+      "time_ms": 23.3,
+      "ai_used": false
     },
     {
       "id": "M245",
@@ -4211,7 +4440,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 26.0
+      "time_ms": 33.9,
+      "ai_used": false
     },
     {
       "id": "M246",
@@ -4227,7 +4457,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 32.3
+      "time_ms": 34.1,
+      "ai_used": false
     },
     {
       "id": "M247",
@@ -4243,7 +4474,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 421.6
+      "time_ms": 341.6,
+      "ai_used": false
     },
     {
       "id": "M248",
@@ -4259,7 +4491,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.6
+      "time_ms": 56.1,
+      "ai_used": false
     },
     {
       "id": "M249",
@@ -4275,7 +4508,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 23.0
+      "time_ms": 47.7,
+      "ai_used": false
     },
     {
       "id": "M250",
@@ -4291,7 +4525,8 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 39.7
+      "time_ms": 44.8,
+      "ai_used": false
     }
   ]
 }

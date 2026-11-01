@@ -11,6 +11,7 @@ from models import db
 from models.user import User
 from models.validation import Validation
 from models.rate_limit import RateLimitHit  # noqa: F401  (table created by create_all)
+from models.review_decision import ReviewDecision  # noqa: F401  (table created by create_all)
 from routes.auth import auth_bp
 from routes.views import views_bp
 from routes.api import api_bp
@@ -35,6 +36,33 @@ def migrate_legacy_decisions():
         )
     db.session.commit()
     return updated
+
+
+CSRF_HEADER = "X-Requested-With"
+CSRF_VALUE = "AddressGuard"
+
+
+def _register_csrf_protection(app):
+    """Reject state-changing API calls that were not sent by the app's own pages.
+
+    Browsers only let a page add a custom header to a cross-site request after a
+    CORS preflight, which this app never grants, so a forged form post or
+    fetch from another site cannot carry it. Automated tests (TESTING) skip
+    the check unless CSRF_ENFORCE is set.
+    """
+    app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
+    app.config.setdefault("SESSION_COOKIE_HTTPONLY", True)
+
+    @app.before_request
+    def check_csrf_header():
+        if request.method in ("GET", "HEAD", "OPTIONS") or not request.path.startswith("/api/"):
+            return None
+        if app.config.get("TESTING") and not app.config.get("CSRF_ENFORCE"):
+            return None
+        if request.headers.get(CSRF_HEADER) != CSRF_VALUE:
+            return jsonify({"error": "This request was blocked for security reasons. Please reload the page.",
+                            "error_type": "CSRF"}), 403
+        return None
 
 
 def _register_error_handlers(app):
@@ -167,6 +195,7 @@ def create_app(test_config=None):
     app.register_blueprint(views_bp)
     app.register_blueprint(api_bp)
     _register_error_handlers(app)
+    _register_csrf_protection(app)
     with app.app_context():
         try:
             db.create_all()

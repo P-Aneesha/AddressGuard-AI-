@@ -2,3 +2,5 @@
 # not to run the app.
 -r requirements.txt
 py7zr>=0.20
+
+osmium>=4.0  # scripts/build_osm_streets.py

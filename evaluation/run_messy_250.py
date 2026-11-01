@@ -2,6 +2,8 @@
 
     python evaluation/messy_addresses.py   # (re)build the dataset
     python evaluation/run_messy_250.py      # run it
+    python evaluation/run_messy_250.py evaluation/messy_250_holdout_7.json --ai --sample 100
+                                           # Groq AI on, 10 per category, paced for the free tier
 
 Writes evaluation/messy_250_results.json and evaluation/MESSY_250_REPORT.md.
 Groq and external geocoding are disabled so the run is reproducible; the
@@ -21,7 +23,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-os.environ["GROQ_API_KEY"] = ""
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+USE_AI = "--ai" in sys.argv
+SAMPLE = int(sys.argv[sys.argv.index("--sample") + 1]) if "--sample" in sys.argv else 0
+# Groq's free tier allows 8,000 tokens a minute; one address uses up to ~1,800.
+PACE_SECONDS = 15 if USE_AI else 0
+if SAMPLE:
+    ARGS = [a for a in ARGS if a != str(SAMPLE)]
+if not USE_AI:
+    os.environ["GROQ_API_KEY"] = ""
 _RUN_DIR = tempfile.mkdtemp(prefix="addressguard-messy-")
 os.environ["DATABASE_URL"] = "sqlite:///" + os.path.join(_RUN_DIR, "import.db").replace("\\", "/")
 os.environ["ADDRESSGUARD_TEST_ALLOW_SQLITE"] = "1"
@@ -48,21 +58,40 @@ def _run_case(client, case):
         if str(suggested.get(field, "")).lower() != value.lower():
             failures.append(f"expected {field} correction to {value}, got {suggested.get(field) or 'none'}")
     explain = body.get("explainability") or {}
+    ai_stage = next((s for s in body.get("pipeline") or [] if s.get("stage") == "AI Address Understanding"), {})
     return {
         "id": case["id"], "category": case["category"], "input": case["input"],
         "expected": case["expect_decision_in"], "decision": decision, "confidence": body.get("confidence"),
         "rule": explain.get("decision_rule"), "reasons": (explain.get("decision_reasons") or [])[:4],
         "corrections": suggested, "passed": not failures, "failures": failures, "time_ms": elapsed,
+        "ai_used": ai_stage.get("status") == "Completed",
     }
 
 
 def main():
-    dataset = Path(sys.argv[1]) if len(sys.argv) > 1 else DATASET
+    dataset = Path(ARGS[0]) if ARGS else DATASET
     tag = dataset.stem.replace("messy_250_", "").replace("dataset", "")
+    tag = "_".join(t for t in (tag, "ai" if USE_AI else "", f"sample{SAMPLE}" if SAMPLE else "") if t)
     cases = json.loads(dataset.read_text(encoding="utf-8"))["cases"] if dataset.exists() else build()
+    if SAMPLE:
+        # Stratified: the first SAMPLE/10 cases of every category, in dataset order.
+        per_category, taken = max(1, SAMPLE // 10), Counter()
+        cases = [c for c in cases if taken.update([c["category"]]) or taken[c["category"]] <= per_category]
     with tempfile.TemporaryDirectory() as tmp:
         app, client = make_client(Path(tmp) / "messy.db")
-        results = [_run_case(client, case) for case in cases]
+        if USE_AI:
+            from config import Config
+            app.config["GROQ_API_KEY"] = Config.GROQ_API_KEY
+            if not Config.GROQ_API_KEY:
+                sys.exit("--ai needs GROQ_API_KEY in .env")
+        results = []
+        for i, case in enumerate(cases):
+            if i and PACE_SECONDS:
+                time.sleep(PACE_SECONDS)
+            results.append(_run_case(client, case))
+            if USE_AI:
+                print(f"  {i + 1}/{len(cases)} {case['id']} -> {results[-1]['decision']}"
+                      f"{'' if results[-1]['ai_used'] else ' (AI fell back)'}", flush=True)
         from models import db
         with app.app_context():
             db.session.remove()
@@ -85,6 +114,7 @@ def main():
         "good_addresses_verified": sum(r["decision"] == VERIFIED for r in good), "good_addresses": len(good),
         "time_ms": {"mean": round(statistics.mean(times), 1), "median": round(statistics.median(times), 1),
                     "max": max(times)},
+        "ai_mode": USE_AI, "ai_used": sum(r["ai_used"] for r in results),
         "per_category": {cat: {"passed": sum(r["passed"] for r in rs), "total": len(rs)} for cat, rs in by_cat.items()},
     }
     out = ROOT / "evaluation" / f"messy_250_{tag + '_' if tag else ''}results.json"
@@ -96,11 +126,14 @@ def main():
         f"Executed {summary['executed_at_utc']} (UTC). **{passed}/{len(results)} passed "
         f"({summary['accuracy_pct']}%)**.",
         "",
+        *([f"**Groq AI was ON** (model {os.getenv('GROQ_MODEL', 'openai/gpt-oss-20b')}); the AI parsed "
+           f"{summary['ai_used']} of {len(results)} addresses, the rest fell back to the deterministic parser. "
+           "External geocoding was off.", ""] if USE_AI else []),
         "**What this dataset is:** generated, not real customer data. Every locality, PIN, city and state is a real "
         "India Post delivery office in one of 25 cities; names, phones, flats and streets are synthetic. Each address "
         "is then written the way people type them (typos, no punctuation, WhatsApp layout, missing parts, wrong "
-        "PINs). Expected decisions are fixed by construction before the run. Groq AI and external geocoding were "
-        "off, so this measures the deterministic engine.",
+        "PINs). Expected decisions are fixed by construction before the run."
+        + ("" if USE_AI else " Groq AI and external geocoding were off, so this measures the deterministic engine."),
         "",
         "## Key safety numbers",
         "",
@@ -135,7 +168,8 @@ def main():
                          f"({r['confidence']}%) | {cell('; '.join(r['failures']))} | {cell('; '.join(r['reasons']))} |")
     (ROOT / "evaluation" / f"MESSY_250_{tag.upper() + '_' if tag else ''}REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    print(f"{passed}/{len(results)} passed ({summary['accuracy_pct']}%), false VERIFIED: {len(false_verified)}")
+    print(f"{passed}/{len(results)} passed ({summary['accuracy_pct']}%), false VERIFIED: {len(false_verified)}"
+          + (f", AI used on {summary['ai_used']}/{len(results)}" if USE_AI else ""))
     for cat, v in summary["per_category"].items():
         print(f"  {v['passed']:>3}/{v['total']:<3} {cat}")
     return 0

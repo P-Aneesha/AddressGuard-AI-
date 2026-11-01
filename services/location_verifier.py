@@ -18,6 +18,7 @@ from services.official_reference_service import (
     lookup_pincode,
     locality_matches,
     pin_within_city_area,
+    district_spelled_like,
     district_state_matches,
     get_reference_status,
     is_state_known,
@@ -138,11 +139,13 @@ def verify_geography(
         checks["city_state"] = "INCOMPLETE"
 
     if district and state:
-        checks["district_state"] = (
-            "CONSISTENT"
-            if district_state_matches(district, state)
-            else "INCONSISTENT"
-        )
+        if district_state_matches(district, state):
+            checks["district_state"] = "CONSISTENT"
+        elif district_spelled_like(district, state):
+            # A misspelt district of this state is a correction, not a conflict.
+            checks["district_state"] = "LIKELY_MATCH"
+        else:
+            checks["district_state"] = "INCONSISTENT"
 
         if checks["district_state"] == "INCONSISTENT":
             issues.append(

@@ -1,3 +1,5 @@
+import csv
+import io
 import logging
 import re
 from datetime import datetime, timedelta
@@ -6,11 +8,12 @@ from flask import Blueprint, request, jsonify, session, send_file, current_app
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from models import db
+from models.review_decision import ReviewDecision
 from models.validation import Validation
 from services.pipeline_orchestrator import run_pipeline
 from services.correction_engine import apply_corrections
 from services.decision_labels import DECISIONS, DECISION_DESCRIPTIONS, VERIFIED, normalize_decision
-from services.report_service import generate_pdf, generate_csv, generate_qr, generate_barcode, generate_delivery_qr, build_google_maps_url
+from services.report_service import _csv_safe, generate_pdf, generate_csv, generate_qr, generate_barcode, generate_delivery_qr, build_google_maps_url
 from services.official_reference_service import get_reference_status
 from services.geocoding_service import verify_geocoding
 from utils.timestamps import now_iso
@@ -94,6 +97,45 @@ def _clean_correction_items(items, require_suggestion):
     return cleaned, None
 
 
+def _key(value):
+    return " ".join(str(value or "").lower().split())
+
+
+def _record_review_decisions(v, uid, accepted, rejected):
+    suggestions = {
+        (_key(c.get("field")), _key(c.get("original"))): str(c.get("suggested") or "")
+        for c in (v.corrections or []) if isinstance(c, dict)
+    }
+    for items, verdict in ((accepted, "accepted"), (rejected, "rejected")):
+        for item in items:
+            system = suggestions.get((_key(item["field"]), _key(item["original"])), "")
+            action = verdict
+            if verdict == "accepted" and system and _key(system) != _key(item["suggested"]):
+                action = "edited"
+            db.session.add(ReviewDecision(
+                validation_id=v.id, user_id=uid, field=item["field"], original=item["original"],
+                system_suggestion=system or item["suggested"],
+                final_value=item["suggested"] if verdict == "accepted" else item["original"],
+                action=action,
+            ))
+
+
+def review_summary(user_id=None):
+    """Counts of human review decisions and the resulting acceptance rates."""
+    query = db.session.query(ReviewDecision.action, func.count(ReviewDecision.id))
+    if user_id is not None:
+        query = query.filter(ReviewDecision.user_id == user_id)
+    counts = {"accepted": 0, "edited": 0, "rejected": 0}
+    counts.update({action: n for action, n in query.group_by(ReviewDecision.action).all()})
+    reviewed = sum(counts.values())
+    return {
+        **counts, "reviewed": reviewed,
+        # Accepted (as suggested or after editing) out of all reviewed suggestions.
+        "acceptance_rate": round(100 * (counts["accepted"] + counts["edited"]) / reviewed, 1) if reviewed else None,
+        "accepted_unchanged_rate": round(100 * counts["accepted"] / reviewed, 1) if reviewed else None,
+    }
+
+
 def _result_payload(v):
     """Serialize a stored validation with the review fields the UI needs."""
     payload = v.to_dict()
@@ -127,6 +169,7 @@ def _cfg():
         GROQ_MODEL=c.get("GROQ_MODEL", ""), GROQ_TIMEOUT_SECONDS=c.get("GROQ_TIMEOUT_SECONDS", 15),
         GEOCODING_ENABLED=c.get("GEOCODING_ENABLED", False), GEOCODING_URL=c.get("GEOCODING_URL", "https://nominatim.openstreetmap.org/search"),
         GEOCODING_TIMEOUT_SECONDS=c.get("GEOCODING_TIMEOUT_SECONDS", 8),
+        MAPPLS_API_KEY=c.get("MAPPLS_API_KEY", ""), MAPPLS_TIMEOUT_SECONDS=c.get("MAPPLS_TIMEOUT_SECONDS", 8),
     )
 
 
@@ -204,6 +247,103 @@ def validate():
     return jsonify(payload), 201
 
 
+BULK_MAX_ROWS = 50  # keeps one upload well inside a serverless request time limit
+_ADDRESS_HEADERS = ("raw_address", "address", "delivery address", "shipping address", "full address")
+
+
+def _read_bulk_rows(upload):
+    """Return (addresses, error) from an uploaded CSV with one address per row."""
+    raw = upload.read()
+    for encoding in ("utf-8-sig", "cp1252", "latin-1"):
+        try:
+            text = raw.decode(encoding)
+            break
+        except UnicodeDecodeError:
+            continue
+    rows = [r for r in csv.reader(io.StringIO(text)) if any(cell.strip() for cell in r)]
+    if not rows:
+        return None, "The CSV file is empty."
+    header = [h.strip().lower() for h in rows[0]]
+    column = next((header.index(h) for h in _ADDRESS_HEADERS if h in header), None)
+    body = rows[1:] if column is not None else rows  # no recognised header: first column, every row
+    column = column or 0
+    addresses = [r[column].strip() if column < len(r) else "" for r in body]
+    if not addresses:
+        return None, "The CSV file has a header but no addresses."
+    if len(addresses) > BULK_MAX_ROWS:
+        return None, f"Please upload at most {BULK_MAX_ROWS} addresses at a time (this file has {len(addresses)})."
+    return addresses, None
+
+
+@api_bp.post("/validate-bulk")
+@rate_limit("bulk", "validate_daily")
+def validate_bulk():
+    """Validate every address in an uploaded CSV and return the results.
+
+    Each row is validated and stored exactly like a single validation, so it
+    appears in History and can be reviewed there. A bad row never stops the batch.
+    """
+    uid = _require_login()
+    if not uid:
+        return jsonify({"error": "login required"}), 401
+    upload = request.files.get("file")
+    if not upload or not upload.filename:
+        return jsonify({"error": "Choose a CSV file to upload.", "error_type": "INPUT_ERROR"}), 400
+    if not upload.filename.lower().endswith(".csv"):
+        return jsonify({"error": "Only .csv files are supported.", "error_type": "INPUT_ERROR"}), 400
+    addresses, error = _read_bulk_rows(upload)
+    if error:
+        return jsonify({"error": error, "error_type": "INPUT_ERROR"}), 400
+
+    cfg = _cfg()
+    results = []
+    for number, text in enumerate(addresses, start=1):
+        raw, error = _clean_address_input(text)
+        row = {"row": number, "raw_address": text, "decision": "", "confidence": "", "risk_level": "",
+               "rule": "", "suggested_corrections": "", "validation_id": "", "error": ""}
+        if error:
+            row.update(decision="VALIDATION FAILED", error=error)
+            results.append(row)
+            continue
+        try:
+            result = run_pipeline(raw, cfg, accepted=[])
+            v = Validation(
+                user_id=uid, raw_address=raw, parsed_data=result["parsed_data"],
+                corrections=result["corrections"], confidence=result["confidence"],
+                risk_level=result["risk_level"], decision=result["decision"],
+                pipeline=result["pipeline"], explainability=result["explainability"],
+            )
+            db.session.add(v)
+            db.session.commit()
+        except SQLAlchemyError:
+            db.session.rollback()
+            logger.exception("Saving bulk row %s failed", number)
+            row["error"] = DATABASE_FAILURE_MESSAGE
+            results.append(row)
+            continue
+        except Exception:
+            logger.exception("Bulk row %s failed", number)
+            row["error"] = TECHNICAL_FAILURE_MESSAGE
+            results.append(row)
+            continue
+        row.update(
+            decision=v.decision, confidence=v.confidence, risk_level=v.risk_level,
+            rule=(v.explainability or {}).get("decision_rule", ""), validation_id=v.validation_id,
+            suggested_corrections="; ".join(
+                f"{c.get('field')}: {c.get('original')} -> {c.get('suggested')}" for c in v.corrections or []),
+        )
+        results.append(row)
+
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=list(results[0]))
+    writer.writeheader()
+    for row in results:
+        writer.writerow({k: _csv_safe(val) for k, val in row.items()})
+    summary = {d: sum(r["decision"] == d for r in results) for d in DECISIONS}
+    summary["errors"] = sum(bool(r["error"]) and not r["decision"] for r in results)
+    return jsonify({"total": len(results), "summary": summary, "rows": results, "csv": buffer.getvalue()})
+
+
 @api_bp.post("/revalidate/<validation_id>")
 @rate_limit("validate", "validate_daily")
 def revalidate(validation_id):
@@ -233,6 +373,9 @@ def revalidate(validation_id):
     if not isinstance(prior_resolved, list):
         prior_resolved = []
     resolved = prior_resolved + accepted + rejected
+    # Record each human decision against the suggestion the system made, so the
+    # correction acceptance rate can be measured from real reviews.
+    _record_review_decisions(v, uid, accepted, rejected)
 
     # IMPORTANT: re-validation must run on the address after the user's accepted
     # changes have actually been applied. Re-running v.raw_address would send the
@@ -247,6 +390,7 @@ def revalidate(validation_id):
             _cfg(),
             accepted=[],
             resolved=resolved,
+            reviewed_fields=corrected_parsed,
         )
     except Exception:
         logger.exception("Re-validation pipeline failed")
@@ -344,6 +488,7 @@ def dashboard_stats():
     return jsonify({
         "total_validations": total, "average_confidence": round(float(avg_conf), 1),
         "decisions": decisions, "risks": risks,
+        "review": review_summary(uid),
         "recent": [r.to_dict() for r in recent],
     })
 

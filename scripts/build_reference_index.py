@@ -5,10 +5,12 @@ The original CSVs remain in data/ for traceability. The SQLite index is a runtim
 cache only; rebuild it whenever the CSV snapshots change.
 """
 from __future__ import annotations
-import csv, re, sqlite3, os
+import csv, re, sqlite3, os, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from utils.street_names import norm_street  # noqa: E402  (shared with the street lookup)
 DATA = ROOT / "data"
 DB = DATA / "reference_index.sqlite3"
 PIN = DATA / "india_post_pincode.csv"
@@ -17,6 +19,7 @@ MAP = DATA / "postal_lgd_mapping.csv"
 # Optional extras (see scripts/fetch_reference_data.py).
 PINVILL = DATA / "lgd_pincode_villages.csv"
 OSM = DATA / "osm_localities.csv"
+STREETS = DATA / "osm_streets.csv"
 
 
 def norm(v: str) -> str:
@@ -87,6 +90,9 @@ def build():
         id INTEGER PRIMARY KEY, osm_id TEXT, name TEXT, norm_name TEXT, place TEXT,
         latitude TEXT, longitude TEXT, pincode TEXT,
         district TEXT, norm_district TEXT, state TEXT, norm_state TEXT
+      );
+      CREATE TABLE osm_streets(
+        id INTEGER PRIMARY KEY, name TEXT, norm_name TEXT, latitude REAL, longitude REAL, norm_state TEXT
       );
       CREATE TABLE pin_lgd(
         id INTEGER PRIMARY KEY, pincode TEXT, state TEXT, norm_state TEXT,
@@ -168,6 +174,20 @@ def build():
         insert_batch(con,"INSERT INTO osm_localities(osm_id,name,norm_name,place,latitude,longitude,pincode,district,norm_district,state,norm_state) VALUES (?,?,?,?,?,?,?,?,?,?,?)",batch)
     print("OSM localities:", con.execute("select count(*) from osm_localities").fetchone()[0])
 
+    if STREETS.exists():
+        fh, r, m = read_header(STREETS); batch=[]
+        try:
+            for row in r:
+                name=col(m,row,'name')
+                try: lat=float(col(m,row,'latitude')); lon=float(col(m,row,'longitude'))
+                except ValueError: continue
+                if not name: continue
+                batch.append((name,norm_street(name),lat,lon,norm(col(m,row,'state'))))
+                if len(batch)>=50000: insert_batch(con,"INSERT INTO osm_streets(name,norm_name,latitude,longitude,norm_state) VALUES (?,?,?,?,?)",batch)
+        finally: fh.close()
+        insert_batch(con,"INSERT INTO osm_streets(name,norm_name,latitude,longitude,norm_state) VALUES (?,?,?,?,?)",batch)
+    print("OSM named roads:", con.execute("select count(*) from osm_streets").fetchone()[0])
+
     con.commit()
     print("Creating indexes...")
     con.executescript('''
@@ -186,6 +206,8 @@ def build():
       CREATE INDEX idx_osm_name ON osm_localities(norm_name);
       CREATE INDEX idx_osm_state_district ON osm_localities(norm_state,norm_district);
       CREATE INDEX idx_pinlgd_state_dist ON pin_lgd(norm_state,norm_district);
+      CREATE INDEX idx_street_name_state ON osm_streets(norm_name,norm_state);
+      CREATE INDEX idx_street_state_lat ON osm_streets(norm_state,latitude);
     ''')
     con.commit(); con.execute("ANALYZE"); con.close()
     print(f"Built {DB} ({DB.stat().st_size/1e6:.1f} MB)")

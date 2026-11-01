@@ -1,12 +1,14 @@
 import difflib
+from concurrent.futures import ThreadPoolExecutor
 
 from services.ai_address_service import extract_with_ai
-from services.address_parser import parse_address
+from services.address_parser import FIELDS, parse_address
 from services.normalizer import normalize_address
 from services.phone_validator import validate_phone
 from services.pin_validator import validate_pin
 from services.location_verifier import verify_geography
-from services.geocoding_service import verify_geocoding
+from services.geocoding_service import verify_geocoding, verify_street
+from services.mappls_service import verify_with_mappls
 from services.anomaly_detector import detect_anomalies
 from services.correction_engine import (
     generate_corrections,
@@ -18,16 +20,58 @@ from utils.indian_data import (
     INDIAN_STATES, CITY_STATE_MAP, KNOWN_LOCALITIES, CITY_ALIASES, STATE_ALIASES, LOCALITY_ALIASES,
 )
 from services.address_resolution_service import resolve_and_rank
-from services.official_reference_service import generate_official_correction, generate_reference_correction, get_reference_status, is_state_known, locality_matches, reference_place_name, suggest_pin_code
+from services.official_reference_service import generate_official_correction, generate_reference_correction, get_reference_status, is_state_known, locality_matches, named_place, reference_place_name, suggest_pin_code
 from services.ai_correction_service import generate_ai_corrections
 from services.confidence_engine import score_confidence
 from services.risk_engine import assess_risk
-from services.decision_engine import make_decision
+from services.decision_engine import DECISION_RULES, make_decision
+from services.decision_labels import NEEDS_CONFIRMATION, VERIFIED
+from services.script_service import detect_script, normalize_digits, translate_address
 from services.explainability_service import build_explanation
 
 
 def _stage(name, status, details):
     return {"stage": name, "status": status, "details": details}
+
+
+def _reconcile_ai_geography(ai, det):
+    """Align the AI's state/city with the deterministic parser where the AI erred.
+
+    - The AI keeps a typo verbatim ("Rajastan"); the parser already resolved it,
+      so validation uses the resolved name and the typo becomes a correction.
+    - The AI files the city as the district ("Armoor, Nizamabad" read as city
+      Armoor, district Nizamabad); the parser's city is restored and the AI's
+      city becomes the locality.
+    """
+    raw = ai.get("_raw_correction_fields")
+    if not isinstance(raw, dict):
+        raw = ai["_raw_correction_fields"] = {}
+    det_raw = det.get("_raw_correction_fields") or {}
+    for field in ("state", "city"):
+        mine, parser = str(ai.get(field) or ""), str(det.get(field) or "")
+        if mine and parser and not _same_text(mine, parser) and _same_text(det_raw.get(field, ""), mine):
+            ai[field] = parser
+            raw.setdefault(field, mine)
+    # A misspelt state the parser could not place ("Andhra Pradsh") is matched
+    # to the official state list directly.
+    state = str(ai.get("state") or "")
+    if state and not any(_same_text(state, s) for s in INDIAN_STATES):
+        canonical = STATE_ALIASES.get(state.lower(), "")
+        if not canonical:
+            close = difflib.get_close_matches(state.lower(), [s.lower() for s in INDIAN_STATES], n=1, cutoff=0.85)
+            canonical = next((s for s in INDIAN_STATES if close and s.lower() == close[0]), "")
+        if canonical and not _same_text(canonical, state):
+            ai["state"] = canonical
+            raw.setdefault("state", state)
+    city, district = str(det.get("city") or ""), str(ai.get("district") or "")
+    if city and district and not _same_text(ai.get("city", ""), city) and (
+            _same_text(district, city) or _same_text(district, det_raw.get("city", ""))):
+        if ai.get("city") and not ai.get("locality"):
+            ai["locality"] = ai["city"]
+        ai["city"], ai["district"] = city, ""
+        if det_raw.get("city"):
+            raw.setdefault("city", det_raw["city"])
+    return ai
 
 
 def _is_ai_correction_safe(correction, normalized):
@@ -40,6 +84,11 @@ def _is_ai_correction_safe(correction, normalized):
     suggested = str(correction.get("suggested", "")).strip()
 
     if not field or not original or not suggested:
+        return False
+
+    # A real town or locality of the stated state is not a misspelling
+    # (Gudur is not Guntur, Kottarakara is a post office).
+    if field in ("city", "locality") and named_place(original, normalized.get("state", "")):
         return False
 
     current = str(normalized.get(field, "") or "").strip()
@@ -152,6 +201,9 @@ def _extract_landmark_line(raw_text):
             return line
     return ""
 
+# Shared pool for the independent network checks of a validation.
+_NETWORK_POOL = ThreadPoolExecutor(max_workers=16, thread_name_prefix="addressguard-net")
+
 _REVIEWABLE_FIELDS = ("state", "district", "city", "locality", "building", "street", "landmark")
 
 
@@ -180,22 +232,70 @@ def _ai_rewritten_fields(ai_parsed, det_parsed, raw_text):
     return rewritten
 
 
-def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = None) -> dict:
+def _translation_decision(decision_result, translation):
+    """A machine translation needs a person to confirm it before verification."""
+    script = translation["script"]
+    if translation["english"]:
+        if decision_result["decision"] != VERIFIED:
+            return {**decision_result, "reasons": decision_result["reasons"] + [
+                f"The address was machine-translated from {script} script"]}
+        reason = (f"The address was machine-translated from {script} script; confirm the English version "
+                  f"({translation['english']}) with the customer before dispatch")
+    else:
+        reason = (f"The address is written in {script} script and could not be translated "
+                  f"because {translation['error']}. Please enter it in English.")
+    return {"decision": NEEDS_CONFIRMATION, "rule": "D6", "rule_description": DECISION_RULES["D6"][1],
+            "reasons": [reason]}
+
+
+def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = None,
+                 reviewed_fields: dict = None) -> dict:
+    """Validate one address.
+
+    reviewed_fields: the structured fields a person has just reviewed (used by
+    re-validation). They are used as-is, so the AI does not re-read the address
+    and no new AI spelling round is requested; every reference check still runs.
+    """
     accepted = accepted if isinstance(accepted, list) else []
     resolved = resolved if isinstance(resolved, list) else []
     stages = []
-    effective_raw_text = _apply_unrecognized_to_raw(raw_text, accepted)
+
+    # 0. Addresses in an Indian script are rewritten in English first; the
+    # reference data and parser work in English. The original is kept as raw_address.
+    work_text, translation = raw_text, None
+    script = detect_script(raw_text)
+    if script:
+        digits_fixed = normalize_digits(raw_text)
+        english, translation_error = translate_address(
+            digits_fixed, cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL, cfg.GROQ_TIMEOUT_SECONDS)
+        translation = {"script": script, "english": english, "error": translation_error}
+        work_text = english or digits_fixed
+        stages.append(_stage(
+            "Script Translation",
+            "Completed" if english else "Failed",
+            f"{script} script rewritten in English by {cfg.GROQ_MODEL}: {english}" if english
+            else f"{script} script detected but could not be translated: {translation_error}",
+        ))
+    effective_raw_text = _apply_unrecognized_to_raw(work_text, accepted)
 
     # 1. AI Address Understanding
-    parsed, ai_meta = extract_with_ai(
-        effective_raw_text,
-        cfg.GROQ_API_KEY,
-        cfg.GROQ_BASE_URL,
-        cfg.GROQ_MODEL,
-        cfg.GROQ_TIMEOUT_SECONDS,
-    )
+    if reviewed_fields:
+        parsed = {field: str(reviewed_fields.get(field) or "") for field in FIELDS}
+        parsed["unrecognized_text"] = []
+        ai_meta = {"source": "reviewed", "model": None, "status": "Skipped"}
+    else:
+        parsed, ai_meta = extract_with_ai(
+            effective_raw_text,
+            cfg.GROQ_API_KEY,
+            cfg.GROQ_BASE_URL,
+            cfg.GROQ_MODEL,
+            cfg.GROQ_TIMEOUT_SECONDS,
+        )
 
-    if ai_meta["source"] == "ai":
+    if ai_meta["source"] == "reviewed":
+        stages.append(_stage("AI Address Understanding", "Skipped",
+                             "Fields already reviewed by a person; the AI does not need to re-read the address"))
+    elif ai_meta["source"] == "ai":
         stages.append(_stage("AI Address Understanding", "Completed", f"Model: {ai_meta['model']}"))
     else:
         stages.append(_stage(
@@ -205,7 +305,9 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         ))
 
     # 2. Address Parsing
-    if ai_meta["source"] != "ai":
+    if ai_meta["source"] == "reviewed":
+        stages.append(_stage("Address Parsing", "Completed", "Reviewed fields used as confirmed"))
+    elif ai_meta["source"] != "ai":
         stages.append(_stage(
             "Address Parsing",
             "Completed",
@@ -225,6 +327,7 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         rewritten = _ai_rewritten_fields(parsed, det, effective_raw_text)
         if rewritten:
             parsed["_raw_correction_fields"] = {**rewritten, **(parsed.get("_raw_correction_fields") or {})}
+        _reconcile_ai_geography(parsed, det)
 
     # 3. Data Normalization
     normalized = normalize_address(parsed)
@@ -342,14 +445,25 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         ref_detail,
     ))
 
+    # The slow network checks (geocoder, street lookup, Mappls, AI spelling
+    # review) do not depend on each other, so they run at the same time.
+    geo_enabled = bool(getattr(cfg, "GEOCODING_ENABLED", False))
+    geo_url = getattr(cfg, "GEOCODING_URL", "https://nominatim.openstreetmap.org/search")
+    geo_timeout = int(getattr(cfg, "GEOCODING_TIMEOUT_SECONDS", 8))
+    mappls_key = getattr(cfg, "MAPPLS_API_KEY", "")
+    snapshot = dict(normalized)
+    geocoding_future = _NETWORK_POOL.submit(verify_geocoding, snapshot, enabled=geo_enabled, url=geo_url, timeout=geo_timeout)
+    street_future = _NETWORK_POOL.submit(verify_street, snapshot, enabled=geo_enabled, url=geo_url, timeout=geo_timeout)
+    mappls_future = _NETWORK_POOL.submit(verify_with_mappls, snapshot, mappls_key,
+                                         int(getattr(cfg, "MAPPLS_TIMEOUT_SECONDS", 8)))
+    ai_corrections_future = _NETWORK_POOL.submit(
+        (lambda *_: ([], {"source": "reviewed"})) if reviewed_fields else generate_ai_corrections,
+        effective_raw_text, snapshot,
+        cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL, cfg.GROQ_TIMEOUT_SECONDS)
+
     # Optional external geocoding verification. It is independent from the
     # reference-dataset checks above and is never required for the pipeline to run.
-    geocoding_result = verify_geocoding(
-        normalized,
-        enabled=bool(getattr(cfg, "GEOCODING_ENABLED", False)),
-        url=getattr(cfg, "GEOCODING_URL", "https://nominatim.openstreetmap.org/search"),
-        timeout=int(getattr(cfg, "GEOCODING_TIMEOUT_SECONDS", 8)),
-    )
+    geocoding_result = geocoding_future.result()
     if geocoding_result.get("external_status") == "UNAVAILABLE":
         geocoding_stage_status = "Fallback"
     elif geocoding_result["status"] in ("CONFIRMED", "PARTIAL MATCH"):
@@ -362,6 +476,28 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         "External Geocoding Verification",
         geocoding_stage_status,
         f"{geocoding_result['status']} — {geocoding_result['source']}" + (f"; {geocoding_result['reason']}" if geocoding_result.get("reason") else ""),
+    ))
+
+    # Street check: informational only, it never changes the decision because
+    # OpenStreetMap does not map every Indian street.
+    street_result = street_future.result()
+    geocoding_result["street_check"] = street_result
+
+    # Optional paid Mappls check (informational; only with MAPPLS_API_KEY).
+    mappls_result = mappls_future.result()
+    geocoding_result["mappls"] = mappls_result
+    if mappls_key:
+        stages.append(_stage(
+            "Mappls Verification (informational)",
+            "Completed" if mappls_result["status"] == "STREET CONFIRMED" else "Info",
+            f"{mappls_result['status']} — {mappls_result['reason']}",
+        ))
+    stages.append(_stage(
+        "Street Verification (informational)",
+        # Informational: anything other than a confirmed street is "Info", never a warning.
+        "Completed" if street_result["status"] == "FOUND NEAR PIN"
+        else "Skipped" if street_result["status"] == "NOT CHECKED" else "Info",
+        f"{street_result['status']} — {street_result['reason']}",
     ))
 
     # 10. Anomaly Detection
@@ -377,14 +513,7 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     # The LLM sees the COMPLETE address and proposes previously unseen spelling
     # corrections. Deterministic reference/fuzzy correction remains a fallback
     # and independent second signal. Nothing is silently applied.
-    ai_corrections, ai_correction_meta = generate_ai_corrections(
-        effective_raw_text,
-        normalized,
-        cfg.GROQ_API_KEY,
-        cfg.GROQ_BASE_URL,
-        cfg.GROQ_MODEL,
-        cfg.GROQ_TIMEOUT_SECONDS,
-    )
+    ai_corrections, ai_correction_meta = ai_corrections_future.result()
     ai_corrections = [
         harmonized
         for harmonized in (
@@ -417,6 +546,9 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
                 continue
             correction_input[field] = raw_value
 
+    # Real-place protection must use the state the address was validated
+    # against, not the user's misspelling of it ("Himachal Prades").
+    correction_input["_validated_state"] = normalized.get("state", "")
     deterministic_corrections = generate_corrections(correction_input)
 
     # Official postal/LGD reference is a second, independent signal for an
@@ -467,6 +599,10 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
             official_corrections.append({**pin_suggestion, "original": reference_context["pin"]})
 
     stages.append(_stage(
+        "AI Spelling Correction",
+        "Skipped",
+        "Corrections were just reviewed by a person; no new AI round is needed",
+    ) if ai_correction_meta.get("source") == "reviewed" else _stage(
         "AI Spelling Correction",
         "Completed" if ai_correction_meta.get("source") == "ai" else "Fallback",
         (
@@ -530,6 +666,8 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         detail = f"Corrections identified — {listing}"
     elif ai_correction_meta.get("source") == "ai":
         detail = "AI checked the complete address and found no high-confidence spelling correction"
+    elif ai_correction_meta.get("source") == "reviewed":
+        detail = "No further corrections — the reviewed address was re-checked against the reference data"
     else:
         detail = "No corrections needed — AI unavailable; deterministic reference/fuzzy fallback found no correction"
 
@@ -585,6 +723,10 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         anomaly_result,
         ranked_corrections,
     )
+    if translation:
+        decision_result = _translation_decision(decision_result, translation)
+        if translation["english"]:
+            confidence_result["score"] = min(90, confidence_result["score"])
     stages.append(_stage(
         "Confidence & Final Decision",
         "Completed",
@@ -617,5 +759,6 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         "ai_meta": ai_meta,
         "ai_correction_meta": ai_correction_meta,
         "geocoding": geocoding_result,
+        "translation": translation,
         "resolved_corrections": resolved,
     }

@@ -44,6 +44,10 @@ class Config:
     GEOCODING_URL = _clean(os.getenv("GEOCODING_URL", "https://nominatim.openstreetmap.org/search"))
     GEOCODING_TIMEOUT_SECONDS = int(_clean(os.getenv("GEOCODING_TIMEOUT_SECONDS", "8")))
 
+    # Optional paid Mappls (MapmyIndia) street-level check; off without a key.
+    MAPPLS_API_KEY = _clean(os.getenv("MAPPLS_API_KEY", ""))
+    MAPPLS_TIMEOUT_SECONDS = int(_clean(os.getenv("MAPPLS_TIMEOUT_SECONDS", "8")))
+
     # Whole-India reference data bundled with this project.
     OFFICIAL_REFERENCE_ENABLED = _clean(os.getenv("OFFICIAL_REFERENCE_ENABLED", "true")).lower() in {"1", "true", "yes", "on"}
     INDIA_POST_PINCODE_CSV = _clean(os.getenv("INDIA_POST_PINCODE_CSV", str(BASE_DIR / "data" / "india_post_pincode.csv")))

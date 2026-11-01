@@ -1,6 +1,10 @@
 import re
 
+from utils.indian_data import BUILDING_KEYWORDS, FLAT_KEYWORDS, HOUSE_KEYWORDS, STREET_KEYWORDS
+
 KEY_GEO_FIELDS = ["city", "state", "pin_code", "locality", "district"]
+STRUCTURE_WORDS = [k for k in BUILDING_KEYWORDS + FLAT_KEYWORDS + HOUSE_KEYWORDS + STREET_KEYWORDS
+                   if len(k) >= 3 and k != "st"] + ["house", "door", "floor", "near", "opp"]
 
 def detect_anomalies(parsed: dict, raw_text: str) -> dict:
     reasons = []
@@ -17,7 +21,14 @@ def detect_anomalies(parsed: dict, raw_text: str) -> dict:
     leftover_words = sum(len(t.split()) for t in parsed.get("unrecognized_text", []))
     leftover_ratio = leftover_words / total_words
 
-    if not has_any_structured_field:
+    # The parser is generous ("lorem ipsum dolor" fuzzily reads as a door
+    # number), so a filled field alone is not proof of an address. With no
+    # geographic field, the raw text must also contain a real address word.
+    keyword_evidence = any(
+        re.search(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])", raw_text.lower())
+        for k in STRUCTURE_WORDS
+    )
+    if not has_any_structured_field or (filled_geo == 0 and not keyword_evidence):
         reasons.append("No recognizable address components found")
         severity = "CRITICAL"
     elif filled_geo == 0:

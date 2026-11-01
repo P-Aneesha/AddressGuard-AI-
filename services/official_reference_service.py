@@ -25,6 +25,8 @@ import subprocess
 import sys
 import tempfile
 import threading
+
+from utils.street_names import norm_street
 import unicodedata
 import urllib.parse
 import urllib.request
@@ -46,7 +48,7 @@ DEFAULT_VILLAGES_CSV = DATA_DIR / "lgd_villages.csv"
 DEFAULT_MAPPING_CSV = DATA_DIR / "postal_lgd_mapping.csv"
 DEFAULT_DB = DATA_DIR / "reference_index.sqlite3"
 # Optional extras downloaded by scripts/fetch_reference_data.py.
-OPTIONAL_INPUTS = (DATA_DIR / "lgd_pincode_villages.csv", DATA_DIR / "osm_localities.csv")
+OPTIONAL_INPUTS = (DATA_DIR / "lgd_pincode_villages.csv", DATA_DIR / "osm_localities.csv", DATA_DIR / "osm_streets.csv")
 
 _STATE_ALIASES = {
     "andaman and nicobar islands": "Andaman and Nicobar Islands",
@@ -434,6 +436,24 @@ def district_state_matches(district: str, state: str) -> bool:
         return False
 
 
+@lru_cache(maxsize=2048)
+def district_spelled_like(district: str, state: str) -> bool:
+    """True when the name is a near-spelling of a district of the state
+    ("Niazmabad" for Nizamabad): a typo to correct, not a geographic conflict."""
+    nd, ns = _norm(district), _norm(_canon_state(state))
+    if not nd or not ns:
+        return False
+    try:
+        with _connect() as con:
+            names = {r[0] for r in con.execute(
+                "SELECT DISTINCT norm_district FROM postal_offices WHERE norm_state=?", (ns,)).fetchall() if r[0]}
+            names |= {r[0] for r in con.execute(
+                "SELECT DISTINCT norm_district FROM pin_lgd WHERE norm_state=?", (ns,)).fetchall() if r[0]}
+    except Exception:
+        return False
+    return any(difflib.SequenceMatcher(None, nd, n).ratio() >= 0.8 for n in names)
+
+
 @lru_cache(maxsize=4096)
 def subdistrict_context_matches(name: str, district: str = "", state: str = "") -> bool:
     nn, nd, ns = _norm(name), _norm(district), _norm(_canon_state(state))
@@ -482,6 +502,28 @@ def _context_score(item: dict[str, str], city: str, district: str, state: str, p
 
 
 @lru_cache(maxsize=8192)
+def named_place(name: str, state: str = "") -> bool:
+    """True when name exactly matches a post office or an OpenStreetMap locality
+    in the state. Stricter than reference_place_name (no LGD villages, whose
+    677k names would also match many typos); used to stop real towns such as
+    Gudur or Raipur from being "corrected" to a better-known city."""
+    target, ns = _ref_name(name), _norm(_canon_state(state))
+    if not target or not ns:
+        return False
+    try:
+        with _connect() as con:
+            for table in ("postal_offices", "osm_localities"):
+                try:
+                    if con.execute(f"SELECT 1 FROM {table} WHERE norm_name=? AND norm_state=? LIMIT 1",
+                                   (target, ns)).fetchone():
+                        return True
+                except sqlite3.OperationalError:
+                    continue
+    except Exception as exc:
+        logger.warning("Place lookup failed: %s", type(exc).__name__)
+    return False
+
+
 def reference_place_name(name: str, state: str = "") -> bool:
     """True when name exactly matches a post office, OSM locality or LGD village
     (within the given state, when one is supplied). Used by the parser to tell
@@ -506,6 +548,84 @@ def reference_place_name(name: str, state: str = "") -> bool:
     except Exception as exc:
         logger.warning("Reference place lookup failed: %s", type(exc).__name__)
     return False
+
+
+STREET_NEAR_KM = 5.0
+
+
+def street_near_pin(street: str, state: str, pin: str = "") -> dict[str, Any] | None:
+    """Look a street up in the offline OpenStreetMap road index.
+
+    Returns {"status": FOUND NEAR PIN | FOUND ELSEWHERE | FOUND IN STATE |
+    NOT IN OPENSTREETMAP, ...}, or None when the index has no road data.
+    A road counts as near when a mapped segment of it lies within 5 km of a
+    post office of the PIN; spelling variants are accepted only near the PIN.
+    """
+    target, state_key = norm_street(street), _norm(_canon_state(state))
+    if not target or not state_key:
+        return None
+    try:
+        with _connect() as con:
+            try:
+                if not con.execute("SELECT 1 FROM osm_streets LIMIT 1").fetchone():
+                    return None
+            except sqlite3.OperationalError:
+                return None  # index built before road data was added
+            pin_points = [p for p in (_coords(r) for r in con.execute(
+                "SELECT latitude, longitude FROM postal_offices WHERE pincode=?", (_digits(pin),)).fetchall()) if p]
+            exact = con.execute("SELECT name, latitude, longitude FROM osm_streets WHERE norm_name=? AND norm_state=?",
+                                (target, state_key)).fetchall()
+            nearby = []
+            if pin_points:
+                box = STREET_NEAR_KM / 111.2 * 1.3
+                lat_lo, lat_hi = min(p[0] for p in pin_points) - box, max(p[0] for p in pin_points) + box
+                lon_lo, lon_hi = min(p[1] for p in pin_points) - box * 1.2, max(p[1] for p in pin_points) + box * 1.2
+                nearby = con.execute(
+                    "SELECT name, norm_name, latitude, longitude FROM osm_streets WHERE norm_state=? "
+                    "AND latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
+                    (state_key, lat_lo, lat_hi, lon_lo, lon_hi)).fetchall()
+    except Exception as exc:
+        logger.warning("Street lookup failed: %s", type(exc).__name__)
+        return None
+
+    def closest(rows):
+        return min(((min(_km_between(r["latitude"], r["longitude"], *p) for p in pin_points), r["name"]) for r in rows),
+                   default=(None, None))
+
+    if exact and pin_points:
+        km, name = closest(exact)
+        if km <= STREET_NEAR_KM:
+            return {"status": "FOUND NEAR PIN", "distance_km": round(km, 1), "name": name, "match": "exact"}
+    # Spelling variants ("Hitech" / "HITEC") only count when the road is right next to the PIN.
+    variants = [r for r in nearby if difflib.SequenceMatcher(None, r["norm_name"], target).ratio() >= 0.85]
+    if variants:
+        km, name = closest(variants)
+        if km <= STREET_NEAR_KM:
+            return {"status": "FOUND NEAR PIN", "distance_km": round(km, 1), "name": name, "match": "similar"}
+    if exact and pin_points:
+        km, name = closest(exact)
+        return {"status": "FOUND ELSEWHERE", "distance_km": round(km, 1), "name": name, "match": "exact"}
+    if exact:
+        return {"status": "FOUND IN STATE", "name": exact[0]["name"], "match": "exact"}
+    return {"status": "NOT IN OPENSTREETMAP"}
+
+
+def post_office_at_pin(name: str, pin: str) -> bool:
+    """True when a post office of exactly this name serves this PIN.
+
+    Lets the parser accept a road-named locality such as "Anna Road" (Anna
+    Road H.O, 600002) without taking ordinary street names as localities.
+    """
+    target, pin = _ref_name(name), _digits(pin)
+    if not target or len(pin) != 6:
+        return False
+    try:
+        with _connect() as con:
+            return con.execute("SELECT 1 FROM postal_offices WHERE norm_name=? AND pincode=? LIMIT 1",
+                               (target, pin)).fetchone() is not None
+    except Exception as exc:
+        logger.warning("Post-office lookup failed: %s", type(exc).__name__)
+        return False
 
 
 def _osm_in_pin_district(item: dict[str, Any], pin_districts: set[str]) -> bool:

@@ -266,6 +266,49 @@ Login (10 per 5 minutes per IP), registration (5 per hour per IP) and validation
 day per user) are limited. Hits are counted in the `rate_limit_hits` table, so limits hold across serverless
 instances. Exceeding a limit returns HTTP 429 with a `Retry-After` header. Override a limit with e.g.
 `RATELIMIT_VALIDATE=60/60`; limits are off in automated tests unless `RATELIMIT_ENABLED=1`.
+Bulk uploads are limited to 5 files per hour per user (50 addresses each).
+
+## Account security
+
+State-changing API requests must carry the `X-Requested-With: AddressGuard` header, which the app's
+pages always send and other websites cannot add, so cross-site request forgery is blocked (HTTP 403).
+Session cookies are `HttpOnly` and `SameSite=Lax` (and `Secure` on Vercel). New passwords need at least
+8 characters, and signed-in users can change their password from the profile menu. Password reset by
+email is not implemented because the project has no email-sending service.
+
+## Bulk validation
+
+The dashboard accepts a CSV with one address per row (a column named `address` or `raw_address`, or
+the first column). Up to 50 rows per file; each row is validated and saved to History exactly like a
+single validation, and the results can be downloaded as CSV (formula-injection safe).
+
+## Measured correction acceptance
+
+Every accept, edit or reject of a correction suggestion is stored in the `review_decisions` table. The
+dashboard shows the resulting acceptance rate (accepted as suggested or after editing, out of all reviewed
+suggestions), so acceptance is measured from real reviews rather than reported as "not measured".
+
+## Street check (informational)
+
+When `GEOCODING_ENABLED=true`, the street is searched in OpenStreetMap and its distance to the PIN's post
+offices is reported (FOUND NEAR PIN within 5 km, FOUND ELSEWHERE, NOT IN OPENSTREETMAP). It never changes
+the decision: OpenStreetMap does not map every Indian street and common road names repeat across a city.
+Requests to the public Nominatim service are spaced at least 1.1 s apart, as its usage policy requires.
+
+## Addresses in Indian scripts
+
+Addresses written in Devanagari, Bengali, Gurmukhi, Gujarati, Odia, Tamil, Telugu, Kannada or Malayalam
+are rewritten in English by the configured LLM (names transliterated, numbers kept) before validation;
+Indian-script digits are converted to ASCII. The original text is stored unchanged. A machine-translated
+address is never marked VERIFIED automatically: it stays at NEEDS CUSTOMER CONFIRMATION until a person
+confirms the English version. Without the LLM, the user is asked to enter the address in English.
+
+## Why the reference data is not stored in PostgreSQL
+
+User data (accounts, validations, review decisions, rate limits) lives in PostgreSQL. The read-only
+reference index stays a bundled SQLite file: one validation makes about 26 reference lookups, which take
+about 0.6 s in total locally, while a single round trip from India to the Neon database took about 224 ms,
+so moving the lookups to PostgreSQL would add roughly 6 s per validation and about 300 MB of storage.
 
 ## Database (Neon PostgreSQL)
 

@@ -4,6 +4,7 @@ from models.user import User
 from utils.rate_limit import rate_limit
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
+MIN_PASSWORD_LENGTH = 8
 
 
 def _fields(*names):
@@ -21,6 +22,8 @@ def register():
         return jsonify({"error": "name, email, password required"}), 400
     if len(name) > 120 or len(email) > 160 or "@" not in email:
         return jsonify({"error": "Please enter a valid name and email address."}), 400
+    if len(pw) < MIN_PASSWORD_LENGTH:
+        return jsonify({"error": f"Password must be at least {MIN_PASSWORD_LENGTH} characters."}), 400
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "email already registered"}), 409
     u = User(name=name, email=email)
@@ -41,6 +44,24 @@ def login():
     session["user_id"] = u.id
     return jsonify({"user": u.to_dict()})
 
+@auth_bp.post("/change-password")
+@rate_limit("login")
+def change_password():
+    uid = session.get("user_id")
+    if not uid:
+        return jsonify({"error": "login required"}), 401
+    current, new = _fields("current_password", "new_password")
+    u = db.session.get(User, uid)
+    if not u or not u.check_password(current):
+        return jsonify({"error": "Your current password is incorrect."}), 400
+    if len(new) < MIN_PASSWORD_LENGTH:
+        return jsonify({"error": f"New password must be at least {MIN_PASSWORD_LENGTH} characters."}), 400
+    if new == current:
+        return jsonify({"error": "The new password must be different from the current one."}), 400
+    u.set_password(new)
+    db.session.commit()
+    return jsonify({"ok": True})
+
 @auth_bp.post("/logout")
 def logout():
     session.clear()
@@ -51,5 +72,5 @@ def me():
     uid = session.get("user_id")
     if not uid:
         return jsonify({"user": None})
-    u = User.query.get(uid)
+    u = db.session.get(User, uid)
     return jsonify({"user": u.to_dict() if u else None})
