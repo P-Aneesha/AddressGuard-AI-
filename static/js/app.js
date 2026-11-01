@@ -736,8 +736,8 @@ if ($("#runBtn")) {
 
       correctionChoices = {};
       renderResult(data, { revalidated: true });
-      await loadStats();
-      await loadEvaluation();
+      loadStats();  // refreshes the cards in the background; the result is already shown
+      loadEvaluation();
 
       setTimeout(() => {
         $("#finalAddressCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -807,7 +807,7 @@ if ($("#runBtn")) {
       setTimeout(() => {
         $("#resultSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
-      await loadStats();
+      loadStats();  // refreshes the cards in the background; the result is already shown
     } finally {
       button.disabled = false;
       button.textContent = "▶ Run validation";
@@ -853,7 +853,7 @@ if ($("#runBtn")) {
         <span class="badge danger">${escapeHtml(s["VALIDATION FAILED"] ?? 0)} failed</span>
         ${s.errors ? `<span class="badge neutral">${escapeHtml(s.errors)} could not be processed</span>` : ""}`;
       show("#bulkResult");
-      await loadStats();
+      loadStats();  // refreshes the cards in the background; the result is already shown
     } finally {
       button.disabled = false;
       button.textContent = "▶ Validate file";

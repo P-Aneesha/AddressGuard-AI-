@@ -170,6 +170,7 @@ def _cfg():
         GEOCODING_ENABLED=c.get("GEOCODING_ENABLED", False), GEOCODING_URL=c.get("GEOCODING_URL", "https://nominatim.openstreetmap.org/search"),
         GEOCODING_TIMEOUT_SECONDS=c.get("GEOCODING_TIMEOUT_SECONDS", 8),
         MAPPLS_API_KEY=c.get("MAPPLS_API_KEY", ""), MAPPLS_TIMEOUT_SECONDS=c.get("MAPPLS_TIMEOUT_SECONDS", 8),
+        VALIDATION_TIME_BUDGET_SECONDS=c.get("VALIDATION_TIME_BUDGET_SECONDS", 20),
     )
 
 
@@ -470,26 +471,30 @@ def dashboard_stats():
     uid = _require_login()
     if not uid:
         return jsonify({"error": "login required"}), 401
-    q = Validation.query.filter_by(user_id=uid)
-    total = q.count()
-    avg_conf = db.session.query(func.avg(Validation.confidence)).filter_by(user_id=uid).scalar() or 0
-    # Count with a GROUP BY and map any legacy label, so the totals always add
-    # up to the number of stored records.
-    decisions = {d: 0 for d in DECISIONS}
+    # One grouped query gives totals, average confidence, decisions and risks:
+    # every query is a network round trip to the database (about 0.2 s from
+    # India to Neon in the US), so the dashboard avoids one query per number.
+    # Legacy labels are mapped, so the totals always add up to the stored records.
     grouped = (
-        db.session.query(Validation.decision, func.count(Validation.id))
-        .filter_by(user_id=uid).group_by(Validation.decision).all()
+        db.session.query(Validation.decision, Validation.risk_level,
+                         func.count(Validation.id), func.sum(Validation.confidence))
+        .filter_by(user_id=uid).group_by(Validation.decision, Validation.risk_level).all()
     )
-    for label, count in grouped:
+    decisions = {d: 0 for d in DECISIONS}
+    risks = {r: 0 for r in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]}
+    total = confidence_sum = 0
+    for label, risk, count, conf_sum in grouped:
         key = normalize_decision(label)
         decisions[key] = decisions.get(key, 0) + count
-    risks = {r: q.filter_by(risk_level=r).count() for r in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]}
-    recent = q.order_by(Validation.created_at.desc()).limit(8).all()
+        if risk in risks:
+            risks[risk] += count
+        total += count
+        confidence_sum += conf_sum or 0
     return jsonify({
-        "total_validations": total, "average_confidence": round(float(avg_conf), 1),
+        "total_validations": total,
+        "average_confidence": round(confidence_sum / total, 1) if total else 0,
         "decisions": decisions, "risks": risks,
         "review": review_summary(uid),
-        "recent": [r.to_dict() for r in recent],
     })
 
 

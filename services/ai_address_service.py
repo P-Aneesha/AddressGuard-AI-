@@ -65,7 +65,7 @@ def extract_with_ai(raw_text: str, api_key: str, base_url: str, model: str, time
         return cached
     try:
         from openai import OpenAI
-        client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout)
+        client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=0)  # timeout is a hard cap (20 s budget)
         resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": raw_text}],

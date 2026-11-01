@@ -44,6 +44,9 @@ class Config:
     GEOCODING_URL = _clean(os.getenv("GEOCODING_URL", "https://nominatim.openstreetmap.org/search"))
     GEOCODING_TIMEOUT_SECONDS = int(_clean(os.getenv("GEOCODING_TIMEOUT_SECONDS", "8")))
 
+    # Every validation finishes within this many seconds (slow services are skipped).
+    VALIDATION_TIME_BUDGET_SECONDS = float(_clean(os.getenv("VALIDATION_TIME_BUDGET_SECONDS", "20")))
+
     # Optional paid Mappls (MapmyIndia) street-level check; off without a key.
     MAPPLS_API_KEY = _clean(os.getenv("MAPPLS_API_KEY", ""))
     MAPPLS_TIMEOUT_SECONDS = int(_clean(os.getenv("MAPPLS_TIMEOUT_SECONDS", "8")))

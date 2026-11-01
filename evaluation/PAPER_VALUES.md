@@ -51,3 +51,16 @@ Notes:
 
 ## Rate limits
 - Login 10 per 5 min per IP; registration 5 per hour per IP; validation 30/min and 500/day per user; bulk 5 files/hour (50 addresses each).
+
+## 20-second time budget (added 1 Nov 2026)
+- Every validation has a hard 20 s budget (VALIDATION_TIME_BUDGET_SECONDS). Network calls (Groq, geocoder,
+  street lookup, Mappls) get only the time left and must finish 4 s before the limit; the first AI read gets at
+  most half of the remaining time. Calls still running at the deadline are left out and named in the result;
+  the built-in checks then decide. Automatic AI client retries were disabled so each timeout is a true cap.
+- Worst case measured end-to-end through the API (AI slow; AI review, geocoder and street check hung):
+  **16.3 s**, decision still correct (VERIFIED). Test with an 8 s budget: 4.35 s.
+- Normal case, 50 addresses from the seed-11 holdout (5 per category), full API, live geocoder, AI mostly
+  unavailable (daily quota): **median 0.40 s, 95th percentile 1.68 s, max 2.78 s; 50/50 under 20 s.**
+  With the AI working, a new address took about 2.2 s (measured earlier).
+- These timings used a local SQLite test database; against Neon from India each database query adds ~0.22 s
+  (about 6 queries per validation, ~1.3 s).

@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 from flask import current_app, jsonify, request, session
+from sqlalchemy import and_, func, or_
 from sqlalchemy.exc import SQLAlchemyError
 
 from models import db
@@ -53,18 +54,31 @@ def _enabled():
     return not current_app.config.get("TESTING")
 
 
-def _over_limit(name):
-    """Record this request and return seconds to wait if it exceeds the limit."""
-    count, seconds, per_user = _limit(name)
-    who = f"user:{session['user_id']}" if per_user and session.get("user_id") else f"ip:{client_ip()}"
-    key = f"{name}:{who}"
+def _over_limit(names):
+    """Record this request and return seconds to wait if any named limit is exceeded.
+
+    All limits are checked with one grouped query and recorded in one commit:
+    each database round trip costs about 0.2 s from India to Neon in the US.
+    """
     now = datetime.utcnow()
-    since = now - timedelta(seconds=seconds)
-    hits = (RateLimitHit.query.filter(RateLimitHit.key == key, RateLimitHit.created_at > since)
-            .order_by(RateLimitHit.created_at).all())
-    if len(hits) >= count:
-        return max(1, int((hits[0].created_at + timedelta(seconds=seconds) - now).total_seconds()) + 1)
-    db.session.add(RateLimitHit(key=key, created_at=now))
+    limits = {}
+    for name in names:
+        count, seconds, per_user = _limit(name)
+        who = f"user:{session['user_id']}" if per_user and session.get("user_id") else f"ip:{client_ip()}"
+        limits[f"{name}:{who}"] = (count, seconds)
+    windows = or_(*(and_(RateLimitHit.key == key, RateLimitHit.created_at > now - timedelta(seconds=seconds))
+                    for key, (_, seconds) in limits.items()))
+    usage = {key: (n, oldest) for key, n, oldest in db.session.query(
+        RateLimitHit.key, func.count(RateLimitHit.id), func.min(RateLimitHit.created_at))
+        .filter(windows).group_by(RateLimitHit.key).all()}
+    wait = 0
+    for key, (count, seconds) in limits.items():
+        used, oldest = usage.get(key, (0, None))
+        if used >= count:
+            wait = max(wait, int((oldest + timedelta(seconds=seconds) - now).total_seconds()) + 1, 1)
+    if wait:
+        return wait
+    db.session.add_all(RateLimitHit(key=key, created_at=now) for key in limits)
     if random.random() < 0.01:  # occasional cleanup of expired hits
         RateLimitHit.query.filter(RateLimitHit.created_at < now - timedelta(days=2)).delete(synchronize_session=False)
     db.session.commit()
@@ -78,7 +92,7 @@ def rate_limit(*names):
         def wrapped(*args, **kwargs):
             if _enabled():
                 try:
-                    wait = max(_over_limit(name) for name in names)
+                    wait = _over_limit(names)
                 except SQLAlchemyError:
                     # Never lock users out because the limiter itself failed.
                     db.session.rollback()

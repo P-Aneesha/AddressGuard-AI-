@@ -91,7 +91,7 @@ def generate_ai_corrections(raw_text, parsed, api_key, base_url, model, timeout)
 
     try:
         from openai import OpenAI
-        client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout)
+        client = OpenAI(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=0)  # timeout is a hard cap (20 s budget)
         response = client.chat.completions.create(
             model=model,
             messages=[

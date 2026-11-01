@@ -1,5 +1,6 @@
 import difflib
-from concurrent.futures import ThreadPoolExecutor
+import time
+from concurrent.futures import ThreadPoolExecutor, wait
 
 from services.ai_address_service import extract_with_ai
 from services.address_parser import FIELDS, parse_address
@@ -201,6 +202,12 @@ def _extract_landmark_line(raw_text):
             return line
     return ""
 
+# Every validation must finish within this many seconds, even when external
+# services are slow; network calls stop NETWORK_RESERVE_SECONDS earlier.
+DEFAULT_TIME_BUDGET_SECONDS = 20.0
+NETWORK_RESERVE_SECONDS = 4.0
+MIN_CALL_SECONDS = 1.0  # below this a network call is not started at all
+
 # Shared pool for the independent network checks of a validation.
 _NETWORK_POOL = ThreadPoolExecutor(max_workers=16, thread_name_prefix="addressguard-net")
 
@@ -260,6 +267,17 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     resolved = resolved if isinstance(resolved, list) else []
     stages = []
 
+    # Hard time budget: every network call (AI, geocoder, Mappls) only gets the
+    # time that is left, and must finish NETWORK_RESERVE_SECONDS before the
+    # budget ends so the local checks and saving the result still fit.
+    started = time.monotonic()
+    budget = float(getattr(cfg, "VALIDATION_TIME_BUDGET_SECONDS", DEFAULT_TIME_BUDGET_SECONDS) or DEFAULT_TIME_BUDGET_SECONDS)
+    deadline = started + budget - NETWORK_RESERVE_SECONDS
+
+    def time_left(share=1.0, cap=None):
+        left = max(0.0, (deadline - time.monotonic()) * share)
+        return min(left, float(cap)) if cap else left
+
     # 0. Addresses in an Indian script are rewritten in English first; the
     # reference data and parser work in English. The original is kept as raw_address.
     work_text, translation = raw_text, None
@@ -267,7 +285,8 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     if script:
         digits_fixed = normalize_digits(raw_text)
         english, translation_error = translate_address(
-            digits_fixed, cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL, cfg.GROQ_TIMEOUT_SECONDS)
+            digits_fixed, cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL,
+            time_left(0.35, cfg.GROQ_TIMEOUT_SECONDS))
         translation = {"script": script, "english": english, "error": translation_error}
         work_text = english or digits_fixed
         stages.append(_stage(
@@ -284,12 +303,14 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         parsed["unrecognized_text"] = []
         ai_meta = {"source": "reviewed", "model": None, "status": "Skipped"}
     else:
+        # The first AI read gets at most half of the remaining time, so the
+        # parallel checks after it still fit in the budget.
         parsed, ai_meta = extract_with_ai(
             effective_raw_text,
-            cfg.GROQ_API_KEY,
+            cfg.GROQ_API_KEY if time_left() >= MIN_CALL_SECONDS else "",
             cfg.GROQ_BASE_URL,
             cfg.GROQ_MODEL,
-            cfg.GROQ_TIMEOUT_SECONDS,
+            time_left(0.5, cfg.GROQ_TIMEOUT_SECONDS),
         )
 
     if ai_meta["source"] == "reviewed":
@@ -449,21 +470,41 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     # review) do not depend on each other, so they run at the same time.
     geo_enabled = bool(getattr(cfg, "GEOCODING_ENABLED", False))
     geo_url = getattr(cfg, "GEOCODING_URL", "https://nominatim.openstreetmap.org/search")
-    geo_timeout = int(getattr(cfg, "GEOCODING_TIMEOUT_SECONDS", 8))
+    network_time = time_left()
+    geo_timeout = time_left(cap=getattr(cfg, "GEOCODING_TIMEOUT_SECONDS", 8))
     mappls_key = getattr(cfg, "MAPPLS_API_KEY", "")
     snapshot = dict(normalized)
-    geocoding_future = _NETWORK_POOL.submit(verify_geocoding, snapshot, enabled=geo_enabled, url=geo_url, timeout=geo_timeout)
-    street_future = _NETWORK_POOL.submit(verify_street, snapshot, enabled=geo_enabled, url=geo_url, timeout=geo_timeout)
-    mappls_future = _NETWORK_POOL.submit(verify_with_mappls, snapshot, mappls_key,
-                                         int(getattr(cfg, "MAPPLS_TIMEOUT_SECONDS", 8)))
+    out_of_time = network_time < MIN_CALL_SECONDS
+    geocoding_future = _NETWORK_POOL.submit(verify_geocoding, snapshot, enabled=geo_enabled and not out_of_time,
+                                            url=geo_url, timeout=geo_timeout)
+    street_future = _NETWORK_POOL.submit(verify_street, snapshot, enabled=geo_enabled and not out_of_time,
+                                         url=geo_url, timeout=geo_timeout)
+    mappls_future = _NETWORK_POOL.submit(verify_with_mappls, snapshot, "" if out_of_time else mappls_key,
+                                         time_left(cap=getattr(cfg, "MAPPLS_TIMEOUT_SECONDS", 8)))
     ai_corrections_future = _NETWORK_POOL.submit(
         (lambda *_: ([], {"source": "reviewed"})) if reviewed_fields else generate_ai_corrections,
         effective_raw_text, snapshot,
-        cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL, cfg.GROQ_TIMEOUT_SECONDS)
+        "" if out_of_time else cfg.GROQ_API_KEY, cfg.GROQ_BASE_URL, cfg.GROQ_MODEL,
+        time_left(cap=cfg.GROQ_TIMEOUT_SECONDS))
+    # Wait only until the deadline; anything still running is left out of this
+    # result (it finishes in the background and is ignored).
+    wait([geocoding_future, street_future, mappls_future, ai_corrections_future], timeout=time_left())
+    skipped_for_time = []
 
-    # Optional external geocoding verification. It is independent from the
-    # reference-dataset checks above and is never required for the pipeline to run.
-    geocoding_result = geocoding_future.result()
+    def _outcome(future, label, fallback):
+        if future.done():
+            return future.result()
+        skipped_for_time.append(label)
+        return fallback
+
+    limit_note = f"Skipped: the {budget:.0f}-second time limit was reached"
+    geocoding_result = _outcome(geocoding_future, "external geocoding", {
+        "status": "UNAVAILABLE", "external_status": "UNAVAILABLE", "source": "Nominatim/OpenStreetMap",
+        "coordinates": None, "display_name": "", "matches": {}, "reason": limit_note})
+    street_outcome = _outcome(street_future, "street check", {"status": "NOT CHECKED", "reason": limit_note})
+    mappls_outcome = _outcome(mappls_future, "Mappls check", {"status": "UNAVAILABLE", "reason": limit_note})
+    ai_corrections_outcome = _outcome(ai_corrections_future, "AI spelling review",
+                                      ([], {"source": "fallback", "status": "Timeout", "error": "time limit"}))
     if geocoding_result.get("external_status") == "UNAVAILABLE":
         geocoding_stage_status = "Fallback"
     elif geocoding_result["status"] in ("CONFIRMED", "PARTIAL MATCH"):
@@ -480,11 +521,11 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
 
     # Street check: informational only, it never changes the decision because
     # OpenStreetMap does not map every Indian street.
-    street_result = street_future.result()
+    street_result = street_outcome
     geocoding_result["street_check"] = street_result
 
     # Optional paid Mappls check (informational; only with MAPPLS_API_KEY).
-    mappls_result = mappls_future.result()
+    mappls_result = mappls_outcome
     geocoding_result["mappls"] = mappls_result
     if mappls_key:
         stages.append(_stage(
@@ -513,7 +554,7 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
     # The LLM sees the COMPLETE address and proposes previously unseen spelling
     # corrections. Deterministic reference/fuzzy correction remains a fallback
     # and independent second signal. Nothing is silently applied.
-    ai_corrections, ai_correction_meta = ai_corrections_future.result()
+    ai_corrections, ai_correction_meta = ai_corrections_outcome
     ai_corrections = [
         harmonized
         for harmonized in (
@@ -733,6 +774,14 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         f"confidence={confidence_result['score']}, risk={risk_result['level']}, decision={decision_result['decision']}",
     ))
 
+    elapsed = time.monotonic() - started
+    stages.append(_stage(
+        "Processing Time",
+        "Completed",
+        f"Completed in {elapsed:.1f} s (limit {budget:.0f} s)"
+        + (f"; left out to stay within the limit: {', '.join(skipped_for_time)}" if skipped_for_time else ""),
+    ))
+
     explanation = build_explanation(
         confidence_result,
         risk_result,
@@ -760,5 +809,8 @@ def run_pipeline(raw_text: str, cfg, accepted: list = None, resolved: list = Non
         "ai_correction_meta": ai_correction_meta,
         "geocoding": geocoding_result,
         "translation": translation,
+        "processing_time_ms": round(elapsed * 1000, 1),
+        "time_budget_seconds": budget,
+        "skipped_for_time": skipped_for_time,
         "resolved_corrections": resolved,
     }
