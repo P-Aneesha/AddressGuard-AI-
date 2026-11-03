@@ -45,3 +45,11 @@ def test_delhi_typos_get_the_right_field(text, field, original):
     corrections = {c["field"]: c["original"] for c in result["corrections"]}
     assert corrections.get(field) == original
     assert result["decision"] == "NEEDS CUSTOMER CONFIRMATION"
+
+
+@pytest.mark.parametrize("label", ["Delivery Address:", "Shipping Address:", "Ship to:", "Deliver to"])
+def test_two_word_labels_leave_nothing_unplaced(label):
+    result = run_pipeline(f"{label} Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 500081, 9876543210", CFG)
+    assert result["parsed_data"]["unrecognized_text"] == []
+    assert result["parsed_data"]["name"] == "Rahul Sharma"
+    assert result["decision"] == "VERIFIED"

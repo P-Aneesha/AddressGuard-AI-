@@ -12,6 +12,32 @@ AddressGuard AI is a human-in-the-loop address validation system for messy India
 - Allowed techniques: regex, fuzzy matching, rules, pattern recognition, reference datasets, optional external geocoding, PDF/CSV/QR/barcode, password hashing, environment variables
 - No React, Node.js, MongoDB, Java, C++, or ML model training
 
+## Project Structure
+
+```text
+AddressGuard-AI/
+├── app.py                  Application entry point (Vercel looks for "app" here)
+├── config.py               Settings read from .env
+├── requirements.txt        Packages needed to run the app
+├── requirements-data.txt   Extra packages needed only to rebuild the reference data
+├── vercel.json             Vercel deployment settings
+├── .env.example            Template for .env (placeholders only, never real keys)
+├── models/                 Database tables (PostgreSQL)
+├── routes/                 Web pages and API endpoints
+├── services/               Validation pipeline: parsing, checks, corrections, decision
+├── utils/                  Shared helpers: rate limits, caching, reference lists
+├── templates/              HTML pages
+├── static/                 CSS and JavaScript
+├── data/                   Reference datasets and the compressed lookup index
+├── scripts/                Download, build and package the reference data
+├── tests/                  Automated tests (pytest)
+├── evaluation/             Evaluation runners (.py)
+│   ├── datasets/           Labelled and generated test addresses
+│   ├── results/            Raw results of each run (JSON)
+│   └── reports/            Readable reports of each run (Markdown)
+└── docs/                   Measured values used in the research paper
+```
+
 ## Local Setup
 
 ```bash
@@ -155,7 +181,7 @@ The project no longer requires downloading another dataset after these three CSV
 A labelled evaluation dataset is included at:
 
 ```text
-evaluation/evaluation_dataset.json
+evaluation/datasets/evaluation_dataset.json
 ```
 
 Run the complete pipeline against it:
@@ -187,7 +213,7 @@ The runner measures actual:
 Results are written to:
 
 ```text
-evaluation/evaluation_results.json
+evaluation/results/evaluation_results.json
 ```
 
 The dashboard reads this file and displays the measured values. Before an experiment has been executed, it explicitly shows:
@@ -242,12 +268,12 @@ well-formed PIN that the reference data cannot confirm (reported as unconfirmed,
 
 ```bash
 python -m pytest tests/ -v                  # full suite (uses a temporary database, never the real one)
-python evaluation/run_30_cases.py           # 30 documented cases -> evaluation/TEST_30_CASES.md
+python evaluation/run_30_cases.py           # 30 documented cases -> evaluation/reports/TEST_30_CASES.md
 python evaluation/run_evaluation.py --no-ai # 34 labelled cases, deterministic
 python evaluation/run_1000_stress.py        # 1,000 synthetic variants
-python evaluation/run_messy_250.py          # 250 messy addresses -> evaluation/MESSY_250_REPORT.md
+python evaluation/run_messy_250.py          # 250 messy addresses -> evaluation/reports/MESSY_250_REPORT.md
 python evaluation/messy_addresses.py 7      # build an independent holdout set (seed 7)
-python evaluation/run_messy_250.py evaluation/messy_250_holdout_7.json
+python evaluation/run_messy_250.py evaluation/datasets/messy_250_holdout_7.json
 ```
 
 `tests/test_30_address_cases.py` covers valid addresses, spelling errors, missing fields, invalid PINs,
@@ -385,7 +411,7 @@ python -m pytest tests -v
 Results are written to:
 
 ```text
-evaluation/evaluation_results.json
+evaluation/results/evaluation_results.json
 ```
 
 The evaluation reports:

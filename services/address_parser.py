@@ -38,6 +38,9 @@ LABEL_RE = re.compile(
 )
 
 
+COMPOUND_LABEL_RE = re.compile(r"\b(?:deliver\s*to|ship\s*to|shipping\s*address|delivery\s*address)\s*[:#\-]?\s*", re.I)
+
+
 def _empty():
     d = {f: "" for f in FIELDS}
     d["unrecognized_text"] = []
@@ -172,6 +175,9 @@ def parse_address(raw: str) -> dict:
     # Normalize separators commonly used in courier labels, invoices and copied
     # WhatsApp addresses. Newlines remain meaningful only as segment boundaries.
     text = text.replace("\r\n", "\n").replace("\r", "\n")
+    # Two-word labels go first: otherwise the split below would cut "Delivery
+    # Address:" at "Address:" and leave "Delivery" behind as unplaced text.
+    text = COMPOUND_LABEL_RE.sub(" ", text)
     # Some WhatsApp messages lose line breaks when copied. Split explicit
     # metadata labels back into logical segments so `Name: ... H.No: ...` is
     # still parsed field-by-field instead of being swallowed as one street.

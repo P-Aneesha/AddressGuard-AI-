@@ -192,7 +192,13 @@
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0016",
@@ -621,7 +627,13 @@
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0050",
@@ -1050,7 +1062,13 @@
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0084",
@@ -1479,7 +1497,13 @@
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0118",
@@ -1908,7 +1932,13 @@
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0152",
@@ -2337,7 +2367,13 @@
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0186",
@@ -2766,7 +2802,13 @@
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0220",
@@ -3195,7 +3237,13 @@
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0254",
@@ -3624,7 +3672,13 @@
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0288",
@@ -4053,7 +4107,13 @@
     "variant": "ship_to_label",
     "input": "Ship To: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0322",
@@ -4482,7 +4542,13 @@
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0356",
@@ -4911,7 +4977,13 @@
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0390",
@@ -5340,7 +5412,13 @@
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0424",
@@ -5769,7 +5847,13 @@
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0458",
@@ -6198,7 +6282,13 @@
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0492",
@@ -6627,7 +6717,13 @@
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0526",
@@ -7056,7 +7152,13 @@
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0560",
@@ -7485,7 +7587,13 @@
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0594",
@@ -7914,7 +8022,13 @@
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0628",
@@ -8343,7 +8457,13 @@
     "variant": "ship_to_label",
     "input": "Ship To: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0662",
@@ -8772,7 +8892,13 @@
     "variant": "original",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0696",
@@ -9201,7 +9327,13 @@
     "variant": "normalized_commas",
     "input": "Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0730",
@@ -9630,7 +9762,13 @@
     "variant": "extra_spaces",
     "input": "Rahul  Sharma,  H.No  2-4-15,  Road  No.  3,  Madhapur,  Hyderabad,  Telangana,  560034,  9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0764",
@@ -10059,7 +10197,13 @@
     "variant": "multiline",
     "input": "Rahul Sharma\nH.No 2-4-15\nRoad No. 3\nMadhapur\nHyderabad\nTelangana\n560034\n9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0798",
@@ -10488,7 +10632,13 @@
     "variant": "uppercase",
     "input": "RAHUL SHARMA, H.NO 2-4-15, ROAD NO. 3, MADHAPUR, HYDERABAD, TELANGANA, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0832",
@@ -10917,7 +11067,13 @@
     "variant": "lowercase",
     "input": "rahul sharma, h.no 2-4-15, road no. 3, madhapur, hyderabad, telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0866",
@@ -11346,7 +11502,13 @@
     "variant": "address_label",
     "input": "Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0900",
@@ -11775,7 +11937,13 @@
     "variant": "delivery_label",
     "input": "Delivery Address: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0934",
@@ -12204,7 +12372,13 @@
     "variant": "customer_label",
     "input": "Customer: Rahul Sharma, H.No 2-4-15, Road No. 3, Madhapur, Hyderabad, Telangana, 560034, 9876543210",
     "expected_status": "VALIDATION WARNING",
-    "expected_corrections": []
+    "expected_corrections": [
+      {
+        "field": "pin_code",
+        "original": "560034",
+        "suggested": "500081"
+      }
+    ]
   },
   {
     "id": "S1000-0968",

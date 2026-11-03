@@ -458,15 +458,15 @@
   "after_expected_correction_accuracy": 1.0,
   "after_expected_correction_note": "Controlled experiment: labelled expected corrections were applied before re-validation and compared with the labelled expected post-correction status. This is not a human acceptance-rate measurement.",
   "after_expected_correction_cases": 9,
-  "after_expected_correction_average_time_ms": 109.1081,
+  "after_expected_correction_average_time_ms": 91.8377,
   "baseline": {
     "description": "Basic format + PIN/phone presence rules",
     "accuracy": 0.4118,
     "same_dataset": true,
     "cases_evaluated": 34
   },
-  "average_validation_time_ms": 709.8377,
-  "median_validation_time_ms": 455.2729,
+  "average_validation_time_ms": 555.9697,
+  "median_validation_time_ms": 377.1593,
   "false_positives": [],
   "false_negatives": [],
   "classification_errors": [],
@@ -481,7 +481,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 746.212,
+      "validation_time_ms": 730.175,
       "error": null
     },
     {
@@ -494,7 +494,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1147.315,
+      "validation_time_ms": 1078.593,
       "error": null
     },
     {
@@ -507,7 +507,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1455.57,
+      "validation_time_ms": 1083.829,
       "error": null
     },
     {
@@ -520,7 +520,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1318.791,
+      "validation_time_ms": 1135.517,
       "error": null
     },
     {
@@ -533,7 +533,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 555.588,
+      "validation_time_ms": 1132.072,
       "error": null
     },
     {
@@ -586,7 +586,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 354.958,
+      "validation_time_ms": 335.826,
       "error": null
     },
     {
@@ -639,7 +639,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 312.56,
+      "validation_time_ms": 332.927,
       "error": null
     },
     {
@@ -666,7 +666,7 @@
           "suggested": "Madhapur"
         }
       ],
-      "validation_time_ms": 34.79,
+      "validation_time_ms": 37.213,
       "error": null
     },
     {
@@ -693,7 +693,7 @@
           "suggested": "Opposite Metro Station"
         }
       ],
-      "validation_time_ms": 39.865,
+      "validation_time_ms": 43.189,
       "error": null
     },
     {
@@ -745,7 +745,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 310.699,
+      "validation_time_ms": 300.429,
       "error": null
     },
     {
@@ -758,7 +758,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 45.218,
+      "validation_time_ms": 33.741,
       "error": null
     },
     {
@@ -771,7 +771,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 41.225,
+      "validation_time_ms": 23.042,
       "error": null
     },
     {
@@ -784,7 +784,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1058.562,
+      "validation_time_ms": 106.982,
       "error": null
     },
     {
@@ -797,7 +797,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1259.744,
+      "validation_time_ms": 1387.914,
       "error": null
     },
     {
@@ -825,7 +825,7 @@
           "suggested": "500081"
         }
       ],
-      "validation_time_ms": 704.088,
+      "validation_time_ms": 1074.026,
       "error": null
     },
     {
@@ -838,7 +838,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1351.332,
+      "validation_time_ms": 1130.789,
       "error": null
     },
     {
@@ -851,7 +851,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 756.651,
+      "validation_time_ms": 1085.311,
       "error": null
     },
     {
@@ -864,7 +864,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1509.378,
+      "validation_time_ms": 1136.314,
       "error": null
     },
     {
@@ -877,7 +877,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 42.297,
+      "validation_time_ms": 39.818,
       "error": null
     },
     {
@@ -890,7 +890,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 78.236,
+      "validation_time_ms": 91.619,
       "error": null
     },
     {
@@ -903,7 +903,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 120.432,
+      "validation_time_ms": 688.297,
       "error": null
     },
     {
@@ -916,7 +916,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 1964.68,
+      "validation_time_ms": 1312.768,
       "error": null
     },
     {
@@ -929,7 +929,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 37.378,
+      "validation_time_ms": 36.663,
       "error": null
     },
     {
@@ -942,7 +942,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 5530.575,
+      "validation_time_ms": 1296.927,
       "error": null
     },
     {
@@ -955,7 +955,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 874.976,
+      "validation_time_ms": 1120.162,
       "error": null
     },
     {
@@ -1020,7 +1020,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 793.463,
+      "validation_time_ms": 815.182,
       "error": null
     },
     {
@@ -1084,7 +1084,7 @@
           "suggested": "Karnataka"
         }
       ],
-      "validation_time_ms": 573.975,
+      "validation_time_ms": 562.699,
       "error": null
     },
     {
@@ -1150,7 +1150,7 @@
           "suggested": "Telangana"
         }
       ],
-      "validation_time_ms": 751.574,
+      "validation_time_ms": 418.492,
       "error": null
     },
     {
@@ -1163,7 +1163,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 43.0,
+      "validation_time_ms": 34.159,
       "error": null
     },
     {
@@ -1176,7 +1176,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 76.048,
+      "validation_time_ms": 81.152,
       "error": null
     },
     {
@@ -1189,7 +1189,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 81.478,
+      "validation_time_ms": 57.879,
       "error": null
     },
     {
@@ -1202,7 +1202,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 43.841,
+      "validation_time_ms": 49.43,
       "error": null
     },
     {
@@ -1215,7 +1215,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 65.438,
+      "validation_time_ms": 72.415,
       "error": null
     },
     {
@@ -1228,7 +1228,7 @@
       "corrections": 0,
       "predicted_corrections": [],
       "expected_corrections": [],
-      "validation_time_ms": 54.546,
+      "validation_time_ms": 37.416,
       "error": null
     }
   ],

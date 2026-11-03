@@ -44,8 +44,8 @@ if str(ROOT) not in sys.path:
 from config import Config
 from services.pipeline_orchestrator import run_pipeline
 
-DATASET = Path(__file__).with_name("stress_dataset_1000.json")
-OUTPUT = Path(__file__).with_name("stress_results_1000.json")
+DATASET = Path(__file__).parent / "datasets" / "stress_dataset_1000.json"
+OUTPUT = Path(__file__).parent / "results" / "stress_results_1000.json"
 
 STATUSES = [
     "VERIFIED",

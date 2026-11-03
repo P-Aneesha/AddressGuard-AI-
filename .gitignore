@@ -1,27 +1,25 @@
+# Secrets
+.env
+
+# Python and tooling
 __pycache__/
 *.pyc
-.env
-*.db
-venv/
-.venv/
-instance/
-migrations/
-.DS_Store
 *.egg-info/
 .pytest_cache/
-.env
-data/reference_index.sqlite3
-__pycache__/
-*.pyc
+venv/
+.venv/
+.DS_Store
 
-.env
+# Local databases and Flask instance folder
+*.db
+instance/
+migrations/
 
+# Large reference data (re-create with scripts/fetch_reference_data.py and
+# scripts/build_reference_index.py). The compressed index is committed.
 data/lgd_villages.csv
-data/addressguard_reference_index.sqlite3
-
-# Large downloaded reference data (re-create with scripts/fetch_reference_data.py)
 data/lgd_pincode_villages.csv
 data/osm_localities.csv
-
-# Unused legacy export (43.6 MB); not read by the app
-data/addressguard_reference_search_index.csv
+data/reference_index.sqlite3
+data/*.partial
+data/*.tmp

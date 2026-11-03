@@ -7,7 +7,7 @@ address is then written the way people actually type addresses (typos, no
 punctuation, WhatsApp layout, missing parts, wrong PINs). The expected
 decision is fixed by how each variant is constructed, before the system runs.
 
-Run: python evaluation/messy_addresses.py  -> writes evaluation/messy_250_dataset.json
+Run: python evaluation/messy_addresses.py  -> writes evaluation/datasets/messy_250_dataset.json
 """
 import json
 import math
@@ -30,7 +30,7 @@ FAILED = "VALIDATION FAILED"
 
 SEED = 2026
 BASES_PER_RUN = 25
-DATASET = ROOT / "evaluation" / "messy_250_dataset.json"
+DATASET = ROOT / "evaluation" / "datasets" / "messy_250_dataset.json"
 
 FIRST = ["Rahul", "Priya", "Arjun", "Sneha", "Vikram", "Ananya", "Karthik", "Divya", "Imran", "Lakshmi",
          "Rohan", "Fatima", "Suresh", "Meera", "Aditya", "Pooja", "Naveen", "Kavya", "Sanjay", "Ayesha"]

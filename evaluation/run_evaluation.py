@@ -530,14 +530,12 @@ def main():
 
     dataset_path = (
         ROOT
-        / "evaluation"
-        / "evaluation_dataset.json"
+        / "evaluation" / "datasets" / "evaluation_dataset.json"
     )
 
     output_path = (
         ROOT
-        / "evaluation"
-        / "evaluation_results.json"
+        / "evaluation" / "results" / "evaluation_results.json"
     )
 
     if not dataset_path.exists():

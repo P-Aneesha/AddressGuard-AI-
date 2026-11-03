@@ -4,7 +4,7 @@ Run from the project root:
 
     python evaluation/run_30_cases.py
 
-Writes evaluation/test_30_cases_results.json and evaluation/TEST_30_CASES.md.
+Writes evaluation/results/test_30_cases_results.json and evaluation/reports/TEST_30_CASES.md.
 Nothing is hardcoded: every row is the outcome of an actual API call.
 """
 import json
@@ -63,7 +63,7 @@ def main():
         "setup": "Flask test client, temporary SQLite database, Groq disabled except in F03, "
                  "external geocoding disabled except in F04, live postal API as configured in .env",
     }
-    out_json = ROOT / "evaluation" / "test_30_cases_results.json"
+    out_json = ROOT / "evaluation" / "results" / "test_30_cases_results.json"
     out_json.write_text(json.dumps({"summary": summary, "results": results}, indent=2, ensure_ascii=False), encoding="utf-8")
 
     lines = [
@@ -96,7 +96,7 @@ def main():
             f"| {r['id']} | {_cell(r['category'])} | {_cell(_short(r['input']))} | {_cell(expected)} | "
             f"{_cell(actual)} | {_cell(verdict)} | {_cell(r['explanation'])} | {r['time_ms']} |"
         )
-    (ROOT / "evaluation" / "TEST_30_CASES.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (ROOT / "evaluation" / "reports" / "TEST_30_CASES.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"{passed}/{len(results)} passed")
     for r in results:

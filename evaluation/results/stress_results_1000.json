@@ -47,10 +47,10 @@
     "field_recall": 1.0
   },
   "timing_ms": {
-    "average": 36.112,
-    "median": 29.221,
-    "min": 9.936,
-    "max": 573.74
+    "average": 71.963,
+    "median": 49.679,
+    "min": 14.861,
+    "max": 866.599
   },
   "by_category": {
     "CITY_STATE_MISMATCH": {

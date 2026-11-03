@@ -1,6 +1,6 @@
 # AddressGuard AI: 250 messy addresses
 
-Executed 2026-11-01T14:05:23+00:00 (UTC). **249/250 passed (99.6%)**.
+Executed 2026-11-03T05:15:17+00:00 (UTC). **249/250 passed (99.6%)**.
 
 **What this dataset is:** generated, not real customer data. Every locality, PIN, city and state is a real India Post delivery office in one of 25 cities; names, phones, flats and streets are synthetic. Each address is then written the way people type them (typos, no punctuation, WhatsApp layout, missing parts, wrong PINs). Expected decisions are fixed by construction before the run. Groq AI and external geocoding were off, so this measures the deterministic engine.
 
@@ -8,7 +8,7 @@ Executed 2026-11-01T14:05:23+00:00 (UTC). **249/250 passed (99.6%)**.
 
 - Addresses that should NOT be verified but were marked VERIFIED: **0 of 175**
 - Correct addresses that reached VERIFIED: **75 of 75**
-- Time per address: mean 214.8 ms, median 149.0 ms, max 677.9 ms
+- Time per address: mean 192.6 ms, median 124.8 ms, max 664.9 ms
 
 ## By category
 

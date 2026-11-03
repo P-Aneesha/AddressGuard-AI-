@@ -2,7 +2,8 @@
 
 ## Corrections to the current PDF
 - Development set before fixes: **164/249 = 65.9%** (not 164/250 = 65.6%; that run had 249 cases).
-- Automated tests: **142** (not 110).
+- Automated tests: **152** (not 110).
+- 1,000-case mean time: **71.963 ms** (not 11.617 ms).
 
 ## Table I — Messy-address evaluation (Groq AI and geocoding off unless stated)
 | Evaluation | Correct/Total | Accuracy | Invalid marked VERIFIED |
@@ -24,7 +25,7 @@ Notes:
 ## Other evaluations
 - 34-case labelled evaluation: 100% classification, 100% correction, 100% after-correction.
 - 30-case functional suite: 30/30.
-- 142 automated tests pass.
+- 152 automated tests pass.
 
 ## Reference data
 - India Post offices: 165,625. Post offices whose names could not match before the suffix fix: 76,150 (46%).
@@ -73,3 +74,13 @@ Notes:
   every reference check and the offline road index still run for each row.
 - Measured end-to-end through the API (live AI key, local test database):
   16-row sample file 6.2 s (was ~40 s sequential), 50-row file 6.0–8.4 s; all rows finished.
+
+## 1,000-case stress test, re-run on the final engine (3 Nov 2026)
+- Accuracy, macro precision, recall and F1: 100%. Correction exact match, field precision and recall: 100%.
+- **Mean 71.963 ms per case (median 49.679 ms, maximum 866.599 ms). Replace the 11.617 ms in the PDF:** that was
+  measured on a much earlier version with a smaller index. Setup: AI, geocoding and live postal fallback off.
+- The re-run first scored 97.3%. All 27 failures were one bug: inputs starting "Delivery Address:" had "Delivery"
+  read as the name, so the real name became unplaced text and blocked VERIFIED (0 of the 27 were invalid
+  addresses marked VERIFIED). Fixed in the parser. The 29 variants of case P01 were also relabelled to expect the
+  PIN suggestion 500081, matching seed case P01.
+- Automated tests: 152. Use 152 in Section V-C (not 110 or 148).

@@ -2,10 +2,10 @@
 
     python evaluation/messy_addresses.py   # (re)build the dataset
     python evaluation/run_messy_250.py      # run it
-    python evaluation/run_messy_250.py evaluation/messy_250_holdout_7.json --ai --sample 100
+    python evaluation/run_messy_250.py evaluation/datasets/messy_250_holdout_7.json --ai --sample 100
                                            # Groq AI on, 10 per category, paced for the free tier
 
-Writes evaluation/messy_250_results.json and evaluation/MESSY_250_REPORT.md.
+Writes evaluation/results/messy_250_results.json and evaluation/reports/MESSY_250_REPORT.md.
 Groq and external geocoding are disabled so the run is reproducible; the
 temporary SQLite database keeps it away from the real PostgreSQL database.
 """
@@ -117,7 +117,7 @@ def main():
         "ai_mode": USE_AI, "ai_used": sum(r["ai_used"] for r in results),
         "per_category": {cat: {"passed": sum(r["passed"] for r in rs), "total": len(rs)} for cat, rs in by_cat.items()},
     }
-    out = ROOT / "evaluation" / f"messy_250_{tag + '_' if tag else ''}results.json"
+    out = ROOT / "evaluation" / "results" / f"messy_250_{tag + '_' if tag else ''}results.json"
     out.write_text(json.dumps({"summary": summary, "results": results}, indent=2, ensure_ascii=False), encoding="utf-8")
 
     lines = [
@@ -166,7 +166,7 @@ def main():
             cell = lambda s: str(s).replace("|", "\\|").replace("\n", " / ")  # noqa: E731
             lines.append(f"| {r['id']} | {cell(r['category'])} | {cell(r['input'])} | {cell(r['decision'])} "
                          f"({r['confidence']}%) | {cell('; '.join(r['failures']))} | {cell('; '.join(r['reasons']))} |")
-    (ROOT / "evaluation" / f"MESSY_250_{tag.upper() + '_' if tag else ''}REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (ROOT / "evaluation" / "reports" / f"MESSY_250_{tag.upper() + '_' if tag else ''}REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"{passed}/{len(results)} passed ({summary['accuracy_pct']}%), false VERIFIED: {len(false_verified)}"
           + (f", AI used on {summary['ai_used']}/{len(results)}" if USE_AI else ""))

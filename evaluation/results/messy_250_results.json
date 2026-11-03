@@ -1,6 +1,6 @@
 {
   "summary": {
-    "executed_at_utc": "2026-11-01T14:05:23+00:00",
+    "executed_at_utc": "2026-11-03T05:15:17+00:00",
     "total": 250,
     "passed": 249,
     "accuracy_pct": 99.6,
@@ -9,9 +9,9 @@
     "good_addresses_verified": 75,
     "good_addresses": 75,
     "time_ms": {
-      "mean": 214.8,
-      "median": 149.0,
-      "max": 677.9
+      "mean": 192.6,
+      "median": 124.8,
+      "max": 664.9
     },
     "ai_mode": false,
     "ai_used": 0,
@@ -73,7 +73,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 387.1,
+      "time_ms": 353.4,
       "ai_used": false
     },
     {
@@ -90,7 +90,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 95.1,
+      "time_ms": 134.1,
       "ai_used": false
     },
     {
@@ -107,7 +107,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 98.3,
+      "time_ms": 93.8,
       "ai_used": false
     },
     {
@@ -126,7 +126,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 166.2,
+      "time_ms": 123.3,
       "ai_used": false
     },
     {
@@ -145,7 +145,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 423.7,
+      "time_ms": 289.9,
       "ai_used": false
     },
     {
@@ -162,7 +162,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 103.6,
+      "time_ms": 91.4,
       "ai_used": false
     },
     {
@@ -179,7 +179,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 44.7,
+      "time_ms": 44.9,
       "ai_used": false
     },
     {
@@ -198,7 +198,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 348.0,
+      "time_ms": 285.1,
       "ai_used": false
     },
     {
@@ -218,7 +218,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 352.6,
+      "time_ms": 340.3,
       "ai_used": false
     },
     {
@@ -235,7 +235,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 356.5,
+      "time_ms": 335.1,
       "ai_used": false
     },
     {
@@ -252,7 +252,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 82.7,
+      "time_ms": 82.5,
       "ai_used": false
     },
     {
@@ -269,7 +269,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 76.1,
+      "time_ms": 73.8,
       "ai_used": false
     },
     {
@@ -288,7 +288,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 141.8,
+      "time_ms": 138.3,
       "ai_used": false
     },
     {
@@ -307,7 +307,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 329.7,
+      "time_ms": 290.1,
       "ai_used": false
     },
     {
@@ -324,7 +324,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 60.7,
+      "time_ms": 66.1,
       "ai_used": false
     },
     {
@@ -341,7 +341,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 45.6,
+      "time_ms": 46.8,
       "ai_used": false
     },
     {
@@ -360,7 +360,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 314.1,
+      "time_ms": 345.1,
       "ai_used": false
     },
     {
@@ -380,7 +380,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 445.3,
+      "time_ms": 392.5,
       "ai_used": false
     },
     {
@@ -397,7 +397,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 350.9,
+      "time_ms": 350.1,
       "ai_used": false
     },
     {
@@ -414,7 +414,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 60.3,
+      "time_ms": 64.3,
       "ai_used": false
     },
     {
@@ -431,7 +431,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 63.3,
+      "time_ms": 66.9,
       "ai_used": false
     },
     {
@@ -450,7 +450,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 83.2,
+      "time_ms": 91.3,
       "ai_used": false
     },
     {
@@ -469,7 +469,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 278.3,
+      "time_ms": 296.4,
       "ai_used": false
     },
     {
@@ -486,7 +486,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.1,
+      "time_ms": 61.8,
       "ai_used": false
     },
     {
@@ -503,7 +503,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 41.7,
+      "time_ms": 41.2,
       "ai_used": false
     },
     {
@@ -522,7 +522,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 385.9,
+      "time_ms": 309.7,
       "ai_used": false
     },
     {
@@ -542,7 +542,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 313.5,
+      "time_ms": 333.7,
       "ai_used": false
     },
     {
@@ -559,7 +559,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 348.7,
+      "time_ms": 313.1,
       "ai_used": false
     },
     {
@@ -576,7 +576,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 109.1,
+      "time_ms": 75.3,
       "ai_used": false
     },
     {
@@ -593,7 +593,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 124.7,
+      "time_ms": 90.1,
       "ai_used": false
     },
     {
@@ -612,7 +612,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 97.4,
+      "time_ms": 88.6,
       "ai_used": false
     },
     {
@@ -631,7 +631,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 312.7,
+      "time_ms": 270.6,
       "ai_used": false
     },
     {
@@ -648,7 +648,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 63.5,
+      "time_ms": 73.9,
       "ai_used": false
     },
     {
@@ -665,7 +665,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 58.2,
+      "time_ms": 51.2,
       "ai_used": false
     },
     {
@@ -684,7 +684,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 332.3,
+      "time_ms": 319.7,
       "ai_used": false
     },
     {
@@ -704,7 +704,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 376.5,
+      "time_ms": 367.8,
       "ai_used": false
     },
     {
@@ -721,7 +721,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 455.0,
+      "time_ms": 434.6,
       "ai_used": false
     },
     {
@@ -738,7 +738,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 256.0,
+      "time_ms": 231.7,
       "ai_used": false
     },
     {
@@ -755,7 +755,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 198.4,
+      "time_ms": 156.4,
       "ai_used": false
     },
     {
@@ -774,7 +774,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 114.4,
+      "time_ms": 103.6,
       "ai_used": false
     },
     {
@@ -793,7 +793,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 409.6,
+      "time_ms": 415.4,
       "ai_used": false
     },
     {
@@ -810,7 +810,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 188.5,
+      "time_ms": 168.7,
       "ai_used": false
     },
     {
@@ -827,7 +827,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 41.9,
+      "time_ms": 40.6,
       "ai_used": false
     },
     {
@@ -846,7 +846,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 333.7,
+      "time_ms": 328.9,
       "ai_used": false
     },
     {
@@ -866,7 +866,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 641.0,
+      "time_ms": 644.8,
       "ai_used": false
     },
     {
@@ -883,7 +883,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 326.8,
+      "time_ms": 323.8,
       "ai_used": false
     },
     {
@@ -900,7 +900,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 96.5,
+      "time_ms": 63.0,
       "ai_used": false
     },
     {
@@ -917,7 +917,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 86.4,
+      "time_ms": 73.2,
       "ai_used": false
     },
     {
@@ -936,7 +936,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 83.7,
+      "time_ms": 93.6,
       "ai_used": false
     },
     {
@@ -955,7 +955,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 296.2,
+      "time_ms": 272.7,
       "ai_used": false
     },
     {
@@ -972,7 +972,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 179.9,
+      "time_ms": 76.3,
       "ai_used": false
     },
     {
@@ -989,7 +989,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.8,
+      "time_ms": 37.4,
       "ai_used": false
     },
     {
@@ -1008,7 +1008,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 392.1,
+      "time_ms": 289.1,
       "ai_used": false
     },
     {
@@ -1028,7 +1028,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 311.4,
+      "time_ms": 285.7,
       "ai_used": false
     },
     {
@@ -1045,7 +1045,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 403.1,
+      "time_ms": 447.6,
       "ai_used": false
     },
     {
@@ -1062,7 +1062,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 71.5,
+      "time_ms": 69.2,
       "ai_used": false
     },
     {
@@ -1079,7 +1079,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 79.6,
+      "time_ms": 78.3,
       "ai_used": false
     },
     {
@@ -1098,7 +1098,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 255.2,
+      "time_ms": 212.0,
       "ai_used": false
     },
     {
@@ -1117,7 +1117,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 387.8,
+      "time_ms": 347.3,
       "ai_used": false
     },
     {
@@ -1134,7 +1134,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 68.4,
+      "time_ms": 73.0,
       "ai_used": false
     },
     {
@@ -1151,7 +1151,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 42.9,
+      "time_ms": 47.3,
       "ai_used": false
     },
     {
@@ -1170,7 +1170,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 359.4,
+      "time_ms": 278.1,
       "ai_used": false
     },
     {
@@ -1190,7 +1190,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 512.4,
+      "time_ms": 381.2,
       "ai_used": false
     },
     {
@@ -1207,7 +1207,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 400.3,
+      "time_ms": 408.3,
       "ai_used": false
     },
     {
@@ -1224,7 +1224,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 105.6,
+      "time_ms": 96.4,
       "ai_used": false
     },
     {
@@ -1241,7 +1241,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 124.5,
+      "time_ms": 120.8,
       "ai_used": false
     },
     {
@@ -1260,7 +1260,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 177.5,
+      "time_ms": 175.9,
       "ai_used": false
     },
     {
@@ -1279,7 +1279,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 324.8,
+      "time_ms": 331.2,
       "ai_used": false
     },
     {
@@ -1296,7 +1296,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 90.5,
+      "time_ms": 107.9,
       "ai_used": false
     },
     {
@@ -1313,7 +1313,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.1,
+      "time_ms": 46.2,
       "ai_used": false
     },
     {
@@ -1330,7 +1330,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 324.9,
+      "time_ms": 360.0,
       "ai_used": false
     },
     {
@@ -1348,7 +1348,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 409.6,
+      "time_ms": 343.7,
       "ai_used": false
     },
     {
@@ -1365,7 +1365,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 581.5,
+      "time_ms": 427.3,
       "ai_used": false
     },
     {
@@ -1382,7 +1382,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 156.2,
+      "time_ms": 143.5,
       "ai_used": false
     },
     {
@@ -1399,7 +1399,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 172.9,
+      "time_ms": 109.8,
       "ai_used": false
     },
     {
@@ -1420,7 +1420,7 @@
       "failures": [
         "expected city correction to Delhi, got none"
       ],
-      "time_ms": 314.8,
+      "time_ms": 275.2,
       "ai_used": false
     },
     {
@@ -1439,7 +1439,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 353.6,
+      "time_ms": 336.0,
       "ai_used": false
     },
     {
@@ -1456,7 +1456,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 156.5,
+      "time_ms": 142.8,
       "ai_used": false
     },
     {
@@ -1473,7 +1473,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 35.4,
+      "time_ms": 35.1,
       "ai_used": false
     },
     {
@@ -1492,7 +1492,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 314.0,
+      "time_ms": 263.1,
       "ai_used": false
     },
     {
@@ -1512,7 +1512,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 311.3,
+      "time_ms": 301.8,
       "ai_used": false
     },
     {
@@ -1529,7 +1529,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 428.5,
+      "time_ms": 392.8,
       "ai_used": false
     },
     {
@@ -1546,7 +1546,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 98.7,
+      "time_ms": 75.1,
       "ai_used": false
     },
     {
@@ -1563,7 +1563,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 80.2,
+      "time_ms": 85.1,
       "ai_used": false
     },
     {
@@ -1582,7 +1582,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 215.1,
+      "time_ms": 176.6,
       "ai_used": false
     },
     {
@@ -1601,7 +1601,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 332.5,
+      "time_ms": 323.3,
       "ai_used": false
     },
     {
@@ -1618,7 +1618,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 91.0,
+      "time_ms": 98.2,
       "ai_used": false
     },
     {
@@ -1635,7 +1635,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 43.0,
+      "time_ms": 46.1,
       "ai_used": false
     },
     {
@@ -1654,7 +1654,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 393.2,
+      "time_ms": 375.3,
       "ai_used": false
     },
     {
@@ -1674,7 +1674,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 522.8,
+      "time_ms": 453.8,
       "ai_used": false
     },
     {
@@ -1691,7 +1691,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 501.4,
+      "time_ms": 434.1,
       "ai_used": false
     },
     {
@@ -1708,7 +1708,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 213.4,
+      "time_ms": 168.1,
       "ai_used": false
     },
     {
@@ -1725,7 +1725,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 233.1,
+      "time_ms": 122.2,
       "ai_used": false
     },
     {
@@ -1744,7 +1744,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 84.8,
+      "time_ms": 66.1,
       "ai_used": false
     },
     {
@@ -1763,7 +1763,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 323.4,
+      "time_ms": 272.3,
       "ai_used": false
     },
     {
@@ -1780,7 +1780,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 68.5,
+      "time_ms": 57.9,
       "ai_used": false
     },
     {
@@ -1797,7 +1797,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 37.2,
+      "time_ms": 34.4,
       "ai_used": false
     },
     {
@@ -1814,7 +1814,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 293.2,
+      "time_ms": 268.1,
       "ai_used": false
     },
     {
@@ -1834,7 +1834,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 376.8,
+      "time_ms": 309.1,
       "ai_used": false
     },
     {
@@ -1851,7 +1851,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 321.2,
+      "time_ms": 301.9,
       "ai_used": false
     },
     {
@@ -1868,7 +1868,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 91.2,
+      "time_ms": 92.6,
       "ai_used": false
     },
     {
@@ -1885,7 +1885,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 87.4,
+      "time_ms": 76.1,
       "ai_used": false
     },
     {
@@ -1904,7 +1904,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 113.2,
+      "time_ms": 108.4,
       "ai_used": false
     },
     {
@@ -1923,7 +1923,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 321.4,
+      "time_ms": 282.2,
       "ai_used": false
     },
     {
@@ -1957,7 +1957,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 50.9,
+      "time_ms": 45.3,
       "ai_used": false
     },
     {
@@ -1976,7 +1976,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 315.5,
+      "time_ms": 295.8,
       "ai_used": false
     },
     {
@@ -1996,7 +1996,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 328.4,
+      "time_ms": 317.2,
       "ai_used": false
     },
     {
@@ -2013,7 +2013,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 416.2,
+      "time_ms": 337.3,
       "ai_used": false
     },
     {
@@ -2030,7 +2030,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 61.0,
+      "time_ms": 62.7,
       "ai_used": false
     },
     {
@@ -2047,7 +2047,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 64.3,
+      "time_ms": 58.0,
       "ai_used": false
     },
     {
@@ -2066,7 +2066,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 132.4,
+      "time_ms": 126.3,
       "ai_used": false
     },
     {
@@ -2085,7 +2085,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 349.7,
+      "time_ms": 294.2,
       "ai_used": false
     },
     {
@@ -2102,7 +2102,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 53.8,
+      "time_ms": 63.6,
       "ai_used": false
     },
     {
@@ -2119,7 +2119,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.7,
+      "time_ms": 50.8,
       "ai_used": false
     },
     {
@@ -2138,7 +2138,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 587.8,
+      "time_ms": 497.6,
       "ai_used": false
     },
     {
@@ -2158,7 +2158,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 551.3,
+      "time_ms": 489.4,
       "ai_used": false
     },
     {
@@ -2175,7 +2175,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 446.0,
+      "time_ms": 373.4,
       "ai_used": false
     },
     {
@@ -2192,7 +2192,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 115.5,
+      "time_ms": 106.9,
       "ai_used": false
     },
     {
@@ -2209,7 +2209,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 98.3,
+      "time_ms": 95.6,
       "ai_used": false
     },
     {
@@ -2228,7 +2228,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 133.0,
+      "time_ms": 129.8,
       "ai_used": false
     },
     {
@@ -2247,7 +2247,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 310.7,
+      "time_ms": 287.7,
       "ai_used": false
     },
     {
@@ -2264,7 +2264,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 99.3,
+      "time_ms": 73.2,
       "ai_used": false
     },
     {
@@ -2281,7 +2281,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 67.9,
+      "time_ms": 37.0,
       "ai_used": false
     },
     {
@@ -2300,7 +2300,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 313.7,
+      "time_ms": 313.8,
       "ai_used": false
     },
     {
@@ -2320,7 +2320,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 368.5,
+      "time_ms": 335.4,
       "ai_used": false
     },
     {
@@ -2337,7 +2337,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 368.6,
+      "time_ms": 309.1,
       "ai_used": false
     },
     {
@@ -2354,7 +2354,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 81.5,
+      "time_ms": 78.8,
       "ai_used": false
     },
     {
@@ -2371,7 +2371,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 62.6,
+      "time_ms": 85.1,
       "ai_used": false
     },
     {
@@ -2390,7 +2390,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 91.5,
+      "time_ms": 111.2,
       "ai_used": false
     },
     {
@@ -2409,7 +2409,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 306.1,
+      "time_ms": 288.2,
       "ai_used": false
     },
     {
@@ -2426,7 +2426,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 81.3,
+      "time_ms": 75.4,
       "ai_used": false
     },
     {
@@ -2443,7 +2443,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 41.7,
+      "time_ms": 39.5,
       "ai_used": false
     },
     {
@@ -2462,7 +2462,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 357.2,
+      "time_ms": 323.9,
       "ai_used": false
     },
     {
@@ -2482,7 +2482,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 442.1,
+      "time_ms": 320.2,
       "ai_used": false
     },
     {
@@ -2499,7 +2499,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 301.9,
+      "time_ms": 313.4,
       "ai_used": false
     },
     {
@@ -2516,7 +2516,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 85.2,
+      "time_ms": 74.3,
       "ai_used": false
     },
     {
@@ -2533,7 +2533,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 80.4,
+      "time_ms": 97.0,
       "ai_used": false
     },
     {
@@ -2552,7 +2552,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 127.6,
+      "time_ms": 106.9,
       "ai_used": false
     },
     {
@@ -2571,7 +2571,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 373.6,
+      "time_ms": 269.4,
       "ai_used": false
     },
     {
@@ -2588,7 +2588,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 89.5,
+      "time_ms": 76.4,
       "ai_used": false
     },
     {
@@ -2605,7 +2605,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 57.4,
+      "time_ms": 46.7,
       "ai_used": false
     },
     {
@@ -2624,7 +2624,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 472.6,
+      "time_ms": 488.5,
       "ai_used": false
     },
     {
@@ -2644,7 +2644,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 388.1,
+      "time_ms": 340.1,
       "ai_used": false
     },
     {
@@ -2661,7 +2661,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 324.8,
+      "time_ms": 327.4,
       "ai_used": false
     },
     {
@@ -2678,7 +2678,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 92.5,
+      "time_ms": 83.0,
       "ai_used": false
     },
     {
@@ -2695,7 +2695,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 102.9,
+      "time_ms": 96.0,
       "ai_used": false
     },
     {
@@ -2714,7 +2714,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 434.8,
+      "time_ms": 387.7,
       "ai_used": false
     },
     {
@@ -2733,7 +2733,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 677.9,
+      "time_ms": 664.9,
       "ai_used": false
     },
     {
@@ -2750,7 +2750,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 88.9,
+      "time_ms": 84.2,
       "ai_used": false
     },
     {
@@ -2767,7 +2767,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 332.1,
+      "time_ms": 369.7,
       "ai_used": false
     },
     {
@@ -2784,7 +2784,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 333.0,
+      "time_ms": 292.6,
       "ai_used": false
     },
     {
@@ -2802,7 +2802,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 359.8,
+      "time_ms": 382.4,
       "ai_used": false
     },
     {
@@ -2819,7 +2819,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 535.1,
+      "time_ms": 454.2,
       "ai_used": false
     },
     {
@@ -2836,7 +2836,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 264.9,
+      "time_ms": 209.5,
       "ai_used": false
     },
     {
@@ -2853,7 +2853,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 253.3,
+      "time_ms": 183.1,
       "ai_used": false
     },
     {
@@ -2872,7 +2872,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 287.8,
+      "time_ms": 278.5,
       "ai_used": false
     },
     {
@@ -2891,7 +2891,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 550.0,
+      "time_ms": 482.3,
       "ai_used": false
     },
     {
@@ -2908,7 +2908,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 87.6,
+      "time_ms": 90.4,
       "ai_used": false
     },
     {
@@ -2925,7 +2925,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 42.5,
+      "time_ms": 46.4,
       "ai_used": false
     },
     {
@@ -2944,7 +2944,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 365.2,
+      "time_ms": 373.7,
       "ai_used": false
     },
     {
@@ -2964,7 +2964,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 399.7,
+      "time_ms": 390.6,
       "ai_used": false
     },
     {
@@ -2981,7 +2981,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 348.9,
+      "time_ms": 365.6,
       "ai_used": false
     },
     {
@@ -2998,7 +2998,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 65.0,
+      "time_ms": 61.6,
       "ai_used": false
     },
     {
@@ -3015,7 +3015,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 92.6,
+      "time_ms": 66.1,
       "ai_used": false
     },
     {
@@ -3034,7 +3034,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 119.2,
+      "time_ms": 97.1,
       "ai_used": false
     },
     {
@@ -3053,7 +3053,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 306.2,
+      "time_ms": 287.0,
       "ai_used": false
     },
     {
@@ -3070,7 +3070,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 74.1,
+      "time_ms": 60.2,
       "ai_used": false
     },
     {
@@ -3087,7 +3087,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.0,
+      "time_ms": 48.4,
       "ai_used": false
     },
     {
@@ -3106,7 +3106,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 305.0,
+      "time_ms": 299.9,
       "ai_used": false
     },
     {
@@ -3126,7 +3126,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 316.3,
+      "time_ms": 285.4,
       "ai_used": false
     },
     {
@@ -3143,7 +3143,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 395.9,
+      "time_ms": 322.4,
       "ai_used": false
     },
     {
@@ -3160,7 +3160,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 117.0,
+      "time_ms": 83.7,
       "ai_used": false
     },
     {
@@ -3177,7 +3177,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 115.4,
+      "time_ms": 86.2,
       "ai_used": false
     },
     {
@@ -3196,7 +3196,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 110.2,
+      "time_ms": 95.9,
       "ai_used": false
     },
     {
@@ -3215,7 +3215,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 304.9,
+      "time_ms": 298.8,
       "ai_used": false
     },
     {
@@ -3232,7 +3232,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 79.7,
+      "time_ms": 82.5,
       "ai_used": false
     },
     {
@@ -3249,7 +3249,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 39.1,
+      "time_ms": 45.8,
       "ai_used": false
     },
     {
@@ -3268,7 +3268,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 453.4,
+      "time_ms": 309.5,
       "ai_used": false
     },
     {
@@ -3288,7 +3288,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 401.0,
+      "time_ms": 348.1,
       "ai_used": false
     },
     {
@@ -3305,7 +3305,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 330.9,
+      "time_ms": 305.7,
       "ai_used": false
     },
     {
@@ -3322,7 +3322,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 84.5,
+      "time_ms": 76.3,
       "ai_used": false
     },
     {
@@ -3339,7 +3339,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 57.5,
+      "time_ms": 60.8,
       "ai_used": false
     },
     {
@@ -3358,7 +3358,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 135.1,
+      "time_ms": 97.6,
       "ai_used": false
     },
     {
@@ -3377,7 +3377,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 331.5,
+      "time_ms": 297.8,
       "ai_used": false
     },
     {
@@ -3394,7 +3394,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 96.1,
+      "time_ms": 82.0,
       "ai_used": false
     },
     {
@@ -3411,7 +3411,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 39.5,
+      "time_ms": 40.4,
       "ai_used": false
     },
     {
@@ -3430,7 +3430,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 398.9,
+      "time_ms": 310.1,
       "ai_used": false
     },
     {
@@ -3450,7 +3450,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 382.7,
+      "time_ms": 315.2,
       "ai_used": false
     },
     {
@@ -3467,7 +3467,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 318.9,
+      "time_ms": 299.2,
       "ai_used": false
     },
     {
@@ -3484,7 +3484,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 89.2,
+      "time_ms": 73.1,
       "ai_used": false
     },
     {
@@ -3501,7 +3501,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 85.2,
+      "time_ms": 78.8,
       "ai_used": false
     },
     {
@@ -3520,7 +3520,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 113.3,
+      "time_ms": 82.0,
       "ai_used": false
     },
     {
@@ -3539,7 +3539,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 346.3,
+      "time_ms": 252.9,
       "ai_used": false
     },
     {
@@ -3556,7 +3556,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 79.3,
+      "time_ms": 81.2,
       "ai_used": false
     },
     {
@@ -3573,7 +3573,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.4,
+      "time_ms": 43.8,
       "ai_used": false
     },
     {
@@ -3592,7 +3592,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 326.6,
+      "time_ms": 281.4,
       "ai_used": false
     },
     {
@@ -3612,7 +3612,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 349.1,
+      "time_ms": 306.4,
       "ai_used": false
     },
     {
@@ -3629,7 +3629,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 441.6,
+      "time_ms": 337.7,
       "ai_used": false
     },
     {
@@ -3646,7 +3646,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 99.4,
+      "time_ms": 104.3,
       "ai_used": false
     },
     {
@@ -3663,7 +3663,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 95.3,
+      "time_ms": 86.5,
       "ai_used": false
     },
     {
@@ -3682,7 +3682,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 163.4,
+      "time_ms": 127.2,
       "ai_used": false
     },
     {
@@ -3701,7 +3701,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 394.7,
+      "time_ms": 301.9,
       "ai_used": false
     },
     {
@@ -3718,7 +3718,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 129.7,
+      "time_ms": 104.4,
       "ai_used": false
     },
     {
@@ -3735,7 +3735,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 54.5,
+      "time_ms": 47.5,
       "ai_used": false
     },
     {
@@ -3754,7 +3754,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 405.2,
+      "time_ms": 348.0,
       "ai_used": false
     },
     {
@@ -3774,7 +3774,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 386.7,
+      "time_ms": 380.5,
       "ai_used": false
     },
     {
@@ -3791,7 +3791,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 444.5,
+      "time_ms": 382.2,
       "ai_used": false
     },
     {
@@ -3808,7 +3808,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 95.9,
+      "time_ms": 103.8,
       "ai_used": false
     },
     {
@@ -3825,7 +3825,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 105.4,
+      "time_ms": 105.6,
       "ai_used": false
     },
     {
@@ -3844,7 +3844,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 189.1,
+      "time_ms": 165.6,
       "ai_used": false
     },
     {
@@ -3863,7 +3863,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 356.3,
+      "time_ms": 341.5,
       "ai_used": false
     },
     {
@@ -3880,7 +3880,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 117.6,
+      "time_ms": 114.3,
       "ai_used": false
     },
     {
@@ -3897,7 +3897,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 72.0,
+      "time_ms": 46.1,
       "ai_used": false
     },
     {
@@ -3916,7 +3916,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 347.7,
+      "time_ms": 364.7,
       "ai_used": false
     },
     {
@@ -3936,7 +3936,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 405.5,
+      "time_ms": 384.7,
       "ai_used": false
     },
     {
@@ -3953,7 +3953,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 651.6,
+      "time_ms": 584.6,
       "ai_used": false
     },
     {
@@ -3970,7 +3970,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 318.2,
+      "time_ms": 260.3,
       "ai_used": false
     },
     {
@@ -3987,7 +3987,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 256.2,
+      "time_ms": 284.0,
       "ai_used": false
     },
     {
@@ -4006,7 +4006,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 182.7,
+      "time_ms": 127.2,
       "ai_used": false
     },
     {
@@ -4025,7 +4025,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 641.5,
+      "time_ms": 512.5,
       "ai_used": false
     },
     {
@@ -4042,7 +4042,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 111.0,
+      "time_ms": 78.5,
       "ai_used": false
     },
     {
@@ -4059,7 +4059,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 50.5,
+      "time_ms": 43.9,
       "ai_used": false
     },
     {
@@ -4078,7 +4078,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 377.8,
+      "time_ms": 339.3,
       "ai_used": false
     },
     {
@@ -4098,7 +4098,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 339.2,
+      "time_ms": 329.3,
       "ai_used": false
     },
     {
@@ -4117,7 +4117,7 @@
       },
       "passed": true,
       "failures": [],
-      "time_ms": 65.4,
+      "time_ms": 52.2,
       "ai_used": false
     },
     {
@@ -4134,7 +4134,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 51.3,
+      "time_ms": 25.8,
       "ai_used": false
     },
     {
@@ -4151,7 +4151,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 31.0,
+      "time_ms": 31.8,
       "ai_used": false
     },
     {
@@ -4168,7 +4168,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 20.9,
+      "time_ms": 20.3,
       "ai_used": false
     },
     {
@@ -4185,7 +4185,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 21.3,
+      "time_ms": 22.0,
       "ai_used": false
     },
     {
@@ -4202,7 +4202,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 24.1,
+      "time_ms": 26.0,
       "ai_used": false
     },
     {
@@ -4219,7 +4219,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 0.8,
+      "time_ms": 0.9,
       "ai_used": false
     },
     {
@@ -4236,7 +4236,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 53.3,
+      "time_ms": 16.2,
       "ai_used": false
     },
     {
@@ -4253,7 +4253,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 110.4,
+      "time_ms": 18.6,
       "ai_used": false
     },
     {
@@ -4270,7 +4270,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 48.1,
+      "time_ms": 36.9,
       "ai_used": false
     },
     {
@@ -4287,7 +4287,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 27.9,
+      "time_ms": 26.5,
       "ai_used": false
     },
     {
@@ -4304,7 +4304,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 24.4,
+      "time_ms": 20.5,
       "ai_used": false
     },
     {
@@ -4321,7 +4321,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 40.9,
+      "time_ms": 42.5,
       "ai_used": false
     },
     {
@@ -4338,7 +4338,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 25.3,
+      "time_ms": 26.4,
       "ai_used": false
     },
     {
@@ -4355,7 +4355,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 23.7,
+      "time_ms": 22.1,
       "ai_used": false
     },
     {
@@ -4372,7 +4372,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 25.3,
+      "time_ms": 22.1,
       "ai_used": false
     },
     {
@@ -4389,7 +4389,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 4.4,
+      "time_ms": 0.9,
       "ai_used": false
     },
     {
@@ -4406,7 +4406,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 30.8,
+      "time_ms": 19.5,
       "ai_used": false
     },
     {
@@ -4423,7 +4423,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 23.3,
+      "time_ms": 24.9,
       "ai_used": false
     },
     {
@@ -4440,7 +4440,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 33.9,
+      "time_ms": 27.2,
       "ai_used": false
     },
     {
@@ -4457,7 +4457,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 34.1,
+      "time_ms": 33.6,
       "ai_used": false
     },
     {
@@ -4474,7 +4474,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 341.6,
+      "time_ms": 298.2,
       "ai_used": false
     },
     {
@@ -4491,7 +4491,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 56.1,
+      "time_ms": 34.7,
       "ai_used": false
     },
     {
@@ -4508,7 +4508,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 47.7,
+      "time_ms": 21.4,
       "ai_used": false
     },
     {
@@ -4525,7 +4525,7 @@
       "corrections": {},
       "passed": true,
       "failures": [],
-      "time_ms": 44.8,
+      "time_ms": 25.4,
       "ai_used": false
     }
   ]

@@ -600,7 +600,7 @@ def evaluation_latest():
         return jsonify({"error": "login required"}), 401
     import json
     from pathlib import Path
-    path = Path(current_app.root_path) / "evaluation" / "evaluation_results.json"
+    path = Path(current_app.root_path) / "evaluation" / "results" / "evaluation_results.json"
     if not path.exists():
         return jsonify({"status": "NOT_YET_MEASURED", "message": "Accuracy not yet measured — evaluation dataset/testing is still required."})
     try:
